@@ -1,0 +1,79 @@
+import { Injectable } from '@angular/core';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor
+} from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { ApiService } from '../services/api.service';
+
+
+
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+
+  constructor(private apiservice: ApiService, private messageService: MessageService) { }
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(catchError(err => {
+      if (err.status === 401) {
+        //call refresh token api
+        // var token: any = JSON.parse(localStorage.getItem('access_token'));
+        // this.apiservice.refreshTOken().subscribe((res: any) => {
+        //   console.log(res);
+        //   return next.handle(request.clone({
+        //     setHeaders: { Authorization: `Bearer ${token.access_token}` }
+        //   }))
+        // })
+
+        //check respose = If response = 401
+        // auto logout if 401 response returned from api
+        // this.apiservice.logoutUser().subscribe(res =>{
+        //   localStorage.removeItem('access_token');
+        //   location.reload();
+        // });
+        // window.location.reload();
+
+      }
+      if (err.status === 400) {
+        if (Object.values(err.error)[0][0]) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'error',
+            detail: Object.values(err.error)[0][0],
+          });
+        }
+        else if (err.error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'error',
+            detail: err.error.message,
+          });
+        }
+      }
+      if (err.status === 500) {
+        if (err.error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'error',
+            detail: err.error.message || err.statusText,
+          });
+        }
+      }
+      if (err.status === 403) {
+        if (err.error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'error',
+            detail: err.error.message || err.statusText,
+          });
+        }
+      }
+      const error = err.error.message || err.statusText;
+      return throwError(error);
+    }))
+  }
+}

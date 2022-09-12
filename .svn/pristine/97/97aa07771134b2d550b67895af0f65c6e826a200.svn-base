@@ -1,0 +1,198 @@
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <app-navbar-style-one></app-navbar-style-one>
+
+    <!-- ********************** Breadcrumb Area  ******************** -->
+
+    <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+        <h1>{{Content.title}}</h1>
+        <ol class="breadcrumb">
+            <li class="item"><a routerLink="/">Home</a></li>
+            <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li>
+            <li class="item">{{Content.title}}</li>
+        </ol>
+    </div>
+
+    <!-- ********************** End Breadcrumb Area  ******************** -->
+
+    <!-- ********************** Add Master Form Area  ******************** -->
+
+    <div class="add-listings-box">
+        <h3>Visa Recomendation</h3>
+        <form [formGroup]="visaRecommendationForm" (ngSubmit)="onSubmit()" #visaForm="ngForm">
+            <div class="row mt-1">
+                <h6>Company Information</h6>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Company/Organisation Name<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="companyName" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('companyName')?.invalid) || visaRecommendationForm.get('companyName')?.invalid && visaRecommendationForm.get('companyName').touched">
+                        <div class="invalid-feedback">Company/Organisation Name Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Category<span style="color: red;">*</span>:
+                        <select formControlName="category" placeholder="Select a place" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('category')?.invalid) || visaRecommendationForm.get('category')?.invalid && visaRecommendationForm.get('category').touched">
+              <option *ngFor="let item of CategoryDropDown">{{item.name}}</option>
+            </select>
+                        <div class="invalid-feedback">Category Name Required</div>
+                    </div>
+                </div>
+                <h6>Embessy/Consunlate</h6>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Select<span style="color: red;">*</span>:
+                        <select formControlName="embassySelect" placeholder="Select" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('embassySelect')?.invalid) || visaRecommendationForm.get('embassySelect')?.invalid && visaRecommendationForm.get('embassySelect').touched">
+              <option *ngFor="let item of CategoryDropDown">{{item.name}}</option>
+            </select>
+                        <div class="invalid-feedback">Embassy Selection Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Country<span style="color: red;">*</span>:
+                        <select formControlName="country" placeholder="Select a place" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('country')?.invalid) || visaRecommendationForm.get('country')?.invalid && visaRecommendationForm.get('country').touched">
+              <option *ngFor="let item of CategoryDropDown">{{item.name}}</option>
+            </select>
+                        <div class="invalid-feedback">Cuntory Name Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Subject<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="subject" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('subject')?.invalid) || visaRecommendationForm.get('subject')?.invalid && visaRecommendationForm.get('subject').touched">
+                        <div class="invalid-feedback">Subject Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Address<span style="color: red;">*</span>:
+                        <textarea type="text" class="form-control" placeholder="Categories Name" formControlName="address" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('address')?.invalid) || visaRecommendationForm.get('address')?.invalid && visaRecommendationForm.get('address').touched"></textarea>
+                        <div class="invalid-feedback">Addres Required</div>
+                    </div>
+                </div>
+                <h6>Travel Details</h6>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Visit Country<span style="color: red;">*</span>:
+                        <select formControlName="visitCountry" placeholder="Select a place" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('visitCountry')?.invalid) || visaRecommendationForm.get('visitCountry')?.invalid && visaRecommendationForm.get('visitCountry').touched">
+              <option *ngFor="let item of CategoryDropDown">{{item.name}}</option>
+            </select>
+                        <div class="invalid-feedback">Visiting Country Name Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Visit Period<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="visitPeriod" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('visitPeriod')?.invalid) || visaRecommendationForm.get('visitPeriod')?.invalid && visaRecommendationForm.get('visitPeriod').touched">
+                        <div class="invalid-feedback">Visit Period Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Reason For Visit<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="reason" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('reason')?.invalid) || visaRecommendationForm.get('reason')?.invalid && visaRecommendationForm.get('reason').touched">
+                        <div class="invalid-feedback">Reason Required</div>
+                    </div>
+                </div>
+                <h6>Traveler Information</h6>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Name<span style="color: red;">*</span>:
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <select formControlName="namePrefix" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('namePrefix')?.invalid) || visaRecommendationForm.get('namePrefix')?.invalid && visaRecommendationForm.get('namePrefix').touched">
+                  <option *ngFor="let item of preFix">{{item.name}}</option>
+                </select>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <input type="text" class="form-control" placeholder="Categories Name" formControlName="name" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('name')?.invalid) || visaRecommendationForm.get('name')?.invalid && visaRecommendationForm.get('name').touched">
+                                <div class="invalid-feedback">Name Required</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Designation<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="designation" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('designation')?.invalid) || visaRecommendationForm.get('designation')?.invalid && visaRecommendationForm.get('designation').touched">
+                        <div class="invalid-feedback">Designation Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Works at<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="workPlace" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('workPlace')?.invalid) || visaRecommendationForm.get('workPlace')?.invalid && visaRecommendationForm.get('workPlace').touched">
+                        <div class="invalid-feedback">Work Place Name Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Nationality<span style="color: red;">*</span>:
+                        <select formControlName="nationality" placeholder="Select a place" class="form-control" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('nationality')?.invalid) || visaRecommendationForm.get('nationality')?.invalid && visaRecommendationForm.get('nationality').touched">
+              <option *ngFor="let item of CategoryDropDown">{{item.name}}</option>
+            </select>
+                        <div class="invalid-feedback">Nationality Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Date of birth<span style="color: red;">*</span>: <br>
+                        <p-calendar formControlName="dob" [showIcon]="true" inputId="icon" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('dob')?.invalid) || visaRecommendationForm.get('dob')?.invalid && visaRecommendationForm.get('dob').touched" [readonlyInput]="true"></p-calendar>
+                        <div class="invalid-feedback">Date of Birth Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Place of birth<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="birthPlace" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('birthPlace')?.invalid) || visaRecommendationForm.get('birthPlace')?.invalid && visaRecommendationForm.get('birthPlace').touched">
+                        <div class="invalid-feedback">Place of Birth Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Passport No<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="passportNo" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('passportNo')?.invalid) || visaRecommendationForm.get('passportNo')?.invalid && visaRecommendationForm.get('passportNo').touched">
+                        <div class="invalid-feedback">Passport Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Date of issue<span style="color: red;">*</span>: <br>
+                        <p-calendar formControlName="issueDate" [showIcon]="true" inputId="icon" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('issueDate')?.invalid) || visaRecommendationForm.get('issueDate')?.invalid && visaRecommendationForm.get('issueDate').touched"
+                            [readonlyInput]="true"></p-calendar>
+                        <div class="invalid-feedback">Date of issue Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">Place of issue<span style="color: red;">*</span>:
+                        <input type="text" class="form-control" placeholder="Categories Name" formControlName="issuePlace" required [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('issuePlace')?.invalid) || visaRecommendationForm.get('issuePlace')?.invalid && visaRecommendationForm.get('issuePlace').touched">
+                        <div class="invalid-feedback">Place of issue Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Date of expiry<span style="color: red;">*</span>: <br>
+                        <p-calendar formControlName="expiryDate" [showIcon]="true" inputId="icon" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('expiryDate')?.invalid) || visaRecommendationForm.get('expiryDate')?.invalid && visaRecommendationForm.get('expiryDate').touched"
+                            [readonlyInput]="true"></p-calendar>
+                        <div class="invalid-feedback">Date of expiry Required</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        Upload Document<span style="color: red;">*</span>: <br>
+                        <input type="file" class="form-control" formControlName="document" [class.is-invalid]="(visaForm.submitted && visaRecommendationForm.get('document')?.invalid) || visaRecommendationForm.get('document')?.invalid && visaRecommendationForm.get('document').touched"
+                            placeholder="Invoice Document">
+                    </div>
+                    <div class="invalid-feedback">Documents Required</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="add-listings-btn" style="text-align: right;">
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+.recent-activities-box {
+    margin-bottom: 30px;
+    background-color: var(--whiteColor);
+    box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+    border-radius: 5px;
+    padding: 0 25px 0 25px;
+    h3 {
+        padding: 20px 0;
+        margin-bottom: 0;
+        border-bottom: 1px dashed #eeeeee;
+        font-weight: 600;
+    }
+    .status_btn {
+        background: rgba(136, 60, 174, 0.04);
+        color: #883cae;
+        border-color: transparent;
+        cursor: default;
+        &:focus {
+            box-shadow: none!important;
+        }
+    }
+    .pay_now_btn {
+        background-color: var(--mainColor);
+        color: var(--whiteColor);
+        font-size: var(--fontSize);
+        transition: var(--transition);
+    }
+}
+
+
+/* Max width 767px */
+
+@media only screen and (max-width: 767px) {
+    .recent-activities-box {
+        h3 {
+            padding: 15px 20px;
+        }
+    }
+}
+
+
+/* Min width 576px to Max width 767px */
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {}
+
+
+/* Min width 768px to Max width 991px */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {}
+
+
+/* Min width 992px to Max width 1199px */
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {}
+
+
+/* Min width 1200px to Max width 1355px */
+
+@media only screen and (min-width: 1200px) and (max-width: 1355px) {}
+
+
+/* Min width 1550px */
+
+@media only screen and (min-width: 1550px) {}

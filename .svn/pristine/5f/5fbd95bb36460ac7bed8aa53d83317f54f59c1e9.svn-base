@@ -1,0 +1,86 @@
+{
+  "data": [
+    {
+        "id": 1,
+        "fee_name": "Aravali Hall",
+        "fee_category": "Facility",
+        "member_amount": 15000,
+        "non_member_amount": 15000,
+        "capacity": "90",
+        "taxes": "18",
+        "remarks": null,
+        "flag": 0,
+        "created_at": "2022-08-26T06:02:08.000000Z",
+        "updated_at": "2022-08-26T06:02:08.000000Z",
+        "bookfacility": [
+            {
+                "id": 1,
+                "fee_id": null,
+                "payment_id": null,
+                "conference_facility_type": "external",
+                "booking_date": "2022-08-09",
+                "booked_by": "Ravi",
+                "place": "Aravali Hall",
+                "status": null,
+                "flag": 0,
+                "created_at": "2022-08-26T06:03:11.000000Z",
+                "updated_at": "2022-08-26T06:03:11.000000Z"
+            },
+            {
+                "id": 4,
+                "fee_id": null,
+                "payment_id": null,
+                "conference_facility_type": "external",
+                "booking_date": "2022-09-12",
+                "booked_by": "Raj",
+                "place": "Aravali Hall",
+                "status": null,
+                "flag": 0,
+                "created_at": "2022-08-26T06:05:47.000000Z",
+                "updated_at": "2022-08-26T06:05:47.000000Z"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "fee_name": "Environment Park",
+        "fee_category": "Facility",
+        "member_amount": 17500,
+        "non_member_amount": 15000,
+        "capacity": "900",
+        "taxes": "18",
+        "remarks": null,
+        "flag": 0,
+        "created_at": "2022-08-26T06:02:40.000000Z",
+        "updated_at": "2022-08-26T06:02:40.000000Z",
+        "bookfacility": [
+            {
+                "id": 2,
+                "fee_id": null,
+                "payment_id": null,
+                "conference_facility_type": "external",
+                "booking_date": "2022-09-27",
+                "booked_by": "Ravi",
+                "place": "Environment Park",
+                "status": null,
+                "flag": 0,
+                "created_at": "2022-08-26T06:05:30.000000Z",
+                "updated_at": "2022-08-26T06:05:30.000000Z"
+            },
+            {
+                "id": 3,
+                "fee_id": null,
+                "payment_id": null,
+                "conference_facility_type": "external",
+                "booking_date": "2022-09-29",
+                "booked_by": "Raj",
+                "place": "Environment Park",
+                "status": null,
+                "flag": 0,
+                "created_at": "2022-08-26T06:05:36.000000Z",
+                "updated_at": "2022-08-26T06:05:36.000000Z"
+            }
+        ]
+    }
+]
+}

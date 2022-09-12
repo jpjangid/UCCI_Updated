@@ -1,0 +1,15 @@
+import { Injectable } from '@angular/core';
+import { HTTPApi } from './httpapi.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PaymentService {
+
+  constructor(private http : HTTPApi) { }
+
+  //regular membership fees API
+  regularMemberFees(order_id?:any,transactionInfo?:any) {
+    return this.http.post('regular-members/pay/'+order_id,transactionInfo)
+  }
+}

@@ -1,0 +1,96 @@
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+import { MessageService } from 'primeng/api';
+import { EventService } from 'src/app/services/event.service';
+import { FormBuilderService } from 'src/app/services/form-builder.service';
+
+@Component({
+  selector: 'app-event-creation-form',
+  templateUrl: './event-creation-form.component.html',
+  styleUrls: ['./event-creation-form.component.scss']
+})
+export class EventCreationFormComponent implements OnInit {
+  breadcrumb: any[] = [
+    {
+      title: 'Event Creation',
+      subTitle: 'Masters',
+    },
+  ];
+  eventFormData:any={}
+  selectedFile:File;
+  customFormList:any = []
+  slug:any
+  facilityDropdownValue:any = {data:[{id:"1",name:"Auditorium"},{id:"2",name:"Amphitheatre"}]}
+  constructor(private activatedRoute : ActivatedRoute, private messageService: MessageService, private __eventservice : EventService, private __formbuilder : FormBuilderService, private route : Router) { }
+
+  ngOnInit(): void {
+
+    this.slug = this.activatedRoute.snapshot
+    console.log(this.slug)
+    if(this.slug.params.slug) {
+      this.__eventservice.getEventById(this.slug.params.slug).subscribe((res:any)=> {
+        console.log(res);
+        this.eventFormData = res.data;
+        if(res.data.date) {
+          this.eventFormData.date =  moment(this.eventFormData.date).format('DD/MM/YYYY HH:MM:SS A');
+        }
+      })
+    }
+
+    this.__formbuilder.getCustomFormsList().subscribe((res:any)=> {
+      console.log(res);
+      this.customFormList = res.data;
+    })
+  }
+
+  //event creation function
+  eventFrom(form:NgForm) {
+    console.log(this.eventFormData);
+
+    let eventdate = moment(this.eventFormData.date).format('YYYY/MM/DD HH:MM:SS');
+    this.eventFormData.date = eventdate;
+
+    let formData = new FormData();
+
+    for (const [key, value] of Object.entries(this.eventFormData)) {
+      if(!(key == 'coverage_image')) {
+        formData.append(key, `${value}`);
+      }
+      else {
+        formData.append(key, this.selectedFile);
+      }
+    }
+    if(form.valid) {
+      if(!(this.slug?.params?.slug)) {
+        this.__eventservice.createEvent(formData).subscribe((res:any)=> {
+          console.log(res);
+          this.route.navigateByUrl('events-list')
+        },
+        (error:any)=> {
+          console.log(error);
+        })
+      }
+      else {
+        this.__eventservice.updateEventForm(this.slug.params.slug , formData).subscribe((res:any)=> {
+          console.log(res);
+          this.route.navigateByUrl('events-list')
+        },
+        (error:any)=> {
+          console.log(error)
+        })
+      }
+    }
+  }
+
+  onReject() {
+    this.messageService.clear('c');
+  }
+
+  //image upload event function
+  fileUpload(event:any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+}

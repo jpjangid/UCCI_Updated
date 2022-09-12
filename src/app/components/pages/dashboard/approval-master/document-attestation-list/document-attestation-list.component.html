@@ -1,0 +1,47 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- certificate of origin list table -->
+    <section class="all-doucument-attestation-list">
+        <div class="container">
+            <div class="header">
+                <h3>Document Attestation List</h3>
+            </div>
+            <p-table [scrollable]="true" responsiveLayout="scroll" [value]="docAttestationList">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Consignee</th>
+                        <th>dispatched_by</th>
+                        <th>Invoice Date</th>
+                        <th>Invoice No</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-docAttestationList>
+                    <tr>
+                        <td>{{docAttestationList.consignee}}</td>
+                        <td>{{docAttestationList.dispatched_by}}</td>
+                        <td>{{docAttestationList.invoice_date}}</td>
+                        <td>{{docAttestationList.invoice_no}}</td>
+                        <td>
+                            <button pButton pRipple class="p-button-rounded p-button-text
+                                p-button-info" pTooltip="View" tooltipPosition="bottom"><i class="far fa-eye"></i></button>
+                            <button pButton pRipple class="p-button-rounded p-button-text
+                                p-button-success" pTooltip="Approve" tooltipPosition="bottom"><i class="far
+                                    fa-check-circle"></i>
+                            </button>
+                            <button pButton pRipple icon="bx bx-pencil" class="p-button-rounded p-button-text
+                                p-button-secondary mr-2" pTooltip="Edit" tooltipPosition="bottom"></button>
+                            <button pButton pRipple icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger" pTooltip="Delete" tooltipPosition="bottom"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,99 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import * as moment from 'moment';
+import { FacilityBookingService } from 'src/app/services/facility-booking.service';
+
+@Component({
+  selector: 'app-selection',
+  templateUrl: './selection.component.html',
+  styleUrls: ['./selection.component.scss'],
+})
+export class SelectionComponent implements OnInit {
+  @Output() emitedData = new EventEmitter<any>();
+  @Output() mode = new EventEmitter<any>();
+
+  insertionForm = this.fb.group({
+    place: ['', Validators.required],
+    date: ['', Validators.required],
+  });
+  dropDown: any;
+
+  selectedPlace: any;
+
+  invalidDates: Array<Date>;
+
+  data: Date = new Date('30/08/2022');
+
+  minDate: Date;
+  formState: boolean = false;
+  nameState: boolean = false;
+  typeState: boolean = false;
+  bookedDates: any;
+  capacity: any;
+
+  constructor(private fb: FormBuilder, private FacilityBookingService: FacilityBookingService) {}
+
+  ngOnInit(): void {
+    let today = new Date();
+    let date = today.getDate();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let prevMonth = month === 0 ? 11 : month;
+    let prevYear = prevMonth === 11 ? year - 1 : year;
+
+    this.minDate = new Date();
+    this.minDate.setMonth(prevMonth);
+    this.minDate.setFullYear(prevYear);
+    
+    this.getData();
+  }
+
+
+  getData () {
+    this.FacilityBookingService.getFacilityData().subscribe(
+      (res) => {
+        console.log("response ", res);
+        
+        this.dropDown = res.facilities;
+
+        console.log("Dropdown : ", this.dropDown);
+        
+      }
+    );
+  }
+  onPlaceChange(event) {
+    var bookedDates = [];
+    this.capacity = event.capacity;
+    event.bookfacility.forEach(function (value) {
+      var date = new Date(value.booking_date);
+
+      bookedDates.push(date);
+    });
+    var today = new Date()
+    bookedDates.push(today)
+    this.invalidDates = bookedDates;
+    
+  }
+
+
+
+  onSubmit() {
+  }
+  
+  onNextClick() {
+    console.log("check ", this.insertionForm.value);
+    
+    if(this.insertionForm.valid){
+      let date: any = moment(this.insertionForm.value.date).format('YYYY/MM/DD');
+    this.insertionForm.value.date = date;
+     this.emitedData.emit(this.insertionForm.value);
+    this.mode.emit('booking form');
+    
+   }
+  }
+}

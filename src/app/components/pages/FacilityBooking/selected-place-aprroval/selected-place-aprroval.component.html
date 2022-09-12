@@ -1,0 +1,68 @@
+<div class="bookings-listings-box">
+  <h3>Booking Requests</h3>
+
+  <div class="table-responsive">
+      <table class="table">
+          <thead>
+              <tr>
+                  <!-- <th>Customer</th> -->
+                  <th>Details</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of selectedFacilityData.bookfacility;">
+                  <!-- <td class="name">
+                      <div class="info">
+                          <span>{{item.customerName}}</span>
+                          <ul>
+                              <li><a href="tel:{{item.customerNumber}}">{{item.customerNumber}}</a></li>
+                              <li><a href="mailto:{{item.customerEmail}}">{{item.customerEmail}}</a></li>
+                          </ul>
+                          <a href="mailto:{{item.customerEmail}}" class="default-btn"><i class='bx bx-envelope'></i> Send Message</a>
+                      </div>
+                  </td> -->
+
+                  <td class="details">
+                      <h4>{{item.place}}</h4>
+                      
+                         <!-- <span class="bookings-status {{item.status == ''? 'approved' : }}">{{item.status}}</span></h4> -->
+
+                      <ul>
+                          <li>
+                              <!-- <i class='{{Info.icon}}'></i>  -->
+                              <span>Name :</span>
+                              {{item.booked_by}}
+                          </li>
+                          <li>
+                              <!-- <i class='{{Info.icon}}'></i>  -->
+                              <span>Booking Date :</span>
+                              {{item.booking_date}}
+                          </li>
+                          <li>
+                              <!-- <i class='{{Info.icon}}'></i>  -->
+                              <span>Meeting Type :</span>
+                              {{item.conference_facility_type}}
+                          </li>
+                          <li>
+                              <!-- <i class='{{Info.icon}}'></i>  -->
+                              <span>Additional Service :</span>
+                              {{item.additional_services == null ? 'None': item.additional_services}}
+                          </li>
+                          <li>
+                              <!-- <i class='{{Info.icon}}'></i>  -->
+                              <span>Support Staff :</span>
+                              {{item.support_staff == null ? 'No' : 'Yes'}}
+                          </li>
+                      </ul>
+                  </td>
+
+                  <td class="action">
+                      <a href="#" class="default-btn"><i class='bx bx-check-circle'></i> Approve</a>
+                      <a href="#" class="default-btn danger"><i class='bx bx-x-circle'></i> Reject</a>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>

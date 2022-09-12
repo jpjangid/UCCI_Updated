@@ -1,0 +1,35 @@
+<div class="recent-activities-box">
+    <section class="dashboard_section">
+        <div class="container">
+            <h3>Recent Activities</h3>
+            <p-table #nameFilter dataKey="id" [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-sm p-datatable-customers" responsiveLayout="scroll" [loading]="loading" [globalFilterFields]="['company_name' , 'email']" [value]="registrationStatus">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Email</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-value>
+                    <tr>
+                        <td>{{value.company_name}}</td>
+                        <td>{{value.email}}</td>
+                        <td>{{value.applied_at}}</td>
+                        <td>
+                            <button pButton pRipple class="status_btn p-button-rounded p-button-text
+                            p-button-primary">{{value.status}}</button>
+                            <button pButton pRipple class="mx-1 pay_now_btn p-button-rounded p-button-text
+                            p-button-primary" *ngIf="value.status=='Approved'" (click)="payment()">Pay Now</button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No Data Found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

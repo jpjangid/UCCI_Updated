@@ -1,0 +1,61 @@
+@import "/src/app/components/pages/dashboard/dashboard.component.scss";
+.hwm-member-list {
+    margin-bottom: 30px;
+    box-shadow: 1px 5px 24px 0 rgb(68 102 242 / 5%);
+    border-radius: 5px;
+    padding: 0 25px 0 25px;
+    background-color: var(--whiteColor);
+    .header {
+        padding: 20px 0;
+    }
+    .action {
+        .default-btn {
+            border-radius: 30px;
+            box-shadow: unset;
+            background-color: #eeeeee;
+            font-size: 13px;
+            border: none;
+            position: relative;
+            margin-right: 15px !important;
+            padding: {
+                top: 8px;
+                bottom: 8px;
+                left: 40px;
+                right: 20px;
+            }
+            ;
+            &:hover {
+                background-color: var(--mainColor);
+                color: var(--whiteColor);
+            }
+            i {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 15px;
+            }
+            &.danger {
+                margin-right: 0;
+                &:hover {
+                    background-color: red;
+                    color: var(--whiteColor);
+                }
+            }
+            &.warn {
+                margin-right: 0;
+                &:hover {
+                    background-color: #64bc36;
+                    color: var(--whiteColor);
+                }
+            }
+        }
+    }
+    .search_box {
+        padding: 20px 0;
+        text-align: right;
+        i {
+            cursor: pointer;
+        }
+    }
+}

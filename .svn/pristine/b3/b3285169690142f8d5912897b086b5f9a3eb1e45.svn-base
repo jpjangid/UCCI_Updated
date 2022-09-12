@@ -1,0 +1,11 @@
+@import "/src/app/components/pages/dashboard/dashboard.component.scss";
+.payment-doucument-attestation {
+    margin-bottom: 30px;
+    box-shadow: 1px 5px 24px 0 rgb(68 102 242 / 5%);
+    border-radius: 5px;
+    padding: 0 25px 0 25px;
+    background-color: var(--whiteColor);
+    .header {
+        padding: 20px 0;
+    }
+}

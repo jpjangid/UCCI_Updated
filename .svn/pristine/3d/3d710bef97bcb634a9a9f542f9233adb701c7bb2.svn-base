@@ -1,0 +1,72 @@
+<app-navbar-style-one></app-navbar-style-one>
+
+<!-- Start Page Title Area -->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent;" style="background-image: url({{Content.backgroundImage}});">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>{{Content.title}}</h2>
+            <ul>
+                <li><a routerLink="/">Home</a></li>
+                <li>{{Content.title}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title Area -->
+
+<!-- Start Events Details Area -->
+<section class="events-details-area bg-f9f9f9 ptb-100">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+
+                <div class="events-details-location">
+                    <h3>{{heading}}</h3>
+                    <lib-form-renderer *ngIf="jsonData" [jsonFormData]="jsonData"></lib-form-renderer>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="events-details-info">
+                    <ul class="info">
+                        <li class="price">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Event Fee</span> $149
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Total Slot</span> 1500
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Booked Slot</span> 350
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Pay With</span>
+                                <div class="payment-method">
+                                    <img src="assets/img/payment/img1.png" class="shadow" alt="image">
+                                    <img src="assets/img/payment/img2.png" class="shadow" alt="image">
+                                    <img src="assets/img/payment/img3.png" class="shadow" alt="image">
+                                    <img src="assets/img/payment/img4.png" class="shadow" alt="image">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="btn-box">
+                        <a routerLink="/single-events" class="default-btn"><i class="flaticon-user"></i>Book Now<span></span></a>
+                        <p>You must <a href="#" data-bs-toggle="modal" data-bs-target="#loginRegisterModal">login</a> before register event.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Events Details Area -->
+
+<app-footer-style-one></app-footer-style-one>

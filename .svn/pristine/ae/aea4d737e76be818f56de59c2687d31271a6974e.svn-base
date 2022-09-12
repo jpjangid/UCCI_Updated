@@ -1,0 +1,51 @@
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ApiService } from 'src/app/services/api.service';
+
+@Component({
+  selector: 'app-registered-non-member-list',
+  templateUrl: './registered-non-member-list.component.html',
+  styleUrls: ['./registered-non-member-list.component.scss'],
+  providers: [MessageService, ConfirmationService],
+})
+export class RegisteredNonMemberListComponent implements OnInit {
+  nonMemberList: any = [];
+  loading: boolean = false;
+  constructor(
+    private __apiservice: ApiService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.__apiservice.getNonMemberList().subscribe(
+      (res: any) => {
+        console.log(res);
+        this.nonMemberList = res.data;
+        this.loading = false;
+      },
+      (error: any) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+  }
+
+  //for approve and reject non member exporter
+  approveMemberById(id?: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: (res: any) => {
+        this.__apiservice.nonMemberApproval(id).subscribe((res: any) => {
+          console.log(res);
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: res.message,
+          });
+        });
+      },
+    });
+  }
+}

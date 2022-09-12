@@ -1,0 +1,86 @@
+import { Component, HostListener, OnInit } from '@angular/core';
+import { PaymentService } from 'src/app/services/payment.service';
+declare var Razorpay : any;
+@Component({
+  selector: 'app-recent-activities',
+  templateUrl: './recent-activities.component.html',
+  styleUrls: ['./recent-activities.component.scss']
+})
+export class RecentActivitiesComponent implements OnInit {
+  loading:boolean=false
+  registrationStatus:any=[{company_name:"Webanix Solutions",email:"webanix@webanix.in",applied_at:"27/05/2022",status:"Approved"}]
+  constructor(private paymentservice : PaymentService) { }
+
+  ngOnInit(): void {
+  }
+
+  payment(orderId?: string, amount?: number): void {
+
+    let options = {
+      key: 'rzp_test_5R3ifzCtFSn1j1',
+      amount: amount?amount:100,
+      name: 'Java Chinna',
+      description: 'Web Development',
+      image:
+        'https://www.javachinna.com/wp-content/uploads/2020/02/android-chrome-512x512-1.png',
+      order_id: orderId?orderId:"",
+      handler: function (response: any) {
+        var event = new CustomEvent('payment.success', {
+          detail: response,
+          bubbles: true,
+          cancelable: true,
+        });
+        window.dispatchEvent(event);
+      },
+      prefill: {
+        name: '',
+        email: '',
+        contact: '',
+      },
+      notes: {
+        address: '',
+      },
+      theme: {
+        color: '#3399cc',
+      },
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    rzp1.on('payment.failed', (response: any) => {
+      console.log(response)
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+      let statusDetail = {
+        status : "Payment Failed",
+        payment_id:response.error.metadata.payment_id,
+        razorpay_signature:"",
+        description:response.error.description
+      }
+      this.paymentservice.regularMemberFees(response.error.metadata.order_id,statusDetail).subscribe((res:any)=> {
+        console.log(res)
+      })
+    });
+  }
+
+  @HostListener('window:payment.success', ['$event'])
+  onPaymentSuccess(event: any): void {
+    console.log(event);
+    let statusDetail = {
+      status : "Payment Success",
+      payment_id:event.detail.razorpay_payment_id,
+      razorpay_signature:event.detail.razorpay_signature,
+      description:"Payment Success"
+    }
+    this.paymentservice.regularMemberFees(event.detail.razorpay_order_id,statusDetail).subscribe((res:any)=> {
+      console.log(res)
+    })
+  }
+
+}
