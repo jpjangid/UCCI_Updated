@@ -1,0 +1,13 @@
+@import "../dashboard/dashboard.component.scss";
+
+
+@import '~ng-wizard/themes/ng_wizard.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_arrows.min.css';
+// @import "~/ng-wizard/themes/ng_wizard_theme_circles.css";
+// @import "~/ng-wizard/themes/ng_wizard_theme_dots.css";
+
+::ng-deep {
+  .nav-tabs{
+    display: none;
+  }
+}

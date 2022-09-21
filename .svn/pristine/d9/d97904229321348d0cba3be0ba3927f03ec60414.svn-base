@@ -1,0 +1,121 @@
+@import "/src/app/components/pages/dashboard/dashboard.component.scss";
+.all-doucument-attestation-list {
+    margin-bottom: 30px;
+    box-shadow: 1px 5px 24px 0 rgb(68 102 242 / 5%);
+    border-radius: 5px;
+    padding: 0 25px 0 25px;
+    background-color: var(--whiteColor);
+    .header {
+        padding: 20px 0;
+    }
+    .action {
+        .default-btn {
+            border-radius: 30px;
+            box-shadow: unset;
+            background-color: #eeeeee;
+            font-size: 13px;
+            border: none;
+            position: relative;
+            margin-right: 15px !important;
+            padding: {
+                top: 8px;
+                bottom: 8px;
+                left: 40px;
+                right: 20px;
+            }
+            &:hover {
+                background-color: var(--mainColor);
+                color: var(--whiteColor);
+            }
+            i {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 15px;
+            }
+            &.danger {
+                margin-right: 0;
+
+                &:hover {
+                    background-color: red;
+                    color: var(--whiteColor);
+                }
+            }
+            &.warn {
+                margin-right: 0;
+
+                &:hover {
+                    background-color: #64bc36;
+                    color: var(--whiteColor);
+                }
+            }
+        }
+    }
+    .file-upload {
+        // display: inline-block;
+        // position: absolute;
+        // left: 15px;
+        // bottom: 15px;
+
+        .inputfile {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            // position: absolute;
+            z-index: -1;
+        }
+        .inputfile + label {
+            color: var(--blackColor);
+            background-color: #efefef;
+            display: inline-block;
+            margin-bottom: 0;
+            transition: var(--transition);
+            padding: 10px 25px 9px 48px;
+            // position: relative;
+            border-radius: 30px;
+            font: {
+                size: var(--fontSize);
+                weight: 600;
+            }
+        }
+        i {
+            position: relative;
+            right: 5px;
+            bottom: -8px;
+            transform: translateY(-50%);
+            font-size: 16.5px;
+            margin-top: -0.5px;
+        }
+        .inputfile:focus + label,
+        .inputfile + label:hover {
+            background-color: var(--mainColor);
+            color: var(--whiteColor);
+        }
+        .inputfile + label {
+            cursor: pointer;
+        }
+    }
+    label {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--blackColor);
+        position: relative;
+        font-weight: 500;
+    }
+    .alert.alert-danger {
+        color: red;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+}
+.btn-default:hover{
+    color: rgb(27, 83, 214);
+    font-weight: 500;
+    border: none;
+}

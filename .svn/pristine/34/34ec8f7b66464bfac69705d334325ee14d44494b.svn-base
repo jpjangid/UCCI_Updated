@@ -1,0 +1,18 @@
+.authorization_section {
+    .add-listings-box {
+        margin-bottom: 30px;
+        background-color: var(--whiteColor);
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
+        border-radius: 5px;
+        padding: 100px 25px;
+        font-size: 25px;
+        text-align: center;
+        .icon_class {
+            i {
+                font-size: 50px;
+                margin-bottom: 40px;
+            }
+        }
+    }
+    padding: 150px 0 70px 0;
+}

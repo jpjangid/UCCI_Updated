@@ -1,0 +1,15 @@
+@import '../../dashboard/dashboard.component.scss';
+@import '../../dashboard/dashboard.component.scss';
+
+
+@import '~ng-wizard/themes/ng_wizard.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_arrows.min.css';
+.facility-booking-form-section {
+  background-color: #fafafa;
+  padding: 120px 0 58px 0;
+}
+::ng-deep {
+  .nav-tabs{
+    display: none;
+  }
+}

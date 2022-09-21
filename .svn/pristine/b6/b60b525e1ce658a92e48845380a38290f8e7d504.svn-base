@@ -1,0 +1,12 @@
+@import '../../dashboard/dashboard.component.scss';
+@import '~bs-stepper/dist/css/bs-stepper.min.css';
+
+
+@import '~ng-wizard/themes/ng_wizard.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_arrows.min.css';
+
+::ng-deep {
+  .nav-tabs{
+    display: none;
+  }
+}

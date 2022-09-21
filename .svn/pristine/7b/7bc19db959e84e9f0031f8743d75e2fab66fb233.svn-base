@@ -1,0 +1,163 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ApiService } from 'src/app/services/api.service';
+
+@Component({
+  selector: 'app-call-log',
+  templateUrl: './call-log.component.html',
+  styleUrls: ['./call-log.component.scss'],
+  providers: [MessageService, ConfirmationService],
+
+})
+export class CallLogComponent implements OnInit {
+  loading: boolean = true;
+  visibleSidebar2;
+  visibleSidebar3;
+  callLogsList: any = [];
+  editModal: boolean = false;
+  addModal: boolean = false;
+  statusValue = [];
+  iseditChecked: boolean = false;
+  isaddChecked: boolean = false;
+  callLogData: any = {};
+  slug: any;
+  addNewLogData: any = {};
+  dateTime = new Date();
+  value: any;
+  getFilterName: any = [];
+  FilterName: any = [];
+  constructor(private apiservice: ApiService, private activateroute: ActivatedRoute, private messageService: MessageService) {
+    this.dateTime.setDate(this.dateTime.getDate());
+  }
+  ngOnInit(): void {
+    this.slug = this.activateroute.snapshot.params;
+    this.getMembersCallLogs(this.slug.slug);
+    this.getStatusDropdown();
+    this.getAllFilterCategory();
+  }
+  getMembersCallLogs(memberId: any) {
+    this.apiservice.getAllLogs(memberId).subscribe((res: any) => {
+      this.callLogsList = res.call_logs;
+      console.log(this.callLogsList);
+      this.loading = false;
+    })
+  }
+  editId: any;
+  // show edit dialog
+  editDialog(id?: any) {
+    this.editId = this.callLogsList[id].id;
+    console.log(this.callLogsList[id].id, this.editId)
+    let dropdownValue: any = {};
+    this.callLogData = this.callLogsList[id]
+    dropdownValue = { status: this.callLogData.status };
+    console.log(this.callLogData)
+    // this.value = moment(this.callLogData.created_at).format('MM/DD/YYYY')
+    this.value = new Date(this.callLogData.created_at);
+    if (this.callLogData.follow_up_required == '1') {
+      this.iseditChecked = true;
+    }
+    // this.editModal = true;
+    this.visibleSidebar3 = true;
+  }
+  addNewlogDialog() {
+    this.addNewLogData = {}
+    this.addModal = true;
+  }
+  // get status dropdown
+  getStatusDropdown() {
+    this.apiservice.getCallStatus().subscribe((res: any) => {
+      res.data?.map((response: any) => {
+        this.statusValue.push({ name: response.name });
+      })
+      // this.statusValue = res.data;
+      console.log(this.statusValue);
+    });
+  }
+  // edit checked box 
+  editcheckekBoxTrue() {
+    this.iseditChecked = !this.iseditChecked;
+  }
+  // add checked box 
+  addcheckekBoxTrue() {
+    this.isaddChecked = !this.isaddChecked;
+    console.log(this.addNewLogData.follow_up_required);
+  }
+  // send data to table from dialog
+  saveMemberCallLogData() {
+    let callLogDate: any;
+    callLogDate = moment(this.addNewLogData.created_at).format('YYYY-MM-DDT18:30:00');
+    let postData = {
+      "member_id": this.slug.slug,
+      "filter_id": this.addNewLogData.filter_id,
+      "remarks": this.addNewLogData?.remarks,
+      "call_logs": this.addNewLogData.call_logs,
+      "phone_no": this.addNewLogData.phone_no,
+      "status": this.addNewLogData.status,
+      "follow_up_required": this.addNewLogData.follow_up_required,
+      "follow_up_days": this.addNewLogData.follow_up_days,
+      "created_at": callLogDate,
+    }
+    console.log(postData);
+
+    this.apiservice.addNewCallLogApi(postData).subscribe((res: any) => {
+      console.log(res);
+      this.getMembersCallLogs(this.slug.slug);
+      // this.addModal = false;
+      this.visibleSidebar2 = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: res.message
+      });
+    })
+  }
+  // get sidebar filter category
+  getAllFilterCategory() {
+    this.apiservice.getSideFilterCategory().subscribe((res: any) => {
+      this.getFilterName = res.filters.filter(x => x.name == 'Custom Filters');
+      console.log(res);
+      res.filters?.map((response: any) => {
+        response.value?.map((data: any) => {
+          this.FilterName.push(data);
+          console.log(this.FilterName);
+        })
+      })
+    })
+  }
+  // BLock alphabet
+  bloackAlphabet(event: any) {
+    if (event.key == 'Tab') {
+      return;
+    }
+    const keyCode = event.keyCode;
+    if (((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) && event.keyCode != 8) {
+      event.preventDefault();
+    }
+  }
+  // edit call logs
+  updateMemberCallLog(id?: any) {
+    let editPostData = {
+      "member_id": this.slug.slug,
+      "filter_id": this.callLogData.event_member_filter_id,
+      "remarks": this.callLogData?.remarks,
+      "call_logs": this.callLogData.call_logs,
+      "phone_no": this.callLogData.phone_no,
+      "status": this.callLogData.status,
+      "follow_up_required": this.callLogData.follow_up_required,
+      "follow_up_days": this.callLogData.follow_up_days,
+      "created_at": this.value,
+    }
+    this.apiservice.editCallLog(this.editId, editPostData).subscribe((res: any) => {
+      console.log(res);
+      this.getMembersCallLogs(this.slug.slug);
+      this.visibleSidebar3 = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: res.message
+      });
+    })
+  }
+}

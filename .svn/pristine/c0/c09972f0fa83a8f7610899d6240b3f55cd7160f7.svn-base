@@ -1,0 +1,273 @@
+
+<app-navbar-style-one></app-navbar-style-one>
+<p-toast></p-toast>
+<!-- <p-button icon="pi pi-external-link" id="alert_modal" label="Show"></p-button> -->
+<section *ngIf="!localStorage" [style]="{height: '85vh'}">
+    <app-non-authorized-modal></app-non-authorized-modal>
+</section>
+<section class="regular-member-form-section" *ngIf="localStorage">
+    <div class="container">
+        <div class="heading_section">
+            <div class="row m-0">
+                <h3 class="m-0 px-0 mb-3">Certification of Origin Form</h3>
+            </div>
+        </div>
+        <form [formGroup]="certificateForm" (ngSubmit)="certificate()">
+            <!-- basic information -->
+            <div class="add-listings-box">
+                <h3>Basic Informations</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>Invoice Number:</label>
+                            <input type="text" class="form-control"
+                                formControlName="invoiceno" maxlength="16"
+                                (keydown)="bloackAlphabet($event)"
+                                pattern="^((\\+91-?)|0)?[0-9]{16}$"
+                                placeholder="Invoice Number">
+                            <div *ngIf="submitted &&
+                                f.invoiceno.errors?.required ||
+                                f.invoiceno.touched"
+                                class="alert alert-danger">
+                                <div *ngIf="f.invoiceno.errors?.required">Invoice
+                                    Number
+                                    is
+                                    required
+                                </div>
+                                <div
+                                    *ngIf="f.invoiceno.errors?.pattern">
+                                    Please enter 16 digits invoice number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Invoice Date:</label>
+                            <p-calendar formControlName="invoicedate"
+                                showClear="true"
+                                placeholder="Please Select Date : YYYY/MM/DD"
+                                [showIcon]="true" readonly></p-calendar>
+                            <!-- <input type="date" class="form-control"
+                                formControlName="invoicedate"
+                                placeholder="Invoice Date"> -->
+                            <div *ngIf="submitted &&
+                                f.invoicedate.errors?.required ||
+                                f.invoicedate.touched"
+                                class="alert alert-danger">
+                                <div *ngIf="f.invoicedate.errors?.required">Invoice
+                                    Date
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Consignee:</label>
+                            <input type="text" formControlName="consignee"
+                                class="form-control"
+                                placeholder="Consignee">
+                            <div *ngIf="submitted &&
+                                f.consignee.errors?.required ||
+                                f.consignee.touched"
+                                class="alert alert-danger">
+                                <div *ngIf="f.consignee.errors?.required">Consignee
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Party Invoice Number:</label>
+                            <input type="text" class="form-control"
+                                formControlName="partyinvoiceno" maxlength="16"
+                                (keydown)="bloackAlphabet($event)"
+                                pattern="^((\\+91-?)|0)?[0-9]{16}$"
+                                placeholder="Part Invoice Number">
+                            <div *ngIf="submitted &&
+                                f.partyinvoiceno.errors?.required ||
+                                f.partyinvoiceno.touched"
+                                class="alert alert-danger">
+                                <div *ngIf="f.partyinvoiceno.errors?.required">Party
+                                    Invoice Number
+                                    is
+                                    required
+                                </div>
+                                <div
+                                    *ngIf="f.partyinvoiceno.errors?.pattern">
+                                    Please enter 16 digits invoice number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Party Invoice Date:</label>
+                            <p-calendar formControlName="partyinvoicedate"
+                                showClear="true"
+                                placeholder="Please Select Date : YYYY/MM/DD"
+                                [showIcon]="true" readonly></p-calendar>
+                            <!-- <input type="date" class="form-control"
+                                formControlName="partyinvoicedate"
+                                placeholder="Party Invoice Date"> -->
+                            <div *ngIf="submitted &&
+                                f.partyinvoicedate.errors?.required ||
+                                f.partyinvoicedate.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.partyinvoicedate.errors?.required">Party
+                                    Invoice Date
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Manufacturer:</label>
+                            <input type="text" class="form-control"
+                                formControlName="manufacturer"
+                                placeholder="Manufacturer">
+                            <div *ngIf="submitted &&
+                                f.manufacturer.errors?.required ||
+                                f.manufacturer.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.manufacturer.errors?.required">Manufacturer
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Dispatched By:</label>
+                            <input type="text" class="form-control"
+                                formControlName="dispatchedby"
+                                placeholder="Dispatched By">
+                            <div *ngIf="submitted &&
+                                f.dispatchedby.errors?.required ||
+                                f.dispatchedby.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.dispatchedby.errors?.required">Dispatched
+                                    By
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Port of Discharge:</label>
+                            <input type="text" class="form-control"
+                                formControlName="portofdischarge"
+                                placeholder="Port of Discharge">
+                            <div *ngIf="submitted &&
+                                f.portofdischarge.errors?.required ||
+                                f.portofdischarge.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.portofdischarge.errors?.required">Port
+                                    of Discharge
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Port of Loading:</label>
+                            <input type="text" class="form-control"
+                                formControlName="portofloading"
+                                placeholder="Port of Loading">
+                            <div *ngIf="submitted &&
+                                f.portofloading.errors?.required ||
+                                f.portofloading.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.portofloading.errors?.required">Port
+                                    of Loading
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Invoice Document:</label>
+                            <input type="file" class="inputfile"
+                                formControlName="invoicedocument"
+                                placeholder="Invoice Document"
+                                (change)="processImage($event)">
+                            <div *ngIf="submitted &&
+                                f.invoicedocument.errors?.required ||
+                                f.invoicedocument.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.invoicedocument.errors?.required">Invoice
+                                    Document
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Other Information:</label>
+                            <input type="text" class="form-control"
+                                formControlName="otherinformation"
+                                placeholder="Other Information">
+                            <div *ngIf="submitted &&
+                                f.otherinformation.errors?.required ||
+                                f.otherinformation.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.otherinformation.errors?.required">Other
+                                    Information
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Final Destination:</label>
+                            <input type="text" class="form-control"
+                                formControlName="finaldestination"
+                                placeholder="Final Destination">
+                            <div *ngIf="submitted &&
+                                f.finaldestination.errors?.required ||
+                                f.finaldestination.touched"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="f.finaldestination.errors?.required">Final
+                                    Destination
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- submit  button-->
+            <div class="add-listings-btn mt-5">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+<app-footer-style-two></app-footer-style-two>
+

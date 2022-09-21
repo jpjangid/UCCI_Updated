@@ -1,0 +1,139 @@
+<app-navbar-style-one>
+</app-navbar-style-one>
+<p-toast></p-toast>
+<section class="raise-issue-form">
+    <div class="container">
+        <form [formGroup]="raiseIssueForm" (ngSubmit)="raiseIssue()">
+            <!-- basic information -->
+            <div class="add-listings-box">
+                <div class="add-header">
+                    <h3>Raise Issue Form</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label>Member Id: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="memberid"
+                                placeholder="Member Id">
+                            <!-- <select [(ngModel)]="addNewLogData.status"
+                                    #status="ngModel"
+                                    required
+                                    id="type">
+                                    <option selected [ngValue]="null"
+                                        disabled>Select Status</option>
+                                    <option *ngFor="let status of
+                                        statusValue" [ngValue]="status.name">{{status.name}}</option>
+                                </select> -->
+                            <div *ngIf="submitted &&
+                                f.memberid.errors?.required ||
+                                f.memberid.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.memberid.errors?.required">Member
+                                    Id
+                                    is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Nominee Id: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="nomineeid"
+                                placeholder="Nominee Id">
+                            <div *ngIf="submitted &&
+                                f.nomineeid.errors?.required ||
+                                f.nomineeid.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.nomineeid.errors?.required">Nominee
+                                    Id
+                                    is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Issue Type: <span style="color: red;">*</span></label>
+                            <select formControlName="issuetypeid"
+                                required 
+                                id="type">
+                                <option selected Value=""
+                                    disabled>Select Issue Type</option>
+                                <option *ngFor="let issue of 
+                                    issueTypes" Value="issue.issues_types">{{issue.issues_types}}</option>
+                            </select>
+                            <!-- <input type="text" formControlName="issuetypeid"
+                                class="form-control" placeholder="No"> -->
+                            <div *ngIf="submitted &&
+                                f.issuetypeid.errors?.required ||
+                                f.issuetypeid.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.issuetypeid.errors?.required">Issue
+                                    type is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Location: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="location"
+                                placeholder="Location">
+                            <div *ngIf="submitted &&
+                                f.location.errors?.required ||
+                                f.location.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="f.location.errors?.required">Location
+                                    is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Priority: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="priority"
+                                placeholder="Location">
+                            <div *ngIf="submitted &&
+                                f.priority.errors?.required ||
+                                f.priority.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="f.priority.errors?.required">Priority
+                                    is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Description: <span style="color: red;">*</span></label>
+                            <textarea name="" id="" placeholder="Description"
+                                formControlName="description"
+                                class="form-control"></textarea>
+                            <div *ngIf="submitted &&
+                                f.description.errors?.required ||
+                                f.description.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="f.description.errors?.required">Description
+                                    is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- submit  button-->
+            <div class="add-listings-btn mt-5">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+<app-footer-style-two></app-footer-style-two>

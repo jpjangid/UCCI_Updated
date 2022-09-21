@@ -1,0 +1,66 @@
+<p-toast life="50000"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- non member registered list table -->
+    <section class="hwm-member-list">
+        <div class="container">
+            <div class="header">
+                <h3>Non Member Exporter List</h3>
+            </div>
+            <div class="search_box">
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input class="form-control" pInputText type="text" (input)="nameFilter.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+                </span>
+                <div>
+                    <p class="btn" routerLink="/non-member-registration">Add<i class="fa fa-plus mx-1"></i></p>
+                </div>
+            </div>
+            <p-table #nameFilter dataKey="id" [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-sm p-datatable-customers" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['company_name' , 'email']" [value]="nonMemberList">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <!-- <th>GST Number</th> -->
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-nonMemberList>
+                    <tr>
+                        <td>{{nonMemberList.company_name}}</td>
+                        <td>{{nonMemberList.email}}</td>
+                        <td>{{nonMemberList.created_at | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+
+                            <button tooltipPosition="bottom" pButton pRipple class="p-button-rounded p-button-text
+                                p-button-primary" pTooltip="View"><i class="far fa-eye"></i></button>
+                            <button tooltipPosition="bottom" pButton pRipple (click)="approveMemberById(nonMemberList.id)" pTooltip="Approve" class="p-button-rounded p-button-text
+                                p-button-success"><i class="far fa-check-circle"></i>
+                            </button>
+
+                            <button tooltipPosition="bottom" pButton pTooltip="Edit" pRipple icon="bx bx-pencil" class="p-button-rounded p-button-text
+                                p-button-secondary mr-2"></button>
+
+                            <button tooltipPosition="bottom" pButton pRipple pTooltip="Delete" icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No Data Found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

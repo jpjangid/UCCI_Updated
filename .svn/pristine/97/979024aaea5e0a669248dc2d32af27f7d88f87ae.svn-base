@@ -1,0 +1,220 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import * as moment from 'moment'
+
+@Component({
+  selector: 'app-regular-member-form',
+  templateUrl: './regular-member-form.component.html',
+  styleUrls: ['./regular-member-form.component.scss'],
+  providers: [MessageService, ConfirmationService],
+
+})
+export class RegularMemberFormComponent implements OnInit {
+  // error-messages
+  turnoverData: any = {};
+  classficationData: any = {};
+  categoryData: any = {};
+  resRegularMsg: string = '';
+  resRegularMsgCheck: string = ''
+  submitted = false;
+  // value: any;
+  dob1filterDate: any;
+  dob2filterDate: any;
+  establishfilterDate: any;
+  selectedFile: File;
+  regularMemberFormFiles: any= {};
+  constructor(private apiservice: ApiService, private messageService: MessageService,) { }
+  ngOnInit(): void {
+    this.apiservice.getTurnoverData().subscribe(
+      (res: any) => {
+        this.turnoverData = res;
+      })
+    this.apiservice.getMemberClassfication().subscribe(
+      (res: any) => {
+        this.classficationData = res;
+      }
+    )
+    this.apiservice.getMemberCategory().subscribe(
+      (res: any) => {
+        this.categoryData = res;
+      }
+    )
+  }
+
+  registerForm = new FormGroup({
+    companyname: new FormControl('', [Validators.required,]),
+    gstno: new FormControl('', [Validators.required]),
+    avgemp: new FormControl('', [Validators.required]),
+    telephone: new FormControl('', [Validators.required]),
+    residentaltel: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    state: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    zipcode: new FormControl('', [Validators.required]),
+    registrationnumber: new FormControl('', [Validators.required]),
+    capitalinvestment: new FormControl('', [Validators.required]),
+    website: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    businessnature: new FormControl('', [Validators.required]),
+    about: new FormControl('', [Validators.required]),
+    logo: new FormControl('', [Validators.required]),
+    memberclassficationid: new FormControl(null, [Validators.required]),
+    membercategoryid: new FormControl(null, [Validators.required]),
+    applicantconstitution: new FormControl('', [Validators.required]),
+    establishdate: new FormControl('', [Validators.required]),
+    turnoverid: new FormControl(null, [Validators.required]),
+    registerby: new FormControl('', [Validators.required]),
+    name1: new FormControl('', [Validators.required]),
+    designation1: new FormControl('', [Validators.required]),
+    dob1: new FormControl('', [Validators.required]),
+    email1: new FormControl('', [Validators.required]),
+    officephone1: new FormControl('', [Validators.required]),
+    mobileno1: new FormControl('', [Validators.required]),
+    address1: new FormControl('', [Validators.required]),
+    city1: new FormControl('', [Validators.required]),
+    state1: new FormControl('', [Validators.required]),
+    zipcode1: new FormControl('', [Validators.required]),
+    department1: new FormControl('', [Validators.required]),
+    preferredcommunication1: new FormControl('', [Validators.required]),
+    nomineeimage1: new FormControl('', [Validators.required]),
+    biodata1: new FormControl('', [Validators.required]),
+    name2: new FormControl('', [Validators.required]),
+    designation2: new FormControl('', [Validators.required]),
+    dob2: new FormControl('', [Validators.required]),
+    email2: new FormControl('', [Validators.required]),
+    officephone2: new FormControl('', [Validators.required]),
+    mobileno2: new FormControl('', [Validators.required]),
+    address2: new FormControl('', [Validators.required]),
+    city2: new FormControl('', [Validators.required]),
+    state2: new FormControl('', [Validators.required]),
+    zipcode2: new FormControl('', [Validators.required]),
+    department2: new FormControl('', [Validators.required]),
+    preferredcommunication2: new FormControl('', [Validators.required]),
+    nomineeimage2: new FormControl('', [Validators.required]),
+    biodata2: new FormControl('', [Validators.required])
+  }
+  );
+
+  Register() {
+    let formData = new FormData()
+    console.log(this.registerForm.value, this.registerForm.valid);
+    // format date code
+    this.dob1filterDate = moment(this.registerForm.value.dob1).format('YYYY/MM/DD');
+    this.registerForm.value.dob1 = this.dob1filterDate;
+    this.dob2filterDate = moment(this.registerForm.value.dob2).format('YYYY/MM/DD');
+    this.registerForm.value.dob2 = this.dob2filterDate;
+    this.establishfilterDate = moment(this.registerForm.value.establishdate).format('YYYY/MM/DD');
+    this.registerForm.value.establishdate = this.establishfilterDate;
+    if (this.registerForm.valid) {
+      let data = this.registerForm.value
+      console.log(data);
+      formData.append('company_name', data.companyname);
+      formData.append('gst_number', data.gstno);
+      formData.append('avg_fulltime_emp', data.avgemp);
+      formData.append('office_telephone', data.telephone);
+      formData.append('residential_telephone', data.residentaltel);
+      formData.append('address', data.address);
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('pin_code', data.zipcode);
+      formData.append('registration_number', data.registrationnumber);
+      formData.append('capital_investment', data.capitalinvestment);
+      formData.append('website', data.website);
+      formData.append('email', data.email);
+      formData.append('nature_of_business', data.businessnature);
+      formData.append('about', data.about);
+      formData.append('logo', this.regularMemberFormFiles.logo);
+      formData.append('member_classification_id', data.memberclassficationid);
+      formData.append('member_category_id', data.membercategoryid);
+      formData.append('applicant_constitution', data.applicantconstitution);
+      formData.append('establishment_date', data.establishdate);
+      formData.append('turnover_id', data.turnoverid);
+      formData.append('registered_by', data.registerby);
+      formData.append('name1', data.name1);
+      formData.append('designation1', data.designation1);
+      formData.append('date_of_birth1', data.dob1);
+      formData.append('nominee1_address', data.address1);
+      formData.append('nominee1_city', data.city1);
+      formData.append('nominee1_state', data.state1);
+      formData.append('nominee1_pin_code', data.zipcode1);
+      formData.append('office_phone1', data.officephone1);
+      formData.append('mobile_no1', data.mobileno1);
+      formData.append('email1', data.email1);
+      formData.append('department1', data.department1);
+      formData.append('preferred_communication1', data.preferredcommunication1);
+      formData.append('profile1', this.regularMemberFormFiles.profile1);
+      formData.append('biodata1', data.biodata1);
+      formData.append('name2', data.name2);
+      formData.append('designation2', data.designation2);
+      formData.append('date_of_birth2', data.dob2);
+      formData.append('nominee2_address', data.address2);
+      formData.append('nominee2_city', data.city2);
+      formData.append('nominee2_state', data.state2);
+      formData.append('nominee2_pin_code', data.zipcode2);
+      formData.append('office_phone2', data.officephone2);
+      formData.append('mobile_no2', data.mobileno2);
+      formData.append('email2', data.email2);
+      formData.append('department2', data.department2);
+      formData.append('preferred_communication2', data.preferredcommunication2);
+      formData.append('profile2', this.regularMemberFormFiles?.profile2);
+      formData.append('biodata2', data.biodata2);
+      this.apiservice.regularMemberRegister(formData).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: res.message
+          });
+        })
+
+      // Object.keys(this.registerForm.controls).forEach(key => {
+      // });
+    }
+    // else {
+    //   this.resSignupMsg = 'Please Fill the Form',
+    //     this.resSignupMsgCheck = 'danger'
+    //   window.scroll(0, 0)
+    //   setTimeout(() => {
+    //     this.resSignupMsg = '',
+    //       this.resSignupMsgCheck = ''
+    //   }, 3000);
+    // }
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+  }
+  // send documents into binary
+  processImage(event:any, string:any) {
+    console.log(event);
+    this.selectedFile = event.target.files[0]
+    if(string=='logo') {
+      this.regularMemberFormFiles.logo = this.selectedFile
+    }
+    else if(string=='profile1') {
+      this.regularMemberFormFiles.profile1 = this.selectedFile
+    }
+    else if(string=='profile2') {
+      this.regularMemberFormFiles.profile2 = this.selectedFile
+    }
+  }
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.registerForm.controls;
+  }
+  bloackAlphabet(event: any) {
+    if (event.key == 'Tab') {
+      return;
+    }
+    const keyCode = event.keyCode;
+    if (((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) && event.keyCode != 8) {
+      event.preventDefault();
+    }
+  }
+  // emailVerification(event:any){
+  //   this.common_service.validateEmail(event)
+  // }
+}

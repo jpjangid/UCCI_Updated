@@ -1,0 +1,92 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+        <h1>{{Content.title}}</h1>
+        <ol class="breadcrumb">
+            <li class="item"><a routerLink="/">Home</a></li>
+            <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li>
+            <li class="item">{{Content.title}}</li>
+        </ol>
+    </div>
+    
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- HWM member list table -->
+    <section class="hwm-member-list">
+        <div class="container">
+            <!-- <div class="header">
+                <h3>HWM Member List</h3>
+            </div> -->
+            <!-- <div class="search_box">
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input class="form-control" pInputText type="text" (input)="nameFilter.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+                </span>
+                <div>
+                    <p class="btn" routerLink="/hwm-registration">Add<i class="fa fa-plus mx-1"></i></p>
+                </div>
+            </div> -->
+
+            <div class="theader">
+                <!-- <h3>Facilities Approval</h3> -->
+                <!-- <ng-template pTemplate="caption"> -->
+                <div class="flex" style="display: flex; width: 100%; justify-content: flex-end; ">
+                    <span class="p-input-icon-left ml-auto mr-2">
+                        <i class="pi pi-search"></i>
+                        <input class="form-control" pInputText type="text" (input)="nameFilter.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+                    </span>
+                    <!-- <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="bx bx-filter-alt"></p-button> -->
+                    <p-button type="button" class="ml-2" routerLink="/hwm-registration" icon="bx bx-plus" label="Add"
+                        iconPos="right"></p-button>
+                </div>
+            </div>
+            <p-table #nameFilter dataKey="id" [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-sm p-datatable-customers" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['company_name' , 'email']" [value]="hwmMemberList">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <!-- <th>GST Number</th> -->
+                        <th *ngIf="(localStorage.role == 'Admin')">Action</th>
+                        <th *ngIf="!(localStorage.role == 'Admin')">Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-hwmMemberList>
+                    <tr>
+                        <td>{{hwmMemberList.company_name}}</td>
+                        <td>{{hwmMemberList.email}}</td>
+                        <td>{{hwmMemberList.created_at | date: 'dd/MM/yyyy'}}</td>
+                        <td *ngIf="(localStorage.role == 'Admin')">
+
+                            <button pButton pRipple tooltipPosition="bottom" class="p-button-rounded p-button-text
+                                p-button-primary" pTooltip="View"><i class="far fa-eye"></i></button>
+                            <button pButton tooltipPosition="bottom" pRipple (click)="approveMemberById(hwmMemberList.id)" pTooltip="Approve" class="p-button-rounded p-button-text
+                                p-button-success"><i class="far fa-check-circle"></i>
+                            </button>
+
+                            <button pButton tooltipPosition="bottom" pTooltip="Edit" pRipple icon="bx bx-pencil" class="p-button-rounded p-button-text
+                                p-button-secondary mr-2"></button>
+
+                            <button pButton tooltipPosition="bottom" pRipple pTooltip="Delete" icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger"></button>
+                        </td>
+                        <td *ngIf="!(localStorage.role == 'Admin')">
+                            <span class="text-light bg-success px-2 py-1 rounded">Approved</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No Data Found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

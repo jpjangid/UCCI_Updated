@@ -1,0 +1,112 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-call-member',
+  templateUrl: './call-member.component.html',
+  styleUrls: ['./call-member.component.scss'],
+  providers: [MessageService, ConfirmationService],
+  styles: [`
+  :host ::ng-deep button {
+      margin-right: .25em;
+  }
+`]
+})
+export class CallMemberComponent implements OnInit {
+  @ViewChild('dt1') FilteredData: Table
+  memberList: any = [];
+  visibleSidebar2;
+  loading: boolean = true;
+  categoryName: any = [];
+  getFilterName: any = [];
+  getFilterDropdown: any = [];
+  filters: any;
+  updatedFilters: any = {};
+  saveBtnCheck: boolean = true;
+  display: boolean = false;
+  filterName: any;
+  filterdData: any = [];
+  callLogsList: any = [];
+  newFilterDetails: any = [];
+  constructor(private apiservie: ApiService, private messageService: MessageService, private route: Router) { }
+
+  ngOnInit() {
+    this.getMemberListData();
+    this.getAllFilterCategory();
+  }
+  // get sidebar filter category
+  getAllFilterCategory() {
+    this.apiservie.getSideFilterCategory().subscribe((res: any) => {
+      this.getFilterName = res.filters.filter(x => x.name == 'Custom Filters');
+      console.log(res);
+      // res.filters?.map((response: any) => {
+      //   response.value?.map((data: any) => {
+      //     this.getFilterDropdown.push(data);
+      //   })
+      // })
+    })
+  }
+  // all member contact list
+  getMemberListData() {
+    this.apiservie.getMemberList().subscribe((res: any) => {
+      this.memberList = res.data;
+      console.log(res.data);
+      // this.messageService.add({
+      //   severity: 'success',
+      //   summary: 'Success',
+      //   detail: res.message
+      // });
+      this.loading = false;
+    })
+  }
+  // clear all filter button function
+  clear(table: Table) {
+    table.clear();
+  }
+  // get filterd data
+  saveFilterData(data) {
+    this.filters = data.filters;
+    this.filterdData = data.filteredValue;
+    console.log(data);
+  }
+  // create new filter api
+  saveNewFilter() {
+    let stringifyFilter = JSON.stringify(this.filters)
+    let createFilterJson = { filter_name: this.filterName, filter_string: stringifyFilter, type: 'Custom' }
+    this.apiservie.createNewFilter(createFilterJson).subscribe((res: any) => {
+      console.log(res);
+      this.newFilterDetails = res.data;
+      this.getAllFilterCategory();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: res.message
+      });
+    })
+    this.display = false;
+  }
+  // show dialog
+  showDialog() {
+    this.display = true;
+  }
+  // get filterd data on table
+  getStringifyFilter(value) {
+    var filter = JSON.parse(value.filter_string);
+    console.log(filter);
+    this.FilteredData.filters = filter;
+    this.FilteredData.filterGlobal("", "Contains");
+    this.visibleSidebar2 = false;
+  }
+  // call logs 
+  getMembersCallLogs(member_id: any) {
+    this.apiservie.getAllLogs(member_id).subscribe((res: any) => {
+      this.callLogsList = res.call_logs;
+      console.log(this.callLogsList);
+      this.loading = false;
+      this.route.navigateByUrl('call-logs/' + member_id)
+    })
+  }
+}

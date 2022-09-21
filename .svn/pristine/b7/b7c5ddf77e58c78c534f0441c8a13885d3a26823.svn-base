@@ -1,0 +1,318 @@
+<p-toast></p-toast>
+<p-dialog p-dialog header="Create Filter" [modal]="true" [style]="{width:
+    '30vw'}"
+    [draggable]="false" [resizable]="false" [(visible)]="display">
+    <div class="form-group">
+        <input type="text" [(ngModel)]="filterName" placeholder="Filter Name" class="form-control">
+    </div>
+    <button pButton label="Save Filter" (click)="saveNewFilter()" class="p-button-outlined my-3"></button>
+</p-dialog>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <p-sidebar [(visible)]="visibleSidebar2" position="right"
+        [baseZIndex]="10000">
+        <section class="widget widget_categories">
+            <h3 class="widget-title">Filters</h3>
+            <!-- <div class="sidemenu-body">
+                <ul class="sidemenu-nav metisMenu h-100" id="sidemenu-nav"
+                    data-simplebar>
+                    <li class="nav-item" routerLinkActive="active mm-active">
+                        <a href="javascript:void(0)" class="collapsed-nav-link
+                            nav-link" aria-expanded="false">
+                            <span class="icon"><i class='bx bx-layer'></i></span>
+                            <span class="menu-title">My Listings</span>
+                        </a>
+                        <ul class="sidemenu-nav-second-level">
+                            <li class="nav-item" routerLinkActive="active">
+                                <a routerLink="/dashboard-my-listings"
+                                    class="nav-link">
+                                    <span class="menu-title">Active</span>
+                                    <span class="badge">5</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" routerLinkActive="active">
+                                <a routerLink="/dashboard-my-listings"
+                                    class="nav-link">
+                                    <span class="menu-title">Pending</span>
+                                    <span class="badge yellow">1</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" routerLinkActive="active">
+                                <a routerLink="/dashboard-my-listings"
+                                    class="nav-link">
+                                    <span class="menu-title">Expired</span>
+                                    <span class="badge red">2</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div> -->
+            <p-accordion>
+                <p-accordionTab *ngFor="let data of getFilterName[0]?.value |
+                    groupByPipe: 'type';index as
+                    index"
+                    header="{{data.key}}">
+                    <ng-template pTemplate="content">
+                        <ng-container *ngFor="let value of
+                            data.value">
+
+                            <li (click)="getStringifyFilter(value)">
+                                {{value.filter_name}}
+                            </li>
+                        </ng-container>
+                    </ng-template>
+                </p-accordionTab>
+            </p-accordion>
+        </section>
+    </p-sidebar>
+    <!-- Member listing table -->
+    <section class="member-list container">
+        <div class="header">
+            <h4>Contact List</h4>
+            <p-button class="left-button" type="button" (click)="visibleSidebar2= true" icon="pi
+                pi-filter"></p-button>
+        </div>
+        <button pButton label="Clear" class="p-button-outlined my-3" (click)="clear(dt1)" icon="pi pi-filter-slash"></button>
+
+        <button *ngIf="dt1?.filteredValue?.length> 0" pButton label="Create
+            Filter" icon="pi pi-external-link"
+            (click)="showDialog()"
+            class="p-button-outlined my-3"></button>
+        <!-- <button pButton label="Create
+            Filter" icon="pi pi-external-link"
+            (click)="showDialog()"
+            class="p-button-outlined my-3"></button> -->
+        <div class="list-table">
+            <p-table [filters]="updatedFilters" (onFilter)="saveFilterData(dt1)"
+                #dt1 [value]="memberList"
+                dataKey="id" [rows]="10"
+                [showCurrentPageReport]="true" responsiveLayout="scroll"
+                [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+                styleClass="p-datatable-customers p-datatable-gridlines"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to
+                {last} of {totalRecords} entries"
+                [globalFilterFields]="['status','company_name','email','website','office_telephone','membership_type.membership_name','member_classification.name','member_category.name','membership_type.particulars','turn_over.component','nominee1.name',
+                'nominee1.email','nominee1.mobile','nominee1.office_phone','nominee1.preferred_communication','nominee2.name','nominee2.email','nominee2.mobile',
+                'nominee2.office_phone','nominee2.preferred_communication']">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width:100px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                S. No.
+                            </div>
+                        </th>
+                        <th style="min-width:250px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Action
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Status
+                                <p-columnFilter type="text" field="status"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Company Name
+                                <p-columnFilter type="text" field="company_name" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Email
+                                <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Website
+                                <p-columnFilter type="text" field="website" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Office Telephone
+                                <p-columnFilter type="text"
+                                    field="office_telephone"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:240px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Membership Name
+                                <p-columnFilter type="text"
+                                    field="membership_type.membership_name"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:250px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Membership Classfication
+                                <p-columnFilter type="text"
+                                    field="member_classification.name"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:250px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Membership Category
+                                <p-columnFilter type="text"
+                                    field="member_category.name"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Particulars
+                                <p-columnFilter type="text"
+                                    field="membership_type.particulars"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Turn Over
+                                <p-columnFilter type="text"
+                                    field="turn_over.component"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 1 name
+                                <p-columnFilter type="text"
+                                    field="nominee1.name"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 1 Email
+                                <p-columnFilter type="text"
+                                    field="nominee1.email"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:240px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 1 Mobile
+                                <p-columnFilter type="text"
+                                    field="nominee1.mobile"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:270px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 1 Office Phone
+                                <p-columnFilter type="text"
+                                    field="nominee1.office_phone"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:350px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 1 Preferred Communication
+                                <p-columnFilter type="text"
+                                    field="nominee1.preferred_communication"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 2 name
+                                <p-columnFilter type="text"
+                                    field="nominee2.name"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:200px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 2 Email
+                                <p-columnFilter type="text"
+                                    field="nominee2.email"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:240px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 2 Mobile
+                                <p-columnFilter type="text"
+                                    field="nominee2.mobile"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:270px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 2 Office Phone
+                                <p-columnFilter type="text"
+                                    field="nominee2.office_phone"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width:350px">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                Nominee 2 Preferred Communication
+                                <p-columnFilter type="text"
+                                    field="nominee2.preferred_communication"
+                                    display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-memberList let-i="rowIndex">
+                    <tr>
+                        <td>{{i+1}}</td>
+                        <td>
+                            <button pButton pRipple pTooltip="View" tooltipPosition="bottom" class="p-button-rounded p-button-text
+                                p-button-primary"><i class="far fa-eye"></i></button>
+                            <button pButton pRipple pTooltip="Approve" tooltipPosition="bottom" class="p-button-rounded p-button-text
+                                p-button-success"><i class="far
+                                    fa-check-circle"></i>
+                            </button>
+                            <button pButton pRipple pTooltip="Edit"
+                                (click)="getMembersCallLogs(memberList.id)"
+                                tooltipPosition="bottom" icon="bx bx-pencil"
+                                class="p-button-rounded p-button-text
+                                p-button-secondary mr-2"></button>
+                            <button pButton pRipple pTooltip="Delete" tooltipPosition="bottom" icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger"></button>
+                        </td>
+                        <td>{{memberList?.status}}</td>
+                        <td>{{memberList?.company_name}}</td>
+                        <td>{{memberList?.email}}</td>
+                        <td>{{memberList?.website}}</td>
+                        <td>{{memberList?.office_telephone}}</td>
+                        <td>{{memberList?.membership_type.membership_name}}</td>
+                        <td>{{memberList?.member_classification?.name}}</td>
+                        <td>{{memberList?.member_category?.name}}</td>
+                        <td>{{memberList?.membership_type?.particulars}}</td>
+                        <td pTooltip="{{memberList?.turn_over?.component}}" tooltipPosition="bottom">{{memberList?.turn_over?.component.slice(0,20)}}</td>
+                        <td>{{memberList?.nominee1?.name}}</td>
+                        <td>{{memberList?.nominee1?.email}}</td>
+                        <td>{{memberList?.nominee1?.mobile}}</td>
+                        <td>{{memberList?.nominee1?.office_phone}}</td>
+                        <td>{{memberList?.nominee1?.preferred_communication}}</td>
+                        <td>{{memberList?.nominee2?.name}}</td>
+                        <td>{{memberList?.nominee2?.email}}</td>
+                        <td>{{memberList?.nominee2?.mobile}}</td>
+                        <td>{{memberList?.nominee2?.office_phone}}</td>
+                        <td>{{memberList?.nominee2?.preferred_communication}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="18">No data found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

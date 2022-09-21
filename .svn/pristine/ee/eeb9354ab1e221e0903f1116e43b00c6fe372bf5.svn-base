@@ -1,0 +1,70 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <div class="Master-view-box">
+        <div class="theader">
+            <h3>Issues Actions</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                </div>
+                <p-table #dt1 [value]="getIssueData" dataKey="id" [rows]="10"
+                    [showCurrentPageReport]="true" styleClass="p-datatable-sm
+                    p-datatable-customers" [rowsPerPageOptions]="[10,25,50]"
+                    [loading]="loading" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of
+                    {totalRecords} entries"
+                    [globalFilterFields]="['fee_name', 'fee_category',
+                    'member_amount', 'non_member_amount', 'taxes']">
+                    <ng-template pTemplate="header" style="min-height: 500px;">
+                        <tr>
+                            <th>S. No.</th>
+                            <th>Issue Type</th>
+                            <th>Date</th>
+                            <th>Member Name</th>
+                            <th>Status</th>
+                            <th *ngIf="localStorage.role == 'Admin'">Actions</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-getIssueData let-i="rowIndex">
+                        <tr>
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                {{rer}}
+                            </td>
+                            <td>
+                                {{re}}
+                            </td>
+                            <td>
+                                {{df}}
+                            </td>
+                            <td>
+                                {{fsdf}}
+                            </td>
+                            <td *ngIf="localStorage.role == 'Admin'">
+                                <button pButton pRipple icon="bx bx-pencil"
+                                    class="p-button-rounded p-button-text
+                                    p-button-success mr-2"></button>
+                                <button pButton pRipple icon="bx bx-trash"
+                                    class="p-button-rounded p-button-text
+                                    p-button-warning"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5">No issues found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

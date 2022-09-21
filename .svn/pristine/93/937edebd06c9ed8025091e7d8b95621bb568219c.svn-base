@@ -1,0 +1,193 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <!-- certificate of origin list table -->
+    <section class="all-doucument-attestation-list">
+        <div class="container">
+            <div class="header">
+                <h3>Document Attestation List</h3>
+            </div>
+            <p-table [scrollable]="true"
+                [value]="docAttestationList" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width:300px" *ngIf="localStorage?.role=='Admin'">Action</th>
+                        <th style="min-width:200px" *ngIf="!(localStorage?.role=='Admin')">Status</th>
+                        <th style="min-width:200px">Consignee</th>
+                        <th style="min-width:200px">Dispatched By</th>
+                        <th style="min-width:200px">Invoice Date</th>
+                        <th style="min-width:150px">Invoice No</th>
+                        <th style="min-width:200px">Invoice Document</th>
+                        <th style="min-width:200px">Other Document</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-docAttestationList>
+                    <tr>
+                        <td class="action" style="min-width:300px" *ngIf="(localStorage.role == 'Admin')">
+                            <a class="default-btn"
+                                (click)="approveDialog(docAttestationList.id)"><i
+                                    class='bx bx-check-circle'
+                                    (click)="approveDialog(docAttestationList.id)"></i>
+                                Approve</a>
+                            <a class="default-btn danger"
+                                (click)="rejectDialog(docAttestationList.id)"><i
+                                    class='bx
+                                    bx-x-circle'
+                                    (click)="rejectDialog(docAttestationList.id)"></i>
+                                Reject</a>
+                        </td>
+                        <td style="min-width:200px" *ngIf="!(localStorage.role == 'Admin')">
+                            <span class="text-light bg-success px-2 py-1 rounded">Approved</span>
+                        </td>
+                        <td style="min-width:200px">{{docAttestationList.consignee}}</td>
+                        <td style="min-width:200px">{{docAttestationList.dispatched_by}}</td>
+                        <td style="min-width:200px">{{docAttestationList.invoice_date}}</td>
+                        <td style="min-width:150px">{{docAttestationList.invoice_no}}</td>
+                        <td style="min-width:200px"
+                            pTooltip="{{docAttestationList.invoice}}"
+                            tooltipPosition="bottom">
+                            <!-- {{docAttestationList.invoice}} -->
+                            <a
+                                [href]="addLink(docAttestationList.invoice)"
+                                class="btn btn-default"
+                                target="_blank"
+                                [download]="addLink(docAttestationList.invoice)">
+                                {{docAttestationList.invoice.slice(0,15)}}
+                            </a>
+                        </td>
+                        <td style="min-width:200px"
+                            pTooltip="{{docAttestationList.other_document}}"
+                            tooltipPosition="bottom">
+                            <a
+                                href="https://ucci.brandtalks.in/public/doc_attestation_other/docAttestationList.invoice"
+                                class="btn btn-default"
+                                target="_blank"
+                                download="https://ucci.brandtalks.in/public/doc_attestation_other/docAttestationList.invoice">
+                                {{docAttestationList.other_document.slice(0,15)}}
+                            </a>
+                        </td>
+                        <!-- <a href="{{https://ucci.brandtalks.in/public/doc_invoice/docAttestationList.invoice}}"
+                                style="text-decoration: none;"
+                                download="{{https://ucci.brandtalks.in/public/doc_invoice/docAttestationList.invoice}}"
+                                target="_blank"><button pButton pRipple
+                                    type="button" icon="bx bx-download"
+                                    class="p-button-rounded p-button-primary
+                                    p-button-text"></button></a> -->
+                        <!-- <td>
+                            <button pButton pRipple class="p-button-rounded p-button-text
+                                p-button-info" pTooltip="View" tooltipPosition="bottom"><i class="far fa-eye"></i></button>
+                            <button pButton pRipple class="p-button-rounded p-button-text
+                                p-button-success" pTooltip="Approve" tooltipPosition="bottom"><i class="far
+                                    fa-check-circle"></i>
+                            </button>
+                            <button pButton pRipple icon="bx bx-pencil" class="p-button-rounded p-button-text
+                                p-button-secondary mr-2" pTooltip="Edit" tooltipPosition="bottom"></button>
+                            <button pButton pRipple icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger" pTooltip="Delete" tooltipPosition="bottom"></button>
+                        </td> -->
+                    </tr>
+
+                    <!-- Approve Reject Dialog -->
+                    <p-dialog p-dialog header="Upload Documents" [modal]="true"
+                        [style]="{width:
+                        '40vw'}"
+                        [draggable]="false" [resizable]="false"
+                        [(visible)]="Modal">
+                        <form [formGroup]="documentAttestUploadForm"
+                            (ngSubmit)="verifyDocumentAttestation()">
+                            <div class="upload-dialog">
+                                <div *ngIf="showApproveForm">
+                                    <div class="file-upload">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <label for="">Invoice</label>
+                                                <input type="file" name="file"
+                                                    id="file"
+                                                    multiple
+                                                    formControlName="uploaddocument"
+                                                    (change)="uploadDoc($event)"
+                                                    class="inputfile" required
+                                                    />
+                                                <label for="file"><i class='bx
+                                                        bx-upload'></i>
+                                                    Upload Document</label>
+                                                <div *ngIf="submitted &&
+                                                    f.uploaddocument.errors?.required
+                                                    ||
+                                                    f.uploaddocument.touched"
+                                                    class="alert alert-danger">
+                                                    <div
+                                                        *ngIf="f.uploaddocument.errors?.required">
+                                                        Document
+                                                        is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <label for="">Other Document</label>
+                                                <input type="file" name="file"
+                                                    id="file"
+                                                    multiple
+                                                    formControlName="otherdocument"
+                                                    (change)="uploadDoc($event)"
+                                                    class="inputfile" required
+                                                    />
+                                                <label for="file"><i class='bx
+                                                        bx-upload'></i>
+                                                    Other Document</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mb-3" for="">
+                                            Remark</label>
+                                        <textarea
+                                            type="text"
+                                            placeholder="Remark"
+                                            formControlName="remark"
+                                            class="form-control">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div *ngIf="showRejectForm">
+                                    <div class="file-reject">
+                                        <div class="form-group">
+                                            <label class="mb-3" for="">
+                                                Reason</label>
+                                            <textarea
+                                                type="text"
+                                                placeholder="Reason"
+                                                formControlName="reason"
+                                                class="form-control" required>
+                                            </textarea>
+                                            <div *ngIf="submitted &&
+                                                f.reason.errors?.required ||
+                                                f.reason.touched"
+                                                class="alert alert-danger">
+                                                <div
+                                                    *ngIf="f.reason.errors?.required">
+                                                    Reason
+                                                    is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <button pButton label="Save"
+                                    class="p-button-outlined my-3"></button>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

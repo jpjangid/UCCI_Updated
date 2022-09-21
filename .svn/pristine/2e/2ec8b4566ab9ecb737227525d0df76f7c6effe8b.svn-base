@@ -1,0 +1,148 @@
+<<<<<<< .mine
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+
+  <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+  <app-navbar-style-one></app-navbar-style-one>
+
+  <!-- ********************** Breadcrumb Area  ******************** -->
+
+  <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+    <h1>{{Content.title}}</h1>
+    <ol class="breadcrumb">
+      <li class="item"><a routerLink="/">Home</a></li>
+      <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li>
+      <li class="item">{{Content.title}}</li>
+    </ol>
+  </div>
+
+  <!-- ********************** End Breadcrumb Area  ******************** -->
+
+  <!-- ********************** Facilities Approval Table Area  ******************** -->
+
+  <div class="Master-view-box" #target>
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="theader">
+          <!-- <h3>Facilities Approval</h3> -->
+          <!-- <ng-template pTemplate="caption"> -->
+          <div class="flex" style="display: flex; width: 100%; justify-content: flex-end; ">
+            <span class="p-input-icon-left ml-auto mr-2">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search keyword" />
+            </span>
+            <p-button type="button" class="mr-2" (click)="visibleSidebar = true" icon="bx bx-filter-alt"></p-button>
+            <p-button type="button" class="ml-2" (click)="dt1.reset()" icon="bx bx-reset"></p-button>
+          </div>
+        </div>
+        <p-table #dt1 [value]="bookedFacilities" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+          styleClass="p-datatable-sm p-datatable-customers" [rowsPerPageOptions]="[10,25,50]" responsiveLayout="scroll"
+          [loading]="loading" [paginator]="true" sortField="booked_by" defaultSortOrder="1" sortOrder="1" sortMode="multiple"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [globalFilterFields]="['place', 'booked_by']" (sortFunction)="customSort($event)" [customSort]="true">
+          <ng-template pTemplate="header" style="min-height: 500px;">
+            <tr>
+              <th style="min-width: 80px; text-align: center;">S. No.</th>
+              <th style="min-width: 90px;"></th>
+              <th style="min-width: 150px; text-align: center;" pSortableColumn="booking_date">Booking Date </th>
+              <th style="min-width: 130px;">Name</th>
+              <th style="min-width: 130px; text-align: center;">Meeting Type</th>
+              <th style="min-width: 180px;">Facility Name</th>
+              <th style="min-width: 160px; text-align: center;">Additional Services</th>
+              <th style="min-width: 130px;">Support Staff</th>
+              <th style="min-width: 100px;">Status</th>
+            </tr>
+
+            <tr>
+              <th style="min-width: 80px; text-align: center;"></th>
+              <th style="min-width: 150px; text-align: center;">
+                <p-columnFilter type="text" field="booking_date" matchMode="contains" [showMenu]="false" [showClearButton]="false">
+                </p-columnFilter>
+              </th>
+              <!-- <p-sortIcon field="booking_date"></p-sortIcon> -->
+              <th style="min-width: 130px;">
+                <p-columnFilter type="text" field="booked_by" matchMode="contains" [showMenu]="false" [showClearButton]="false">
+                </p-columnFilter>
+              </th>
+              <th style="min-width: 130px; text-align: center;">
+                <p-columnFilter type="text" field="conference_facility_type" matchMode="contains" [showMenu]="false" [showClearButton]="false">
+                </p-columnFilter>
+              </th>
+              <th style="min-width: 180px;">
+                <p-columnFilter type="text" field="place" matchMode="contains" [showMenu]="false" [showClearButton]="false"></p-columnFilter>
+              </th>
+              <th style="min-width: 160px; text-align: center;">
+                <p-columnFilter type="text" field="additional_services" matchMode="contains" [showMenu]="false" [showClearButton]="false">
+                </p-columnFilter>
+              </th>
+              <th style="min-width: 130px;">
+                <p-columnFilter type="text" field="status" matchMode="contains" [showMenu]="false" [showClearButton]="false"></p-columnFilter>
+              </th>
+              <th style="min-width: 100px;"></th>
+              <th style="min-width: 90px;"></th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr>
+              <td style="min-width: 80px; text-align: center;">
+                {{i+1}}
+              </td>
+              <td style="min-width: 90px;">
+                <button pButton pRipple icon="bx bx-check"
+                  class="p-button-rounded p-button-success p-button-text mr-2" (click)="onAprrovPress(item)"></button>
+                <button pButton pRipple icon="bx bx-x"
+                  class="p-button-rounded p-button-danger p-button-text mr-2" (click)="onRejectPress(item)"></button>
+              </td>
+              <td style="min-width: 150px; text-align: center;">
+                {{item.booking_date}}
+              </td>
+              <td style="min-width: 130px;">
+                {{item.booked_by}}
+              </td>
+              <td style="min-width: 130px; text-align: center;">
+                {{item.conference_facility_type}}
+              </td>
+              <td style="min-width: 180px;">
+                {{item.place}}
+              </td>
+              <td style="min-width: 160px;">
+                {{item.additional_services == null ? 'None': item.additional_services}}
+              </td>
+              <td style="min-width: 130px; text-align: center;">
+                {{item.support_staff == null ? 'No' : 'Yes'}}
+              </td>
+              <td class="{{item.status}}" style="min-width: 100px;">
+                {{item.status == null ? 'In Progress' : 'pending'}}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">No Facility found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <!-- ********************** Sidebar Filter Area  ******************** -->
+  <p-sidebar [(visible)]="visibleSidebar" position="right" [baseZIndex]="10000">
+
+    <section class="widget widget_categories">
+      <h3 class="widget-title">Facilities</h3>
+
+      <ul *ngFor="let item of facilitiesDropdown">
+        <li (click)="dt1.filterGlobal(item.fee_name, 'contains') + visibleSidebar = false">{{item.fee_name}}<span
+            class="post-count">({{item.bookfacility.length}})</span></li>
+      </ul>
+    </section>
+
+  </p-sidebar>

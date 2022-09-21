@@ -1,0 +1,36 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { EventService } from 'src/app/services/event.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+    selector: 'app-blog-details',
+    templateUrl: './blog-details.component.html',
+    styleUrls: ['./blog-details.component.scss']
+})
+export class BlogDetailsComponent implements OnInit {
+
+    constructor(private __eventservice : EventService,private activatedRoute : ActivatedRoute) { }
+    slug :any;
+    eventData : any = {};
+    customFromData : any = {}
+    baseUrl = environment.profile_baseUrl;
+    ngOnInit(): void {
+        this.slug = this.activatedRoute.snapshot
+        console.log(this.slug.params.slug)
+        this.__eventservice.getEventById(this.slug.params.slug).subscribe((res:any)=> {
+            console.log(res)
+            this.eventData = res.data;
+            let formdata = JSON.parse(res.form.form_fields);
+            this.customFromData = JSON.parse(formdata);
+        })
+    }
+
+    pageTitleContent = [
+        {
+            title: 'Event Details',
+            backgroundImage: 'assets/img/page-title/page-title2.jpg'
+        }
+    ]
+
+}

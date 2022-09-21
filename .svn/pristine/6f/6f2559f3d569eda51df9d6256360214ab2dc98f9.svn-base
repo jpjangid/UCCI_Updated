@@ -1,0 +1,124 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import * as moment from 'moment';
+import { CommonClass } from 'src/app/common';
+
+@Component({
+  selector: 'app-certificate-of-origin-form',
+  templateUrl: './certificate-of-origin-form.component.html',
+  styleUrls: ['./certificate-of-origin-form.component.scss'],
+  providers: [MessageService, ConfirmationService],
+})
+export class CertificateOfOriginFormComponent implements OnInit {
+  resCertificateMsg: string = '';
+  resCertificateMsgCheck: string = '';
+  submitted = false;
+  filterInvoiceDate: any;
+  filterPartyInvoiceDate: any;
+  localStorage:any;
+  constructor(private apiservice: ApiService, private messageService: MessageService, private commonFunction : CommonClass) { }
+
+  ngOnInit() {
+    this.localStorage = this.commonFunction.getLocalStorage();
+  }
+  certificateForm = new FormGroup({
+    invoiceno: new FormControl('', [Validators.required]),
+    invoicedate: new FormControl('', [Validators.required]),
+    consignee: new FormControl('', [Validators.required]),
+    partyinvoiceno: new FormControl('', [Validators.required]),
+    partyinvoicedate: new FormControl('', [Validators.required]),
+    manufacturer: new FormControl('', [Validators.required]),
+    dispatchedby: new FormControl('', [Validators.required]),
+    portofdischarge: new FormControl('', [Validators.required]),
+    portofloading: new FormControl('', [Validators.required]),
+    invoicedocument: new FormControl('', [Validators.required]),
+    otherinformation: new FormControl('', [Validators.required]),
+    finaldestination: new FormControl('', [Validators.required]),
+  });
+
+  certificate() {
+    let formData = new FormData()
+    // date format code
+    this.filterInvoiceDate = moment(this.certificateForm.value.invoicedate).format('YYYY/MM/DD');
+    this.certificateForm.value.invoicedate = this.filterInvoiceDate;
+
+    this.filterPartyInvoiceDate = moment(this.certificateForm.value.partyinvoicedate).format('YYYY/MM/DD');
+    this.certificateForm.value.partyinvoicedate = this.filterPartyInvoiceDate;
+
+    console.log(this.certificateForm.value);
+    if (this.certificateForm.valid) {
+      let data = this.certificateForm.value
+      formData.append('invoice_no', data.invoiceno);
+      formData.append('invoice_date', data.invoicedate);
+      formData.append('consignee', data.consignee);
+      formData.append('party_invoice_no', data.partyinvoiceno);
+      formData.append('party_invoice_date', data.partyinvoicedate);
+      formData.append('manufacturer', data.manufacturer);
+      formData.append('dispatched_by', data.dispatchedby);
+      formData.append('port_of_discharge', data.portofdischarge);
+      formData.append('port_of_loading', data.portofloading);
+      formData.append('invoice_doc', this.selectedFile);
+      formData.append('other_information', data.otherinformation);
+      formData.append('final_destination', data.finaldestination);
+      this.apiservice.addCertificateOfOrigin(formData).subscribe(
+        (res: any) => {
+          console.log(res);
+          // let object = {
+          //   status:res.id.id
+          // }
+          // this.apiservice.verifycertificate(object).subscribe(
+          //   (resp:any)=>{
+          //   console.log(resp);
+          // })
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail: res.message
+          });
+          this.resCertificateMsgCheck = 'success';
+          this.resCertificateMsg = res.message
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+          if (error.status == 400) {
+            if (error.error.message) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'error',
+                detail: error.error.message
+              });
+            }
+            this.resCertificateMsgCheck = 'danger';
+            console.log(this.resCertificateMsg);
+          }
+        }
+      );
+    }
+    this.submitted = true;
+    if (this.certificateForm.invalid) {
+      return;
+    }
+  }
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.certificateForm.controls;
+  }
+  bloackAlphabet(event: any) {
+    if (event.key == 'Tab') {
+      return;
+    }
+    const keyCode = event.keyCode;
+    if (((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) && event.keyCode != 8) {
+      event.preventDefault();
+    }
+  }
+  // send profile image into binary
+  selectedFile: File;
+  processImage(event) {
+    console.log(event);
+    this.selectedFile = event.target.files[0]
+  }
+}

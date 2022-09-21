@@ -1,0 +1,60 @@
+@import "/src/app/components/pages/dashboard/dashboard.component.scss";
+
+.call-log-section {
+    .form-group {
+        select {
+            display: block;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #f9f9f9;
+            transition: var(--transition);
+            border: 1px solid #e5e7f2;
+            color: #7d93b2;
+            width: 100%;
+            font-weight: 400;
+            font-size: var(--fontSize);
+        }
+        .form-control {
+            height: 48px;
+            background: #f9f9f9 !important;
+            transition: var(--transition);
+            border-radius: 5px;
+            border: 1px solid #e5e7f2 !important;
+            color: var(--blackColor) !important;
+            font-weight: 400;
+            font-size: var(--fontSize);
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+    }
+    .status {
+        align-items: center;
+    }
+    .Followlabel {
+        margin-left: 5px;
+    }
+    label {
+        margin: 10px;
+    }
+    .alert.alert-danger {
+        color: red;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+}
+::ng-deep {
+    .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+        padding: 0.1rem 0.3rem;
+    }
+    .p-dropdown {
+        width: 100%;
+    }
+}

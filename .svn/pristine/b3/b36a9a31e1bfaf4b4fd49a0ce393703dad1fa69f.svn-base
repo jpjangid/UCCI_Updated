@@ -1,0 +1,184 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { CommonClass } from 'src/app/common';
+import { ApiService } from 'src/app/services/api.service';
+
+@Component({
+  selector: 'app-vissa-approval',
+  templateUrl: './vissa-approval.component.html',
+  styleUrls: ['./vissa-approval.component.scss'],
+  providers: [MessageService, ConfirmationService],
+})
+export class VissaApprovalComponent implements OnInit {
+
+  breadcrumb: any[] = [
+    {
+      title: 'Visa Approval',
+      subTitle: 'Dashboard',
+    },
+  ];
+
+  approvalData: any;
+
+  loading: boolean = true;
+
+  filterVal: string;
+
+  approveModalState: boolean = false;
+
+  rejectModalState: boolean = false;
+
+  uploadedFile: File;
+
+  public files: any[] = [];
+
+  show: boolean = false;
+
+  selectedId: number;
+
+  localStorage : any;
+
+
+  approvalForm = this.fb.group({
+    reason: [''],
+    status: ['approve', Validators.required],
+    document: ['', Validators.required],
+  });
+
+  rejectForm = this.fb.group({
+    reason: ['', Validators.required],
+    status: ['approve', Validators.required],
+    document: ['']
+  });
+
+  constructor(private commonFunction : CommonClass,private ApiService: ApiService,  private fb: FormBuilder, private MessageService: MessageService, private confirmationService: ConfirmationService) { }
+
+  ngOnInit(): void {
+    this.localStorage = this.commonFunction.getLocalStorage();
+
+    this.ApiService.getVisaApprovalData().subscribe((res) => {
+      
+      this.approvalData = res.data;
+
+      this.loading =false;
+      
+      console.log('res :- ', this.approvalData);
+    })
+  }
+  reset(dt1) {
+    dt1.reset()
+    this.filterVal = '';
+  }
+  onAprrovPress(modal) {
+    this.approveModalState = true;
+    // console.log(modal);
+    this.selectedId = modal.id;
+    console.log(this.selectedId);
+    
+    
+  }
+  onRejectPress(modal) {
+    this.rejectModalState = true;
+    this.selectedId = modal.id;
+    console.log(this.selectedId);
+  }
+
+  onSubmit() {
+    debugger;
+    let formData = new FormData();
+    this.approvalForm.value.status = 'approve';
+    this.approvalForm.value.reason = '';
+   if(this.approvalForm.valid) {
+    formData.append('reason', this.approvalForm.value.reason);
+    formData.append('status', this.approvalForm.value.status);
+    formData.append('document', this.uploadedFile, this.uploadedFile.name);
+    console.log(formData);
+    
+    this.ApiService.visaConfirmation(
+      this.selectedId,
+      formData
+    ).subscribe((res) => {
+      console.log("response : ", res);
+      this.approveModalState = false;
+      
+    })
+   }
+  }
+
+  onReject() {
+    this.approvalForm.value.status = 'reject';
+    if(this.rejectForm.valid) {
+      this.ApiService.visaConfirmation(
+        this.selectedId,
+        this.rejectForm.value
+      ).subscribe((res) => {
+        console.log("response : ", res);
+        this.rejectModalState = false;
+        
+      })
+    }
+  }
+
+  onFileChange(pFileList: File[]) {
+    console.log('files : ', pFileList);
+
+    if (pFileList[0].type == 'application/pdf') {
+      this.uploadedFile = pFileList[0];
+      this.files = Object.keys(pFileList).map((key) => pFileList[key]);
+      this.show = true;
+    } else {
+      this.MessageService.add({
+        severity: 'error',
+        summary: 'Please select pdf file',
+        detail: 'File formate is not valid',
+      });
+    }
+
+    // this._snackBar.open("Successfully upload!", 'Close', {
+    //   duration: 2000,
+    // });
+  }
+
+  openConfirmDialog(i: any) {
+    //  debugger; 
+      this.confirmationService.confirm({
+        message: 'Do you want to delete this document?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          this.files.splice(i, 1);
+          this.show = false;
+          this.MessageService.add({
+            severity: 'info',
+            summary: 'Confirmed',
+            detail: 'Document deleted.',
+          });
+        },
+        
+        reject: (type) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.MessageService.add({
+                severity: 'error',
+                summary: 'Rejected',
+                detail: 'You have rejected.',
+              });
+              break;
+            case ConfirmEventType.CANCEL:
+              this.MessageService.add({
+                severity: 'warn',
+                summary: 'Cancelled',
+                detail: 'You have deleted document.',
+              });
+              break;
+          }
+        },
+      });
+  
+      // const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      //   panelClass: 'modal-xs'
+      // });
+      
+    }
+}

@@ -1,0 +1,107 @@
+.raise-issue-form {
+    padding: 150px 0 70px 0;
+    background-color: #fafafa;
+    // height: 138vh;
+    form {
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            .alert.alert-danger {
+                color: red;
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                border-radius: 0;
+                margin-bottom: 0;
+                margin-top: 10px;
+            }
+            label {
+                display: block;
+                margin-bottom: 12px;
+                color: var(--blackColor);
+                position: relative;
+                // padding-left: 25px;
+                font-weight: 500;
+
+                i {
+                    color: var(--mainColor);
+                    position: absolute;
+                    left: 0;
+                    top: 0.5px;
+                    font-size: 19px;
+
+                    &.bxl-facebook-square {
+                        color: #3b5998;
+                    }
+                    &.bxl-twitter {
+                        color: #1da1f2;
+                    }
+                    &.bxl-linkedin {
+                        color: #0077b5;
+                    }
+                }
+                span {
+                    color: var(--optionalColor);
+                    font-weight: 400;
+                }
+            }
+            .form-control {
+                height: 48px;
+                background: #f9f9f9 !important;
+                transition: var(--transition);
+                border-radius: 5px;
+                border: 1px solid #e5e7f2 !important;
+                color: var(--blackColor) !important;
+                font: {
+                    weight: 400;
+                    size: var(--fontSize);
+                }
+                padding: {
+                    top: 0;
+                    bottom: 0;
+                    right: 15px;
+                    left: 15px;
+                }
+                &::placeholder {
+                    transition: var(--transition);
+                    color: #7d93b2;
+                }
+                &:focus {
+                    border-color: var(--mainColor);
+
+                    &::placeholder {
+                        color: transparent;
+                    }
+                }
+            }
+            textarea.form-control {
+                padding-top: 15px;
+                height: auto;
+            }
+            select {
+                display: block;
+                height: 48px;
+                line-height: 48px;
+                border-radius: 5px;
+                cursor: pointer;
+                background: #f9f9f9;
+                transition: var(--transition);
+                border: 1px solid #e5e7f2;
+                color: #7d93b2;
+                width: 100%;
+                padding-left: 15px;
+                font: {
+                    weight: 400;
+                    size: var(--fontSize);
+                }
+                &:focus {
+                    border-color: var(--mainColor);
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    .add-listings-box {
+        padding: 30px;
+    }
+}

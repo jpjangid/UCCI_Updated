@@ -1,0 +1,21 @@
+<p-dialog visible="true" [closable]="false" [draggable]="false" [style]="{width: '50vw'}">
+    <ng-template pTemplate="header">
+        <h3>
+            Access Alert
+        </h3>
+    </ng-template>
+    <section class="authorization_section">
+        <div class="container">
+            <div class="modal_text text-center">
+                <div class="icon_class">
+                    <i class="pi pi-exclamation-circle"></i>
+                </div>
+                <span>Please login first to access this service!</span>
+            </div>
+        </div>
+    </section>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" routerLink="/" label="Ok" styleClass="p-button-text">
+        </p-button>
+    </ng-template>
+</p-dialog>

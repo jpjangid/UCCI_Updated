@@ -1,0 +1,71 @@
+@import "../../dashboard/dashboard.component.scss";
+.form-group {
+    select {
+        display: block;
+        height: 48px;
+        line-height: 48px;
+        border-radius: 5px;
+        cursor: pointer;
+        background: #f9f9f9;
+        transition: var(--transition);
+        border: 1px solid #e5e7f2;
+        color: #7d93b2;
+        width: 100%;
+        font-weight: 400;
+        font-size: var(--fontSize);
+    }
+    .form-control {
+        height: 48px;
+        background: #f9f9f9 !important;
+        transition: var(--transition);
+        border-radius: 5px;
+        border: 1px solid #e5e7f2 !important;
+        color: var(--blackColor) !important;
+        font-weight: 400;
+        font-size: var(--fontSize);
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+.col-lg-12 {
+    // display: flex;
+    justify-content: space-between;
+}
+// label {
+//     color: var(--blackColor);
+// }
+.widget-title {
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 20px;
+}
+.widget-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 1px;
+    bottom: -1px;
+    background-color: var(--mainColor);
+}
+.header {
+    font-size: 18px;
+    color: #737373;
+}
+::ng-deep {
+    .p-dialog {
+        height: 400px;
+    }
+    .p-button.p-button-rounded {
+        border-radius: 50%;
+        height: 2.357rem;
+    }
+    .p-sidebar-right {
+        width: 22rem !important;
+    }
+}

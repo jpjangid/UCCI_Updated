@@ -1,0 +1,300 @@
+<app-navbar-style-one></app-navbar-style-one>
+<p-toast></p-toast>
+<section *ngIf="!localStorage" [style]="{height: '85vh'}">
+    <app-non-authorized-modal></app-non-authorized-modal>
+</section>
+<div class="document-attestation-form" *ngIf="localStorage">
+    <section class="attestation-form" *ngIf="showForm">
+        <div class="container">
+            <div class="heading_section">
+                <div class="row m-0">
+                    <h3 class="m-0 px-0 mb-3">Document Attestation Form</h3>
+                </div>
+            </div>
+            <form [formGroup]="documentAttestationForm" (ngSubmit)="documentAttestation()">
+                <!-- basic information -->
+                <div class="add-listings-box">
+                    <div class="add-header">
+                        <h3>Basic Informations</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label>Consignee:</label>
+                                <input type="text" class="form-control" formControlName="consignee" placeholder="Consignee">
+                                <div *ngIf="submitted &&
+                                    f.consignee.errors?.required ||
+                                    f.consignee.touched" class="alert alert-danger">
+                                    <div *ngIf="f.consignee.errors?.required">Consignee is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Exporter:</label>
+                                <input type="text" class="form-control" formControlName="exporter" placeholder="Exporter">
+                                <div *ngIf="submitted &&
+                                    f.exporter.errors?.required ||
+                                    f.exporter.touched" class="alert alert-danger">
+                                    <div *ngIf="f.exporter.errors?.required">Exporter is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Invoice No:</label>
+                                <input type="text" formControlName="invoiceno" maxlength="16" (keydown)="bloackAlphabet($event)" pattern="^((\\+91-?)|0)?[0-9]{16}$" class="form-control" placeholder="Invoice No">
+                                <div *ngIf="submitted &&
+                                    f.invoiceno.errors?.required ||
+                                    f.invoiceno.touched" class="alert alert-danger">
+                                    <div *ngIf="f.invoiceno.errors?.required">Invoice No is required
+                                    </div>
+                                    <div *ngIf="f.invoiceno.errors?.pattern">
+                                        Please enter 16 digits invoice number
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Invoice Date:</label>
+                                <p-calendar formControlName="invoicedate" showClear="true" placeholder="Please Select Date :
+                                    YYYY/MM/DD" [showIcon]="true" readonly></p-calendar>
+                                <!-- <input type="date" class="form-control"
+                                formControlName="invoicedate"
+                                placeholder="Part Invoice Number"> -->
+                                <div *ngIf="submitted &&
+                                    f.invoicedate.errors?.required ||
+                                    f.invoicedate.touched" class="alert alert-danger">
+                                    <div *ngIf="f.invoicedate.errors?.required">Invoice Date is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Port of Loading:</label>
+                                <input type="text" class="form-control" formControlName="portofloading" placeholder="Port of Loading">
+                                <div *ngIf="submitted &&
+                                    f.portofloading.errors?.required ||
+                                    f.portofloading.touched" class="alert alert-danger">
+                                    <div *ngIf="f.portofloading.errors?.required">Port of Loading is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Final Destination:</label>
+                                <input type="text" class="form-control" formControlName="finaldestination" placeholder="Final Destination">
+                                <div *ngIf="submitted &&
+                                    f.finaldestination.errors?.required ||
+                                    f.finaldestination.touched" class="alert alert-danger">
+                                    <div *ngIf="f.finaldestination.errors?.required">Final Destination is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Manufacturer:</label>
+                                <input type="text" class="form-control" formControlName="manufacturer" placeholder="Manufacturer">
+                                <div *ngIf="submitted &&
+                                    f.manufacturer.errors?.required ||
+                                    f.manufacturer.touched" class="alert alert-danger">
+                                    <div *ngIf="f.manufacturer.errors?.required">Manufacturer is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Port of Discharge:</label>
+                                <input type="text" class="form-control" formControlName="portofdischarge" placeholder="Port of Discharge">
+                                <div *ngIf="submitted &&
+                                    f.portofdischarge.errors?.required ||
+                                    f.portofdischarge.touched" class="alert alert-danger">
+                                    <div *ngIf="f.portofdischarge.errors?.required">Port of Discharge is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Invoice Document:</label>
+                                <input type="file" class="inputfile"
+                                    formControlName="invoicedocument"
+                                    (change)="processImage($event,'invoice')"
+                                    placeholder="Invoice Document">
+                                <div *ngIf="submitted &&
+                                    f.invoicedocument.errors?.required ||
+                                    f.invoicedocument.touched" class="alert alert-danger">
+                                    <div *ngIf="f.invoicedocument.errors?.required">Invoice Document is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Dispatched By:</label>
+                                <input type="text" class="form-control" formControlName="dispatchedby" placeholder="Dispatched By">
+                                <div *ngIf="submitted &&
+                                    f.dispatchedby.errors?.required ||
+                                    f.dispatchedby.touched" class="alert alert-danger">
+                                    <div *ngIf="f.dispatchedby.errors?.required">Dispatched By is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Information:</label>
+                                <textarea type="text" class="form-control" formControlName="information" placeholder="Other Information">
+                                </textarea>
+                                <div *ngIf="submitted &&
+                                    f.information.errors?.required ||
+                                    f.information.touched" class="alert alert-danger">
+                                    <div *ngIf="f.information.errors?.required">
+                                        Information is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Documents:</label>
+                                <input type="file" class="inputfile"
+                                    formControlName="documents"
+                                    (change)="processImage($event,'documents')"
+                                    placeholder="Other Information">
+                                <div *ngIf="submitted &&
+                                    f.documents.errors?.required ||
+                                    f.documents.touched" class="alert alert-danger">
+                                    <div *ngIf="f.documents.errors?.required">
+                                        Document is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- submit  button-->
+                <div class="add-listings-btn mt-5">
+                    <button type="submit" class="button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- payment section if form submitted successfully -->
+    <section *ngIf="!showForm">
+        <div class="container">
+            <div class="payment-section">
+                <div class="user-form-details">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="header">
+                                <h3>Document Summary</h3>
+                            </div>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="product-name">Consignee:</td>
+                                        <td class="product-total">{{FormDataValue.consignee}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Exporter:</td>
+                                        <td class="product-total">{{FormDataValue.exporter}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Invoice No:</td>
+                                        <td class="product-total">{{FormDataValue.invoiceno}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Invoice Date:</td>
+                                        <td class="product-total">{{FormDataValue.invoicedate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Port of Loading:
+                                        </td>
+                                        <td class="product-total">{{FormDataValue.portofloading}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Final Destination:
+                                        </td>
+                                        <td class="product-total">{{FormDataValue.finaldestination}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Manufacturer:</td>
+                                        <td class="product-total">{{FormDataValue.manufacturer}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Port of Discharge:
+                                        </td>
+                                        <td class="product-total">{{FormDataValue.portofdischarge}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                            <td class="product-name">Invoice Document:</td>
+                                            <td class="product-total">{{FormDataValue.invoicedocument}}</td>
+                                        </tr> -->
+                                    <tr>
+                                        <td class="product-name">Dispatched By:</td>
+                                        <td class="product-total">{{FormDataValue.dispatchedby}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">Information:</td>
+                                        <td class="product-total">{{FormDataValue.information}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                            <td class="product-name">Documents:</td>
+                                            <td class="product-total">{{FormDataValue.documents}}</td>
+                                        </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="header">
+                                <h3>Payment Details</h3>
+                            </div>
+                            <div class="payment-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <ng-container *ngFor="let data of
+                                            getFormdata.fee">
+                                            <tr>
+                                                <td class="product-name">Member Amount
+                                                </td>
+                                                <td class="product-total">{{data.member_amount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="product-name">Fee Name
+                                                </td>
+                                                <td class="product-total">{{data.fee_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="product-name">Fee Category
+                                                </td>
+                                                <td class="product-total">{{data.fee_category}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="product-name">Taxes</td>
+                                                <td class="product-total">{{data.taxes}}</td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                <button type="submit" (click)="paymentFOrAttestation(getFormdata.pay,getFormdata.id.id)" class="button">Proceed to Pay</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<app-footer-style-two></app-footer-style-two>

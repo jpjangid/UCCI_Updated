@@ -1,0 +1,89 @@
+<div class="add-listings-box">
+  <!-- <h3></h3> -->
+  <form [formGroup]="facilityBookingForm" (ngSubmit)="onFacilityDetailsSubmit()">
+    <div class="row" style="min-height: 58vh;">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group"> Selected Place :
+          <div class="form-control">
+            <span style="display: flex; align-items: center; height: 28px;">{{selectedData.value.place.fee_name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group"> Selected Date :
+          <div class="form-control">
+            <span style="display: flex; align-items: center; height: 28px;">{{selectedData.date}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group"> Name<span style="color: red;">*</span>:
+          <input type="text" class="form-control" placeholder="Name" formControlName="booked_by">
+          <!-- <span *ngIf="this.validText == false;" style="color: red; font-size: 12px;">Name Required</span> -->
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="meetingTypeState">
+          <div class="form-group"> Meeting Type<span style="color: red;">*</span>:
+            <ul class="facilities-list">
+              <li>
+                <label class="checkbox">
+                  <input type="radio" name="booking_type" value="internal" formControlName="booking_type">
+                  <span>Internal</span>
+                </label>
+              </li>
+              <li>
+                <label class="checkbox">
+                  <input type="radio" name="booking_type" value="external" formControlName="booking_type">
+                  <span>External</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="form-group">
+          <ul class="facilities-list">
+            <li>
+              <label class="checkbox">
+                <input type="radio" name="additional_services" formControlName="additional_services" value="" checked>
+                <span>None</span>
+              </label>
+            </li>
+            <li *ngFor="let item of radioData">
+              <label class="checkbox" >
+                <input type="radio" name="additional_services" [value]="item.fee_name" formControlName="additional_services">
+                <span>{{item.fee_name}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="form-group">
+          <ul class="facilities-list">
+           <li>
+            <label class="checkbox">
+              <input type="checkbox" name="supportStaff" formControlName="support_staff">
+              <span class="check-box">Support Staff ( Weekend / Pre / Post Office Hours)</span>
+            </label>
+           </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="add-listings-btn" style="text-align: left;">
+          <button type="button" (click)="onBackPress()">Back</button>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="add-listings-btn right">
+          <button type="submit">Next</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+
+</div> 

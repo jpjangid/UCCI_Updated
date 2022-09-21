@@ -1,0 +1,148 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { NgWizardService } from 'ng-wizard';
+import { MessageService } from 'primeng/api';
+import { FacilityBookingService } from 'src/app/services/facility-booking.service';
+
+@Component({
+  selector: 'app-booking-form',
+  templateUrl: './booking-form.component.html',
+  styleUrls: ['./booking-form.component.scss'],
+})
+export class BookingFormComponent implements OnInit {
+  @Output() mode: any = new EventEmitter<any>();
+  @Input() selectedData: any;
+
+  facilityBookingForm = this.fb.group({
+    booking_type: ['', Validators.required],
+    booking_date: ['', Validators.required],
+    booked_by: ['', Validators.required],
+    place: ['', Validators.required],
+    additional_services: [''],
+    support_staff: [''],
+  });
+  radioData: any;
+
+  selectedOptionState: boolean = false;
+
+  changedValue: string;
+
+  supportStaffValue: string;
+
+  meetingTypeState: boolean = false;
+
+  date: any;
+
+  moment = moment;
+  constructor(
+    private fb: FormBuilder,
+    private FacilityBookingService: FacilityBookingService,
+    private messageService: MessageService,
+    private ngWizardService: NgWizardService
+  ) {}
+
+  ngOnInit(): void {
+    this.getData();
+    var role = JSON.parse(localStorage.getItem('access_token')).role;
+    if (role == 'UCCI Staff' || role == 'Admin') {
+      this.meetingTypeState = true;
+    }
+
+
+    // this.facilityBookingForm.value.place =
+    //   this.selectedData.value.place.fee_name;
+
+    // this.facilityBookingForm.value.booking_date = this.selectedData.value.date;
+    // console.log(this.facilityBookingForm.value);
+
+    // this.facilityBookingForm.value.support_staff = this.facilityBookingForm
+    //   .value.support_staff
+    //   ? this.supportStaffValue
+    //   : '';
+
+    // this.facilityBookingForm.value.additional_services = this.changedValue;
+    // this.facilityBookingForm.value.booking_type = 'external';
+  }
+
+  
+  ngOnChanges() {
+    this.facilityBookingForm.patchValue({place: this.selectedData.value.place.fee_name});
+
+    this.facilityBookingForm.patchValue({booking_date: this.selectedData.value.date});
+
+    var supportStaff = this.facilityBookingForm.value.support_staff?  'Support Staff'
+    : '';
+    this.facilityBookingForm.patchValue({support_staff: supportStaff});
+    
+    this.facilityBookingForm.value.additional_services = this.changedValue;
+    this.facilityBookingForm.value.booking_type = 'external';
+
+    console.log(this.facilityBookingForm.value);
+    
+
+    // set meeting type as user role
+
+    var role = JSON.parse(localStorage.getItem('access_token')).role;
+
+    if (role == 'Nominee 2' || role == 'Nominee 1' || role == 'NM') {
+      this.facilityBookingForm.patchValue({ booking_type: 'external' });
+    } else if (role == 'UCCI Staff' || role == 'Admin') {
+      this.meetingTypeState = true;
+    }
+  }
+  
+
+  onBackPress() {
+    // this.ngWizardService.previous();
+  }
+
+  onFacilityDetailsSubmit() {
+   
+    // post Form data on api
+    if (this.facilityBookingForm.valid) {
+      if (this.facilityBookingForm.value.booking_type == 'external') {
+        this.FacilityBookingService.insertFacilityData(
+          this.facilityBookingForm.value
+        ).subscribe((res) => {
+          this.mode.emit({ selectedPlaceData: res });
+          this.ngWizardService.next();
+        });
+      } else if (this.facilityBookingForm.value.booking_type == 'internal') {
+        this.FacilityBookingService.insertFacilityData(
+          this.facilityBookingForm.value
+        ).subscribe((res) => {
+          this.mode.emit({ selectedPlaceData: res });
+        });
+      }
+    }
+
+    if (this.facilityBookingForm.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Some field are not filled',
+        detail: 'Please fill all details',
+      });
+    }
+  }
+
+  // onSelect(e) {
+  //   // this.changedValue = e.target.value;
+  // }
+
+  // onAddServicePress(e) {
+  //   this.facilityBookingForm.value.additional_services = `${this.changedValue} ${e.target.value}`;
+  // }
+
+  getData() {
+    this.FacilityBookingService.getFacilityData().subscribe((res) => {
+      this.radioData = res.additionals;
+
+      this.supportStaffValue = res.support[0].fee_name;
+
+      console.log("support ", this.supportStaffValue);
+      
+    });
+  }
+}

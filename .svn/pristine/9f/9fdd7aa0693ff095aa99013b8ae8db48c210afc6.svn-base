@@ -1,0 +1,143 @@
+<p-toast></p-toast>
+<!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
+
+<div class="add-listings-box">
+  <h3>Payment</h3>
+  <div class="row">
+    <h6>Company Information</h6> <br>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Company/Organisation Name</span>:
+      <span>{{recivedData.company}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Category</span>: <span>{{recivedData.category}}</span>
+    </div>
+    <h6>Embessy/Consunlate</h6> <br>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Embessy Name</span>: <span>{{recivedData.embassy}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Country</span>: <span>{{recivedData.country}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Subject</span>: <span>{{recivedData.subject}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Address</span>: <span>{{recivedData.address}}</span>
+    </div>
+    <h6>Travel Details</h6> <br>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Visit Country</span>: <span>{{recivedData.visitcountry}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Visit Date</span>: <span>{{recivedData.visitdate}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Reason For Visit</span>: <span>{{recivedData.reason}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">End Date</span>: <span>{{recivedData.enddate}}</span>
+    </div>
+
+    <h6>Traveler Information</h6> <br>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Name</span>: <span>{{recivedData.name}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Designation</span>: <span>{{recivedData.designation}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Works at</span>: <span>{{recivedData.work}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Nationality</span>: <span>{{recivedData.nationality}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Date of birth</span>: <span>{{recivedData.dob}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Place of birth</span>: <span>{{recivedData.placeofbirth}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Passport No</span>: <span>{{recivedData.passport}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Date of issue</span>: <span>{{recivedData.issuedate}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Place of issue</span>: <span>{{recivedData.placeofissue}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Date of expiry</span>: <span>{{recivedData.expirydate}}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+      <span style="font-weight: 500; font-size: 1rem;">Total Amount</span>: <span>{{amount[0].member_amount}}</span>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-12">
+      <div class="add-listings-btn" style="text-align: left;">
+        <button type="button" (click)="onBackPress()">Back</button>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <div class="add-listings-btn" style="text-align: right;">
+        <button type="button" (click)="onPayment()">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Upload Documents" [(visible)]="uploadModal" [modal]="true"  [style]="{width: '50vw'}" [baseZIndex]="10001" [draggable]="false" [autoZIndex]="false"
+  [resizable]="false" [closable]="false" [closeOnEscape]="false">
+  <form [formGroup]="docUploadForm" #docForm="ngForm" (ngSubmit)="onDocUpload()">
+    <div style="padding: 15px;">
+      <div>
+        <div class="dropzone" fileDragDrop (filesChangeEmiter)="onFileChange($event)">
+          <div class="text-wrapper">
+            <div class="centered">
+              <input type="file" name="file" id="file" formControlName="invoice_doc"
+                (change)="onFileChange($event.target.files)"
+                [class.is-invalid]="(docForm.submitted && docUploadForm.get('invoice_doc')?.invalid) || docUploadForm.get('invoice_doc')?.invalid && docUploadForm.get('invoice_doc').touched"><br><br>
+              <label for="file"><span class="textLink"><span class="bx bx-upload"></span> &nbsp; Select your file</span> <br><br> or Drop it here!</label>
+              <div class="invalid-feedback">Document Required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div *ngIf="show">
+        <h3>Files</h3>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="fileItem" *ngFor="let f of files; let i = index">
+            <div class="fileItemText">
+              <span>{{f.name}}</span>
+            </div>
+            <div class="fileItemIconDiv" >
+              <!-- <i class="bx bx-x fileItemIcon"></i> -->
+              <button pButton pRipple icon="bx bx-x" class="p-button-rounded p-button-danger p-button-text mr-2" (click)="openConfirmDialog(i);"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!-- <ng-template pTemplate="footer"> -->
+    <!-- <div class="col-lg-6 col-md-12"> -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="add-listings-btn" style="text-align: right;">
+          <button type="submit">Ok</button>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <!-- <p-button icon="pi pi-check" (click)="onDocUpload()" label="Ok" styleClass="p-button-text"></p-button> -->
+    <!-- </ng-template> -->
+  </form>
+</p-dialog>
+<p-confirmDialog header="Remove Document" icon="pi pi-exclamation-triangle" [baseZIndex]="100" [autoZIndex]="false"></p-confirmDialog>

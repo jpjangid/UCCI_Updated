@@ -1,0 +1,30 @@
+<!-- <app-dashboard-sidemenu></app-dashboard-sidemenu> -->
+
+<app-navbar-style-one></app-navbar-style-one>
+
+  
+<div style="background-color: #fafafa; min-height: 100vh;
+padding: 120px 0 70px 0;">
+
+  
+  <div class="container">
+    <ng-wizard [config]="config" >
+      
+      <ng-wizard-step canEnter="false">
+       <!-- <app-success [statusMsg]="'statusMsg'"></app-success> -->
+       <app-visa-recommendation-form (submitedData)="getData($event)"></app-visa-recommendation-form>
+     </ng-wizard-step>
+     
+     <ng-wizard-step canEnter="false">
+       <div *ngIf="submitedData != undefined">
+        <app-visa-payment [submitedData]="submitedData" (statusMsg)="setStatusMsg($event)"></app-visa-payment>
+       </div>
+     </ng-wizard-step>
+     <ng-wizard-step canEnter="false">
+        <app-success [statusMsg]="statusMsg"></app-success>
+     </ng-wizard-step>
+   </ng-wizard>
+  </div>
+</div>
+<!-- </div> -->
+<app-footer-style-one></app-footer-style-one> 

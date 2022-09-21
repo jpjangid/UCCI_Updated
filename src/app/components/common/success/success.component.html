@@ -1,0 +1,28 @@
+<div class="add-listings-box" *ngIf="state == false">
+  <div class="wrapper red" >
+    <div class="header__wrapper">
+      <div class="header">
+        <div class="sign"><span></span></div>
+      </div>
+    </div>
+    <h1>Whooops</h1>
+    <p>Something went wrong, please try again.</p>
+    
+    <button>Dismiss</button>
+  </div>
+</div>
+
+<div class="add-listings-box" *ngIf="state == true">
+  
+<div class="wrapper green" >
+  <div class="header__wrapper">
+    <div class="header">
+      <div class="sign"><span></span></div>
+    </div>
+  </div>
+  <h1>Yeah</h1>
+  <p>{{statusMsg}}</p>
+  
+  <button routerLink="">Go to home page</button>
+</div>
+</div>

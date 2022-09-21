@@ -1,0 +1,217 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ApiService } from 'src/app/services/api.service';
+import { FacilityBookingService } from 'src/app/services/facility-booking.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { NgWizardService } from 'ng-wizard';
+import { CommonClass } from 'src/app/common';
+
+@Component({
+  selector: 'app-visa-recommendation-form',
+  templateUrl: './visa-recommendation-form.component.html',
+  styleUrls: ['./visa-recommendation-form.component.scss'],
+  providers: [MessageService, ConfirmationService],
+})
+export class VisaRecommendationFormComponent implements OnInit {
+  @Output() submitedData: any = new EventEmitter<any>();
+
+  visaRecommendationForm = this.fb.group({
+    company: ['', Validators.required],
+    category: ['', Validators.required],
+    embassy: ['', Validators.required],
+    country: ['', Validators.required],
+    subject: ['', Validators.required],
+    address: ['', Validators.required],
+    visitcountry: ['', Validators.required],
+    reason: ['', Validators.required],
+    visitdate: ['', Validators.required],
+    enddate: ['', Validators.required],
+    name: ['', Validators.required],
+    designation: ['', Validators.required],
+    work: ['', Validators.required],
+    nationality: ['', Validators.required],
+    dob: ['', Validators.required],
+    placeofbirth: ['', Validators.required],
+    passport: ['', Validators.required],
+    issuedate: ['', Validators.required],
+    placeofissue: ['', Validators.required],
+    expirydate: ['', Validators.required],
+  });
+
+  CategoryDropDown: any = [
+    { id: 1, name: '---Select Category---' },
+    { id: 1, name: 'Category 1' },
+    { id: 1, name: 'Category 2' },
+    { id: 1, name: 'Category 3' },
+    { id: 1, name: 'Category 4' },
+  ];
+
+  preFix: any = [
+    { id: 1, name: 'Ms' },
+    { id: 1, name: 'Mrs' },
+  ];
+
+  singleSelect: any = [];
+  multiSelect: any = [];
+  stringArray: any = [];
+  objectsArray: any = [];
+  resetOption: any;
+
+  config: any = {
+    displayKey: 'name',
+    search: true,
+    focus: true,
+  };
+
+  country: any;
+
+  embassy: any = [
+    { id: 1, name: 'Embassy 1' },
+    { id: 2, name: 'Embassy 2' },
+    { id: 3, name: 'Embassy 3' },
+    { id: 4, name: 'Embassy 4' },
+    { id: 5, name: 'Embassy 5' },
+    { id: 6, name: 'Embassy 6' },
+    { id: 7, name: 'Embassy 7' },
+    { id: 8, name: 'Embassy 8' },
+    { id: 9, name: 'Embassy 9' },
+    { id: 10, name: 'Embassy 10' },
+    { id: 11, name: 'Embassy 11' },
+    { id: 12, name: 'Embassy 12' },
+    { id: 13, name: 'Embassy 13' },
+    { id: 14, name: 'Embassy 14' },
+    { id: 15, name: 'Embassy 15' },
+  ];
+
+  nationality: any = [
+    { name: 'Indian' },
+    { name: 'American' },
+    { name: 'American' },
+    { name: 'Iraqi' },
+    { name: 'Kuwaiti' },
+    { name: 'Kuwaiti' },
+    { name: 'Malaysian' },
+    { name: 'Maldivian' },
+    { name: 'American' },
+    { name: 'Canadian' },
+  ];
+
+  // selectedCountry: any = [];
+  selectedCountry: string;
+
+  // selectedEmbassy: any = [];
+
+  slectedNationality: string;
+
+  slectedvisitcountry: string;
+
+  mode: string = 'form';
+
+  filledUserInfo: any;
+
+  selectedEmbassy: string;
+
+  localStorage:any;
+
+  constructor(
+    private fb: FormBuilder,
+    private ApiService: ApiService,
+    private FacilityBookingService: FacilityBookingService,
+    private MessageService: MessageService,
+    private ngWizardService: NgWizardService,
+    private commonFunction : CommonClass
+  ) {}
+
+  ngOnInit(): void {
+    this.localStorage = this.commonFunction.getLocalStorage();
+    this.FacilityBookingService.getCountryWithJson().subscribe((res) => {
+      console.log(res);
+      this.country = res.data;
+    });
+    debugger;
+    console.log('fuewids', this.visaRecommendationForm.value.embassy);
+  }
+  onChange() {
+    console.log('fre', this.visaRecommendationForm.value);
+  }
+  onSubmit() {
+    if (this.visaRecommendationForm.invalid) {
+      this.MessageService.add({
+        severity: 'error',
+        summary: 'Some details are not filled',
+        detail: 'Please fill all details',
+      });
+    } else if (this.visaRecommendationForm.valid) {
+      var selectedCountry = [];
+      selectedCountry.push(this.visaRecommendationForm.value.country);
+      this.visaRecommendationForm.patchValue({country: selectedCountry[0].name});
+
+      var selectedEmbassy = [];
+      selectedEmbassy.push(this.visaRecommendationForm.value.embassy);
+      this.visaRecommendationForm.patchValue({embassy: selectedEmbassy[0].name}) ;
+
+      var slectedNationality = [];
+      slectedNationality.push(
+        this.visaRecommendationForm.value.nationality
+      );
+      this.visaRecommendationForm.patchValue({nationality: slectedNationality[0].name});
+
+      var slectedvisitcountry = [];
+      slectedvisitcountry.push(this.visaRecommendationForm.value.visitcountry);
+
+      this.visaRecommendationForm.patchValue({visitcountry: slectedvisitcountry[0].name});
+
+      this.visaRecommendationForm.value.dob = moment(
+        this.visaRecommendationForm.value.dob
+      ).format('YYYY/MM/DD');
+
+      this.visaRecommendationForm.value.visitdate = moment(
+        this.visaRecommendationForm.value.visitdate
+      ).format('YYYY/MM/DD');
+
+      this.visaRecommendationForm.value.enddate = moment(
+        this.visaRecommendationForm.value.enddate
+      ).format('YYYY/MM/DD');
+
+      this.visaRecommendationForm.value.issuedate = moment(
+        this.visaRecommendationForm.value.issuedate
+      ).format('YYYY/MM/DD');
+
+      this.visaRecommendationForm.value.expirydate = moment(
+        this.visaRecommendationForm.value.expirydate
+      ).format('YYYY/MM/DD');
+
+      this.ApiService.postVisaServiceDetails(
+        this.visaRecommendationForm.value
+      ).subscribe((res) => {
+        console.log('after submit : ', this.visaRecommendationForm.value);
+
+        console.log('Response : ', res);
+        this.filledUserInfo = this.visaRecommendationForm.value;
+        this.mode = 'payment';
+        this.MessageService.add({
+          severity: 'success',
+          summary: 'Service Message',
+          detail: res.message,
+        });
+        this.ngWizardService.next();
+        this.submitedData.emit({
+          submitedData: this.visaRecommendationForm.value,
+          response: res,
+        });
+        this.visaRecommendationForm.reset();
+        // Object.keys(this.visaRecommendationForm.controls).forEach((key) => {
+        //   this.visaRecommendationForm.controls[key].setErrors(null);
+        // });
+      });
+    }
+  }
+
+  searchChange($event) {
+    console.log($event);
+  }
+  reset() {
+    this.resetOption = [];
+  }
+}

@@ -1,0 +1,46 @@
+import { Component, OnInit } from '@angular/core';
+import { RaiseIssueService } from 'src/app/services/raise-issue.service';
+import { CommonClass } from 'src/app/common';
+
+@Component({
+  selector: 'app-raise-issues-list',
+  templateUrl: './raise-issues-list.component.html',
+  styleUrls: ['./raise-issues-list.component.scss']
+})
+export class RaiseIssuesListComponent implements OnInit {
+  getIssueData: any = [];
+  loading: boolean = false;
+  display: boolean = false;
+  displayDetails: boolean = false;
+  visibleSidebar2;
+  issuesActions: any = [];
+  localStorage:any;
+  constructor(private commonFunction : CommonClass, private raiseissueservice: RaiseIssueService) { }
+
+  ngOnInit(): void {
+this.localStorage = this.commonFunction.getLocalStorage();
+    this.getAllRaiseIssues()
+  }
+  // show dialog
+  showDialog() {
+    this.display = true;
+  }
+  // show details dialog
+  showDetailsDialog() {
+    this.displayDetails = true;
+  }
+  // get all raised issue
+  getAllRaiseIssues() {
+    this.raiseissueservice.getRaiseIssues().subscribe((res: any) => {
+      this.getIssueData = res.allIssues
+      this.getIssueData.map((response: any) => {
+        response.actions.map((object: any) => {
+          this.issuesActions.push(response)
+          console.log(object);
+        })
+        // console.log(response);
+      })
+      console.log(res.allIssues);
+    })
+  }
+}

@@ -1,0 +1,63 @@
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+<section *ngIf="!localStorage" [style]="{height: '85vh'}">
+  <app-non-authorized-modal></app-non-authorized-modal>
+</section>
+<!-- <app-dashboard-sidemenu></app-dashboard-sidemenu> -->
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+
+  <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+
+  <app-navbar-style-one></app-navbar-style-one>
+
+  <!-- ********************** Breadcrumb Area  ******************** -->
+
+  <!-- <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+    <h1>{{Content.title}}</h1>
+    <ol class="breadcrumb">
+      <li class="item"><a routerLink="/">Home</a></li> -->
+  <!-- <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li> -->
+  <!-- <li class="item">{{Content.title}}</li>
+    </ol>
+  </div> -->
+
+  <!-- <div style="background-color: #fafafa; min-height: 100vh;">
+
+    <div class="container"> -->
+  <section class="facility-booking-form-section" *ngIf="localStorage">
+    <div class="container">
+      <div class="heading_section">
+        <div class="row m-0">
+          <h3 class="m-0 px-0 mb-3">Facility Booking Form</h3>
+        </div>
+      </div>
+      <ng-wizard [config]="config">
+        <ng-wizard-step canEnter="false">
+          <app-selection (emitedData)="onselectionPress($event)" (mode)="onModeChange($event)"></app-selection>
+    
+        </ng-wizard-step>
+        <ng-wizard-step canEnter="false">
+          <div *ngIf="formState">
+    
+            <app-booking-form (mode)="onChangeMode($event)" [selectedData]="selectedData"></app-booking-form>
+          </div>
+        </ng-wizard-step>
+        <ng-wizard-step canEnter="false">
+          <div *ngIf="paymentState">
+            <app-external-booking (mode)="onchangeExternalMode($event)" [selectedPlaceData]="selectedPlaceData">
+            </app-external-booking>
+    
+          </div>
+    
+        </ng-wizard-step>
+    
+      </ng-wizard>
+    </div>
+  </section>
+</div>
+<!-- </div>
+</div> -->

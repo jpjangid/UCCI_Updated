@@ -1,0 +1,194 @@
+<app-navbar-style-one></app-navbar-style-one>
+
+<!-- Start Page Title Area -->
+<div class="page-title-area" *ngFor="let Content of pageTitleContent;" style="background-image: url({{Content.backgroundImage}});">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>{{Content.title}}</h2>
+            <ul>
+                <li><a routerLink="/">Home</a></li>
+                <li>{{Content.title}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title Area -->
+
+<!-- Start Blog Details Area -->
+<section class="blog-details-area bg-f9f9f9 ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="blog-details-desc">
+                    <div class="article-image">
+                        <img src="{{baseUrl + eventData.coverage_image}}" alt="image">
+                    </div>
+
+                    <div class="article-content">
+                        <div class="entry-meta">
+                            <ul>
+                                <li>
+                                    <i class='bx bx-pin'></i>
+                                    <span>Venue</span>
+                                    <a routerLink="/blog-grid">Auditorium</a>
+                                </li>
+                                <li>
+                                    <i class='bx bx-time'></i>
+                                    <span>Time</span>
+                                    {{eventData.date | date : 'HH:MM:SS'}}
+                                </li>
+                                <li>
+                                    <i class='bx bx-calendar'></i>
+                                    <span>Date</span>
+                                    {{eventData.date | date : 'dd/mm/yyyy'}}
+                                </li>
+                            </ul>
+                        </div>
+                        <h3>{{eventData.event_name}}</h3>
+                        <!-- <p>{{eventData.description}}</p> -->
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde laudantium veniam architecto a ratione ea, beatae nam saepe. Vitae impedit repellendus placeat quod. Repellat, odio illo. Repudiandae laudantium et assumenda? Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora ut dignissimos alias impedit debitis quasi eos harum reprehenderit voluptatem dolorum. Nam, quaerat! Eveniet impedit qui veniam in, quae voluptatibus ut.</p>
+                    </div>
+
+                    <div class="custom_form">
+                        <div class="form_heading">
+                            <h6>
+                                Event Registration Form
+                            </h6>
+                        </div>
+                        <lib-form-renderer *ngIf="customFromData" [jsonFormData]="customFromData"></lib-form-renderer>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-4 col-md-12">
+                <aside class="widget-area">
+                    <section class="widget widget_search">
+                        <h3 class="widget-title">Search</h3>
+
+                        <form class="search-form">
+                            <label>
+                                <span class="screen-reader-text">Search for:</span>
+                                <input type="search" class="search-field" placeholder="Search...">
+                            </label>
+                            <button type="submit"><i class="bx bx-search-alt"></i></button>
+                        </form>
+                    </section>
+
+                    <section class="widget widget_vesax_posts_thumb">
+                        <h3 class="widget-title">Popular Posts</h3>
+
+                        <article class="item">
+                            <a routerLink="/blog-details" class="thumb">
+                                <span class="fullimage cover bg1" role="img"></span>
+                            </a>
+                            <div class="info">
+                                <span>June 10, 2020</span>
+                                <h4 class="title usmall"><a routerLink="/blog-details">The Data Surrounding Higher Education</a></h4>
+                            </div>
+                            <div class="clear"></div>
+                        </article>
+
+                        <article class="item">
+                            <a routerLink="/blog-details" class="thumb">
+                                <span class="fullimage cover bg2" role="img"></span>
+                            </a>
+                            <div class="info">
+                                <span>June 21, 2020</span>
+                                <h4 class="title usmall"><a routerLink="/blog-details">Conversion Rate the Sales Funnel Optimization</a></h4>
+                            </div>
+                            <div class="clear"></div>
+                        </article>
+
+                        <article class="item">
+                            <a routerLink="/blog-details" class="thumb">
+                                <span class="fullimage cover bg3" role="img"></span>
+                            </a>
+                            <div class="info">
+                                <span>June 30, 2020</span>
+                                <h4 class="title usmall"><a routerLink="/blog-details">Business Data is changing the world’s Energy</a></h4>
+                            </div>
+                            <div class="clear"></div>
+                        </article>
+                    </section>
+
+                    <section class="widget widget_categories">
+                        <h3 class="widget-title">Categories</h3>
+
+                        <ul>
+                            <li><a routerLink="/blog-grid">Design <span class="post-count">(03)</span></a></li>
+                            <li><a routerLink="/blog-grid">Lifestyle <span class="post-count">(05)</span></a></li>
+                            <li><a routerLink="/blog-grid">Script <span class="post-count">(10)</span></a></li>
+                            <li><a routerLink="/blog-grid">Device <span class="post-count">(08)</span></a></li>
+                            <li><a routerLink="/blog-grid">Tips <span class="post-count">(01)</span></a></li>
+                        </ul>
+                    </section>
+
+                    <section class="widget widget_tag_cloud">
+                        <h3 class="widget-title">Popular Tags</h3>
+
+                        <div class="tagcloud">
+                            <a routerLink="/blog-grid">Business <span class="tag-link-count"> (3)</span></a>
+                            <a routerLink="/blog-grid">Design <span class="tag-link-count"> (3)</span></a>
+                            <a routerLink="/blog-grid">Aike <span class="tag-link-count"> (2)</span></a>
+                            <a routerLink="/blog-grid">Fashion <span class="tag-link-count"> (2)</span></a>
+                            <a routerLink="/blog-grid">Travel <span class="tag-link-count"> (1)</span></a>
+                            <a routerLink="/blog-grid">Smart <span class="tag-link-count"> (1)</span></a>
+                            <a routerLink="/blog-grid">Marketing <span class="tag-link-count"> (1)</span></a>
+                            <a routerLink="/blog-grid">Tips <span class="tag-link-count"> (2)</span></a>
+                        </div>
+                    </section>
+
+                    <section class="widget widget_instagram">
+                        <ul>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog9.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog8.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog7.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog6.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog5.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <img src="assets/img/blog/blog4.jpg" alt="image">
+                                    <i class="bx bxl-instagram"></i>
+                                    <a href="#" target="_blank" class="link-btn"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </aside>
+            </div> -->
+        </div>
+    </div>
+</section>
+<!-- End Blog Details Area -->
+
+<app-footer-style-one></app-footer-style-one>

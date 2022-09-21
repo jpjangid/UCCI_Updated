@@ -1,0 +1,46 @@
+<!-- <app-dashboard-sidemenu></app-dashboard-sidemenu> -->
+
+<app-navbar-style-one></app-navbar-style-one>
+
+<!-- ********************** Main Content ******************** -->
+
+<!-- <div class="main-content d-flex flex-column"> -->
+
+  <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+
+  <!-- ********************** Breadcrumb Area  ******************** -->
+
+  <!-- <div class="breadcrumb-area" *ngFor="let Content of breadcrumb;">
+    <h1>{{Content.title}}</h1>
+    <ol class="breadcrumb">
+      <li class="item"><a routerLink="/">Home</a></li>
+      <li class="item"><a routerLink="dashboard">{{Content.subTitle}}</a></li>
+      <li class="item">{{Content.title}}</li>
+    </ol>
+  </div> -->
+
+  <!-- ********************** End Breadcrumb Area  ******************** -->
+  
+<div style="background-color: #fafafa; min-height: 100vh;">
+
+  
+  <div class="container pt-100">
+    <ng-wizard [config]="config" >
+      
+      <ng-wizard-step canEnter="false">
+       <!-- <app-success [statusMsg]="'statusMsg'"></app-success> -->
+       <app-visa-recommendation-form (submitedData)="getData($event)"></app-visa-recommendation-form>
+     </ng-wizard-step>
+     
+     <ng-wizard-step canEnter="false">
+       <div *ngIf="submitedData != undefined">
+        <app-visa-payment [submitedData]="submitedData" (statusMsg)="setStatusMsg($event)"></app-visa-payment>
+       </div>
+     </ng-wizard-step>
+     <ng-wizard-step canEnter="false">
+        <app-success [statusMsg]="statusMsg"></app-success>
+     </ng-wizard-step>
+   </ng-wizard>
+  </div>
+</div>
+<!-- </div> -->

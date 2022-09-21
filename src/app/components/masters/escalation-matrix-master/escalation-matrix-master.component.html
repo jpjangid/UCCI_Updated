@@ -1,0 +1,131 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+<p-toast></p-toast>
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <div class="container">
+        <form [formGroup]="escalationMatrixForm" (ngSubmit)="escalationForm()">
+            <!-- basic information -->
+            <div class="add-listings-box">
+                <div class="add-header">
+                    <h3>Escalation Matrix Form</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label>User Id: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="userid"
+                                placeholder="User Id">
+                            <!-- <select formControlName="userid"
+                                required
+                                id="type">
+                                <option selected [value]=""
+                                    disabled>Select Member</option>
+                                <option *ngFor="let memberdata of
+                                    memberData" [value]="memberdata.id">{{memberdata.company_name}}</option>
+                            </select> -->
+                            <!-- <div *ngIf="submitted &&
+                                f.userid.errors?.required ||
+                                f.userid.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.userid.errors?.required">User Id
+                                    is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Username: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="username"
+                                placeholder="Username">
+                            <!-- <select formControlName="username"
+                                required
+                                id="type">
+                                <option selected [value]=""
+                                    disabled>Select Nominee</option>
+                                <option *ngFor="let nomineedetails of
+                                nomineeOneDetils" [value]="nomineedetails.id">{{nomineedetails.name}}</option>
+                            </select> -->
+                            <!-- <div *ngIf="submitted &&
+                                f.username.errors?.required ||
+                                f.username.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.username.errors?.required">Username
+                                    is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Issue Type: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="issuetype"
+                                placeholder="Issue Type">
+                            <!-- <select formControlName="issuetypeid"
+                                required
+                                id="type">
+                                <option selected [value]=""
+                                    disabled>Select Issue Type</option>
+                                <option *ngFor="let issue of
+                                    issueTypes" [value]="issue.id">{{issue.issues_types}}</option>
+                            </select> -->
+                            <!-- <input type="text" formControlName="issuetypeid"
+                                class="form-control" placeholder="No"> -->
+                            <!-- <div *ngIf="submitted &&
+                                f.issuetypeid.errors?.required ||
+                                f.issuetypeid.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="f.issuetypeid.errors?.required">Issue
+                                    type is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Escalation Level: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="escalationlevel"
+                                placeholder="Escalation Level">
+                            <!-- <div *ngIf="submitted &&
+                                f.escalationlevel.errors?.required ||
+                                f.escalationlevel.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="f.escalationlevel.errors?.required">Escalation Level
+                                    is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Expires In: <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control"
+                                formControlName="expiresin"
+                                placeholder="Location">
+                            <!-- <div *ngIf="submitted &&
+                                f.expiresin.errors?.required ||
+                                f.expiresin.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="f.expiresin.errors?.required">Expires in
+                                    is required
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- submit  button-->
+            <div class="add-listings-btn mt-5">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,397 @@
+<!-- <app-dashboard-sidemenu></app-dashboard-sidemenu> -->
+<p-toast life="50000"></p-toast>
+<app-navbar-style-one></app-navbar-style-one>
+
+<section class="non-member-form-section">
+    <div class="container">
+        <div class="heading_section">
+            <div class="row m-0">
+                <h3 class="m-0 px-0 pb-5">Registered Non Membership Form</h3>
+            </div>
+        </div>
+        <form (ngSubmit)="Register(register)" #register="ngForm">
+            <!-- basic information -->
+            <div class="add-listings-box">
+                <h3>Basic Informations</h3>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label>Company Name:</label>
+                            <input type="text" class="form-control" name="company_name" #company_name="ngModel" [(ngModel)]="nonMemberFormData.company_name" placeholder="Company Name" required>
+                            <div *ngIf="register.submitted || company_name.touched" class="alert alert-danger">
+                                <div *ngIf="company_name.errors?.['required']">
+                                    Company Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label>GST Number:</label>
+                            <input type="text" class="form-control" name="gst_number" [(ngModel)]="nonMemberFormData.gst_number" maxlength="15" placeholder="GST Number" #gst_number="ngModel" required>
+                            <div *ngIf="register.submitted || gst_number.touched" class="alert alert-danger">
+                                <div *ngIf="gst_number.errors?.['required']">
+                                    GST Number is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>GST Type:</label>
+                            <select name="gst_type" [(ngModel)]="nonMemberFormData.gst_type" class="selectpicker dropdown" id="type" data-live-search="true" #gst_type="ngModel" required>
+                                <option [ngValue]="null" disabled>Please Select GST Type</option>
+                                <option *ngFor="let item of gstTypes.data" [ngValue]="item.value">{{item.value}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || gst_type.touched" class="alert alert-danger">
+                                <div *ngIf="gst_type.errors?.['required']">
+                                    GST Type is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Exporter Type:</label>
+                            <select name="export_type" [(ngModel)]="nonMemberFormData.export_type" class="selectpicker dropdown" id="type" data-live-search="true" #export_type="ngModel" required>
+                                <option [ngValue]="null" disabled>Please Select GST Type</option>
+                                <option *ngFor="let item of exportTypes.data" [ngValue]="item.value">{{item.value}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || export_type.touched" class="alert alert-danger">
+                                <div *ngIf="export_type.errors?.['required']">
+                                    Exporter Type is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Party Type:</label>
+                            <select name="party_type" [(ngModel)]="nonMemberFormData.party_type" class="selectpicker dropdown" id="type" data-live-search="true" #party_type="ngModel" required>
+                                <option [ngValue]="null" disabled>Please Select Party Type</option>
+                                <option *ngFor="let item of partyTypes?.data" [ngValue]="item.value">{{item.value}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || party_type.touched" class="alert alert-danger">
+                                <div *ngIf="party_type.errors?.['required']">
+                                    Party Type is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Turnover:</label>
+                            <select name="turnover" [(ngModel)]="nonMemberFormData.turnover" class="selectpicker dropdown" id="type" data-live-search="true" #turnover="ngModel" required>
+                                <option [ngValue]="null" disabled>Please select Turnover</option>
+                                <option *ngFor="let item of turnoverData.data" [ngValue]="item.id">{{item.component}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || turnover.touched" class="alert alert-danger">
+                                <div *ngIf="turnover.errors?.['required']">
+                                    Turnover is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Nationality:</label>
+                            <select name="nationality" [(ngModel)]="nonMemberFormData.nationality" class="selectpicker dropdown" id="type" data-live-search="true" #nationality="ngModel" required>
+                                <option ngValue="null" disabled>Please Select Nationality</option>
+                                <option *ngFor="let item of nationalities.data" [ngValue]="item.value">{{item.value}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || nationality.touched" class="alert alert-danger">
+                                <div *ngIf="nationality.errors?.['required']">
+                                    Nationality is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Office Telephone:</label>
+                            <input type="text" class="form-control" name="office_telephone" maxlength="10" [(ngModel)]="nonMemberFormData.office_telephone" pattern="^((\\+91-?)|0)?[0-9]{10}$" placeholder="Office Telephone" #office_telephone="ngModel" required>
+                            <div *ngIf="register.submitted || office_telephone.touched" class="alert alert-danger">
+                                <div *ngIf="office_telephone.errors?.['required']">
+                                    Office Telephone is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- address section -->
+            <div class="add-listings-box">
+                <h3>Exporter Address</h3>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" name="address" [(ngModel)]="nonMemberFormData.address" placeholder="e.g. 55 County Laois" #address="ngModel" required>
+                            <div *ngIf="register.submitted || address.touched" class="alert alert-danger">
+                                <div *ngIf="address.errors?.['required']">
+                                    Address is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label>State:</label>
+                            <input placeholder="State" type="text" [(ngModel)]="nonMemberFormData.state" class="form-control" name="state" #state="ngModel" required>
+                            <div *ngIf="register.submitted || state.touched" class="alert alert-danger">
+                                <div *ngIf="state.errors?.['required']">
+                                    State is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label> City:</label>
+                            <input type="text" class="form-control" [(ngModel)]="nonMemberFormData.city" name="city" placeholder="City" #city="ngModel" required>
+                            <div *ngIf="register.submitted || city.touched" class="alert alert-danger">
+                                <div *ngIf="city.errors?.['required']">
+                                    City is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Zip Code:</label>
+                            <input placeholder="Zip Code" type="text" [(ngModel)]="nonMemberFormData.pin_code" class="form-control" name="pin_code" #pin_code="ngModel" required>
+                            <div *ngIf="register.submitted || pin_code.touched" class="alert alert-danger">
+                                <div *ngIf="pin_code.errors?.['required']">
+                                    Zip Code is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nominee one details -->
+            <div class="add-listings-box">
+                <h3>Nominee Details</h3>
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Name:</label>
+                            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="nonMemberFormData.name1" name="name1" #name1="ngModel" required>
+                            <div *ngIf="register.submitted || name1.touched" class="alert alert-danger">
+                                <div *ngIf="name1.errors?.['required']">
+                                    Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Designation:</label>
+                            <input type="text" class="form-control" placeholder="Designation" [(ngModel)]="nonMemberFormData.designation1" name="designation1" #designation1="ngModel" required>
+                            <div *ngIf="register.submitted || designation1.touched" class="alert alert-danger">
+                                <div *ngIf="designation1.errors?.['required']">
+                                    Designation is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Date of Birth:</label>
+                            <p-calendar name="date_of_birth1" showClear="true" [(ngModel)]="nonMemberFormData.date_of_birth1" placeholder="Please Select Date : YYYY/MM/DD" [showIcon]="true" #date_of_birth1="ngModel" required></p-calendar>
+                            <div *ngIf="register.submitted || date_of_birth1.touched" class="alert alert-danger">
+                                <div *ngIf="date_of_birth1.errors?.['required']">
+                                    DOB is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">E-Mail</label>
+                            <input type="email" class="form-control" placeholder="E-Mail" [(ngModel)]="nonMemberFormData.email1" email name="email1" #email1="ngModel" required>
+                            <div *ngIf="register.submitted || email1.touched" class="alert alert-danger">
+                                <div *ngIf="email1.errors?.['required']">
+                                    E-Mail is required.
+                                </div>
+                                <div *ngIf="email1.errors?.email">
+                                    E-Mail is not valid.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Office Phone:</label>
+                            <input type="text" name="office_phone1" class="form-control" [(ngModel)]="nonMemberFormData.office_phone1" maxlength="10" placeholder="Office Phone" #office_phone1="ngModel" required>
+                            <div *ngIf="register.submitted || office_phone1.touched" class="alert alert-danger">
+                                <div *ngIf="office_phone1.errors?.['required']">
+                                    Office Phone is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Mobile Number:</label>
+                            <input type="text" placeholder="Mobile Number" class="form-control" [(ngModel)]="nonMemberFormData.mobile_no1" maxlength="10" name="mobile_no1" #mobile_no1="ngModel" required>
+                            <div *ngIf="register.submitted || mobile_no1.touched" class="alert alert-danger">
+                                <div *ngIf="mobile_no1.errors?.['required']">
+                                    Mobile Number is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" name="nominee1_address" [(ngModel)]="nonMemberFormData.nominee1_address" placeholder="e.g. 55 County Laois" #nominee1_address="ngModel" required>
+                            <div *ngIf="register.submitted || nominee1_address.touched" class="alert alert-danger">
+                                <div *ngIf="nominee1_address.errors?.['required']">
+                                    Address is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" name="nominee1_city" placeholder="city" [(ngModel)]="nonMemberFormData.nominee1_city" class="form-control" #nominee1_city="ngModel" required>
+                            <div *ngIf="register.submitted || nominee1_city.touched" class="alert alert-danger">
+                                <div *ngIf="nominee1_city.errors?.['required']">
+                                    City is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>State:</label>
+                            <input placeholder="State" type="text" class="form-control" [(ngModel)]="nonMemberFormData.nominee1_state" name="nominee1_state" #nominee1_state="ngModel" required>
+                            <div *ngIf="register.submitted || nominee1_state.touched" class="alert alert-danger">
+                                <div *ngIf="nominee1_state.errors?.['required']">
+                                    State is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Zip Code:</label>
+                            <input placeholder="Zip Code" type="text" [(ngModel)]="nonMemberFormData.nominee1_pin_code" class="form-control" name="nominee1_pin_code" #nominee1_pin_code="ngModel" required>
+                            <div *ngIf="register.submitted || nominee1_pin_code.touched" class="alert alert-danger">
+                                <div *ngIf="nominee1_pin_code.errors?.['required']">
+                                    Zip Code is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" class="form-control" placeholder="Department" [(ngModel)]="nonMemberFormData.department1" name="department1" #department1="ngModel" required>
+                            <div *ngIf="register.submitted || department1.touched" class="alert alert-danger">
+                                <div *ngIf="department1.errors?.['required']">
+                                    Department is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Preferred Communication:</label>
+                            <input type="text" class="form-control" placeholder="Preferred Communication" [(ngModel)]="nonMemberFormData.preferred_communication1" name="preferred_communication1" #preferred_communication1="ngModel" required>
+                            <div *ngIf="register.submitted || preferred_communication1.touched" class="alert alert-danger">
+                                <div *ngIf="preferred_communication1.errors?.['required']">
+                                    Field is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Biodata:</label>
+                            <textarea type="text" placeholder="Bio Data" name="biodata1" [(ngModel)]="nonMemberFormData.biodata1" class="form-control" #biodata1="ngModel" required>
+                            </textarea>
+                            <div *ngIf="register.submitted || biodata1.touched" class="alert alert-danger">
+                                <div *ngIf="biodata1.errors?.['required']">
+                                    Biodata is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="file">Upload Photo:</label>
+                            <input name="nomineeimage1" type="file" accept="image/x-png,image/gif,image/jpeg" name="profile1" (change)="fileUpload($event)" id="nomineephotofile" [(ngModel)]="nonMemberFormData.profile1" class="inputfile" #profile1="ngModel" required/>
+                            <div *ngIf="register.submitted || profile1.touched" class="alert alert-danger">
+                                <div *ngIf="profile1.errors?.['required']">
+                                    Photo is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-listings-box">
+                <h3>Payment Details</h3>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Mode of Payment:</label>
+                            <select name="mode_of_payment" [(ngModel)]="nonMemberFormData.mode_of_payment" class="selectpicker dropdown" id="type" data-live-search="true" #mode_of_payment="ngModel" required>
+                                    <option [ngValue]="null" disabled>Please select Payment Mode</option>
+                                    <option *ngFor="let item of paymentModes.data" [ngValue]="item.value">{{item.value}}</option>
+                            </select>
+                            <div *ngIf="register.submitted || mode_of_payment.touched" class="alert alert-danger">
+                                <div *ngIf="mode_of_payment.errors?.['required']">
+                                    Payment Mode is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6" *ngIf="nonMemberFormData.mode_of_payment == 'Cheque' || nonMemberFormData.mode_of_payment == 'DD' ">
+                        <div class="form-group">
+                            <label>{{nonMemberFormData.mode_of_payment == 'Cheque' ? 'Cheque No.' : 'DD No.'}}:</label>
+                            <input type="text" class="form-control" placeholder="{{nonMemberFormData.mode_of_payment == 'Cheque' ? 'Cheque Number' : 'DD Number'}}" [(ngModel)]="nonMemberFormData.pay_method_number" name="pay_method_number" #pay_method_number="ngModel" required>
+                            <div *ngIf="register.submitted || pay_method_number.touched" class="alert alert-danger">
+                                <div *ngIf="pay_method_number.errors?.['required']">
+                                    Field is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6" *ngIf="nonMemberFormData.mode_of_payment == 'Cheque' || nonMemberFormData.mode_of_payment == 'DD' ">
+                        <div class="form-group">
+                            <label>{{nonMemberFormData.mode_of_payment == 'Cheque' ? 'Cheque Date' : 'DD Date'}}:</label>
+                            <p-calendar name="pay_method_date" showClear="true" [(ngModel)]="nonMemberFormData.pay_method_date" placeholder="{{nonMemberFormData.mode_of_payment == 'Cheque' ? 'Cheque Date' : 'DD Date'}}" [showIcon]="true" #pay_method_date="ngModel" required></p-calendar>
+                            <div *ngIf="register.submitted || pay_method_date.touched" class="alert alert-danger">
+                                <div *ngIf="pay_method_date.errors?.['required']">
+                                    Field is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- register form -->
+            <div class="add-listings-btn mt-5">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+<app-footer-style-two></app-footer-style-two>

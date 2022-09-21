@@ -1,0 +1,188 @@
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- details sidebar -->
+    <p-sidebar [(visible)]="visibleSidebar2" position="right"
+        [baseZIndex]="10000">
+        <section class="widget widget_categories">
+            <h3 class="widget-title">Raise Issue Details</h3>
+            <div class="form-group">
+                <div class="row status">
+                    <div *ngFor="let data of getIssueData">
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Issue Type:</label>
+                            <label for="name">{{data.issue_type_id}}</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Member Name:</label>
+                            <label for="name">{{data.member_id}}</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Nominee Name:</label>
+                            <label for="name">{{data.nominee_id}}
+                            </label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Priority:</label>
+                            <span *ngIf="getIssueData==top"
+                                class="top-priority">
+                                <label for="name">{{data.priority}}</label>
+                            </span>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <!-- <span class="moderate-priority">
+                                <label for="name">Moderate</label>
+                            </span>
+                            <span class="low-priority">
+                                <label for="name">Low</label>
+                            </span> -->
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Status:</label>
+                            <span class="on-hold">
+                                <label for="name">{{data.status}}</label>
+                            </span>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Location:</label>
+                            <label for="name">{{data.location}}</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Description:</label>
+                            <label for="name">{{data.description}}</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="name">Date:</label>
+                            <label for="name">{{data.created_at | date:'M/d/yy'}}</label>
+                        </div>
+                    </div>
+                    
+                    <h3 class="header"></h3>
+                    
+                    <!-- <div class="col-lg-12 mb-3">
+                        <label for="name">Assigned To:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <label for="">John</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <label for="name">Remarks:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <label for="name">fix it</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <label for="name">Status:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <span class="on-hold">
+                            <label for="name">Pending</label>
+                        </span>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </p-sidebar>
+    <!-- action dialog -->
+    <p-dialog p-dialog header="Action" [modal]="true" [style]="{width:
+        '30vw'}"
+        [draggable]="false" [resizable]="false" [(visible)]="display">
+        <div class="form-group">
+            <label class="mb-3" for="">Status:<span style="color:
+                    red;">*</span></label>
+            <select name="" id="">
+                <option value="">Please Select Status</option>
+                <option value="">Pending</option>
+                <option value="">In Progress</option>
+            </select>
+            <label class="my-3" for="">Remarks:<span style="color:
+                    red;">*</span></label>
+            <textarea type="text" placeholder="Remarks"
+                name="remarks"
+                class="form-control">
+            </textarea>
+        </div>
+        <button pButton label="Save"
+            class="p-button-outlined my-3"></button>
+    </p-dialog>
+    <div class="Master-view-box">
+        <div class="theader">
+            <h3>Issues Actions</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                </div>
+                <p-table #dt1 [value]="getIssueData" dataKey="id" [rows]="10"
+                    [showCurrentPageReport]="true" styleClass="p-datatable-sm
+                    p-datatable-customers" [rowsPerPageOptions]="[10,25,50]"
+                    [loading]="loading" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of
+                    {totalRecords} entries"
+                    [globalFilterFields]="['fee_name', 'fee_category',
+                    'member_amount', 'non_member_amount', 'taxes']">
+                    <ng-template pTemplate="header" style="min-height: 500px;">
+                        <tr>
+                            <th>S. No.</th>
+                            <th style="min-width:100px">Issue Type</th>
+                            <th style="min-width:100px">Date</th>
+                            <th style="min-width:100px">Member Name</th>
+                            <th style="min-width:100px">Nominee Name</th>
+                            <th style="min-width:100px">Status</th>
+                            <th style="min-width:100px" *ngIf="localStorage.role == 'Admin'">Actions</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-getIssueData
+                        let-i="rowIndex">
+                        <tr *ngIf="getIssueData.actions.length>0"
+                            class="status">
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                {{getIssueData.issue_type_id}}
+                            </td>
+                            <td>
+                                {{getIssueData.created_at | date:'M/d/yy'}}
+                            </td>
+                            <td>
+                                {{getIssueData.member_id}}
+                            </td>
+                            <td>
+                                {{getIssueData.nominee_id}}
+                            </td>
+                            <td>
+                                <span class="on-hold">
+                                    {{getIssueData.status}}
+                                </span>
+                            </td>
+                            <td *ngIf="localStorage.role == 'Admin'">
+                                <!-- button pButton pRipple icon="bx bx-pencil" -->
+                                <button pButton pRipple pTooltip="View"
+                                    tooltipPosition="bottom"
+                                    class="p-button-rounded
+                                    p-button-text
+                                    p-button-primary" (click)="visibleSidebar2=
+                                    true"><i
+                                        class="far fa-eye"></i></button>
+                                <button pButton pRipple pTooltip="Action"
+                                    tooltipPosition="bottom" icon="bx bx-pencil"
+                                    class="p-button-rounded p-button-text
+                                    p-button-success" (click)="showDialog()"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5">No issues found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

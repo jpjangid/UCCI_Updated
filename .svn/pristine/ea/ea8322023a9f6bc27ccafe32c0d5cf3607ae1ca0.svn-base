@@ -1,0 +1,69 @@
+<p-toast></p-toast>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+
+<!-- ********************** Main Content ******************** -->
+
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
+    <!-- certificate of origin list table -->
+    <section class="all-certificate-list">
+        <div class="container">
+            <div class="header">
+                <h3>Certificate of Origin List</h3>
+            </div>
+            <div class="search_box">
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input class="form-control" pInputText type="text" (input)="nameFilter.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+                </span>
+                <div>
+                    <p class="btn" routerLink="/certificate-of-origin-form">Add<i class="fa fa-plus mx-1"></i></p>
+                </div>
+            </div>
+            <p-table [rows]="10" [showCurrentPageReport]="true" styleClass="p-datatable-sm p-datatable-customers" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" #nameFilter [scrollable]="true" [globalFilterFields]="['status' , 'invoice_no']"  responsiveLayout="scroll" [value]="cooMemberList">
+                 <ng-template pTemplate="header">
+                    <tr>
+                        <th>Consignee</th>
+                        <th>Mafucaturer</th>
+                        <th>Status</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th *ngIf="(localStorage.role == 'Admin')">Action</th>
+                        <th *ngIf="!(localStorage.role == 'Admin')">Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cooMemberList>
+                    <tr>
+                        <td>{{cooMemberList.consignee}}</td>
+                        <td>{{cooMemberList.manufacturer}}</td>
+                        <td>{{cooMemberList.status}}</td>
+                        <td>{{cooMemberList.invoice_no}}</td>
+                        <td>{{cooMemberList.invoice_date}}</td>
+                        <td *ngIf="(localStorage.role == 'Admin')">
+                            <button pButton pRipple class="p-button-rounded p-button-text 
+                                p-button-info" pTooltip="View" tooltipPosition="bottom"><i class="far fa-eye"></i></button>
+                            <button pButton pRipple (click)="verifyCertificateOfOrigin(cooMemberList.id)" class="p-button-rounded p-button-text
+                                p-button-success" pTooltip="Approve" tooltipPosition="bottom"><i class="far
+                                    fa-check-circle"></i>
+                            </button>
+                            <button pButton pRipple icon="bx bx-pencil" class="p-button-rounded p-button-text
+                                p-button-secondary mr-2" pTooltip="Edit" tooltipPosition="bottom"></button>
+                            <button pButton pRipple icon="bx bx-trash" class="p-button-rounded p-button-text
+                                p-button-danger" pTooltip="Delete" (click)="delete(cooMemberList.id)" tooltipPosition="bottom"></button>
+                        </td>
+                        <td *ngIf="!(localStorage.role == 'Admin')">
+                            <span class="text-light bg-success px-2 py-1 rounded">Approved</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No Data Found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</div>

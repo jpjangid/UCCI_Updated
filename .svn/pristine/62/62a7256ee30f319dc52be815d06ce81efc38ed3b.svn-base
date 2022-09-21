@@ -1,0 +1,93 @@
+@import "/src/app/components/pages/dashboard/dashboard.component.scss";
+.regular-member-list {
+    margin-bottom: 30px;
+    box-shadow: 1px 5px 24px 0 rgb(68 102 242 / 5%);
+    border-radius: 5px;
+    padding: 0 25px 0 25px;
+    background-color: var(--whiteColor);
+    .theader {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px dashed #eeeeee;
+        margin-bottom: 10px;
+        padding-inline: 10px;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px;
+        h3 {
+          // padding: 10px;
+          padding: 10px 10px 0 15px;
+          // border-bottom: 1px dashed #eeeeee;
+          width: 100%;
+          font: {
+            size: 17px;
+            weight: 600;
+          }
+          margin: {
+            bottom: 10px;
+            left: -25px;
+            right: -25px;
+          }
+        }
+      }
+    .header {
+        padding: 20px 0;
+    }
+    .action {
+        .default-btn {
+            border-radius: 30px;
+            box-shadow: unset;
+            background-color: #eeeeee;
+            font-size: 13px;
+            border: none;
+            position: relative;
+            margin-right: 15px !important;
+            padding: {
+                top: 8px;
+                bottom: 8px;
+                left: 40px;
+                right: 20px;
+            }
+            ;
+            &:hover {
+                background-color: var(--mainColor);
+                color: var(--whiteColor);
+            }
+            i {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 15px;
+            }
+            &.danger {
+                margin-right: 0;
+                &:hover {
+                    background-color: red;
+                    color: var(--whiteColor);
+                }
+            }
+            &.warn {
+                margin-right: 0;
+                &:hover {
+                    background-color: #64bc36;
+                    color: var(--whiteColor);
+                }
+            }
+        }
+    }
+    .search_box {
+        padding: 20px 0;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        i {
+            cursor: pointer;
+        }
+        p {
+            background-color: var(--mainColor);
+            color: var(--whiteColor);
+        }
+    }
+}

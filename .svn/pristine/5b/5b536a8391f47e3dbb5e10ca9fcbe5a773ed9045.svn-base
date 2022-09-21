@@ -1,0 +1,885 @@
+<!-- <app-dashboard-sidemenu></app-dashboard-sidemenu> -->
+<p-toast life="50000"></p-toast>
+<app-navbar-style-one></app-navbar-style-one>
+
+
+
+<!-- regular membership form section -->
+
+
+<section class="regular-member-form-section">
+    <div class="container">
+        <div class="heading_section">
+            <div class="row m-0">
+                <h3 class="m-0 px-0 mb-3">Regular Membership Form</h3>
+            </div>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="Register()" #register="ngForm">
+            <!-- basic information -->
+            <div class="add-listings-box">
+                <h3>Basic Informations</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>Company
+                                Name:</label>
+                            <input type="text" class="form-control" formControlName="companyname"
+                                placeholder="Company Name">
+                            <div *ngIf="submitted &&
+                                f.companyname.errors?.required ||
+                                f.companyname.touched" class="alert alert-danger">
+                                <div *ngIf="f.companyname.errors?.required">
+                                    Company Name is required
+                                </div>
+                                <!-- <div *ngIf="f.companyname.errors?.pattern">
+                                    Company Name
+                                    is
+                                    invalid
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>GST Number:</label>
+                            <input type="text" class="form-control" formControlName="gstno" maxlength="15"
+                                (keydown)="bloackAlphabet($event)" pattern="^((\\+91-?)|0)?[0-9]{15}$"
+                                placeholder="GST Number">
+                            <div *ngIf="submitted &&
+                                f.gstno.errors?.required ||
+                                f.gstno.touched" class="alert alert-danger">
+                                <div *ngIf="f.gstno.errors?.required">
+                                    GST Number is required
+                                </div>
+                                <div *ngIf="f.gstno.errors?.pattern">
+                                    Please enter 15 digits GST number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Average Fulltime
+                                Employee:</label>
+                            <input type="text" formControlName="avgemp" class="form-control"
+                                (keydown)="bloackAlphabet($event)" placeholder="Average Fulltime Employee">
+                            <div *ngIf="submitted &&
+                                f.avgemp.errors?.required ||
+                                f.avgemp.touched" class="alert alert-danger">
+                                <div *ngIf="f.avgemp.errors?.required">
+                                    Average Fulltime Employee is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Office Telephone:</label>
+                            <input type="text" class="form-control" formControlName="telephone" maxlength="10"
+                                (keydown)="bloackAlphabet($event)" pattern="^((\\+91-?)|0)?[0-9]{10}$"
+                                placeholder="Office Telephone">
+                            <div *ngIf="submitted &&
+                                f.telephone.errors?.required ||
+                                f.telephone.touched" class="alert alert-danger">
+                                <div *ngIf="f.telephone.errors?.required">
+                                    Office Telephone is required
+                                </div>
+                                <div *ngIf="f.telephone.errors?.pattern">
+                                    Please enter 10 digits office telephone number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Residental
+                                Telephone:</label>
+                            <input type="text" class="form-control" (keydown)="bloackAlphabet($event)" maxlength="10"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$" formControlName="residentaltel"
+                                placeholder="Residental Telephone">
+                            <div *ngIf="submitted &&
+                                f.residentaltel.errors?.required ||
+                                f.residentaltel.touched" class="alert alert-danger">
+                                <div *ngIf="f.residentaltel.errors?.required">
+                                    Residental Telephone is required
+                                </div>
+                                <div *ngIf="f.residentaltel.errors?.pattern">
+                                    Please enter 10 digits residental telephone number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- address section -->
+            <div class="add-listings-box">
+                <h3>Location</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" formControlName="address"
+                                placeholder="e.g. 55 County Laois">
+                            <div *ngIf="submitted &&
+                                f.address.errors?.required ||
+                                f.address.touched" class="alert alert-danger">
+                                <div *ngIf="f.address.errors?.required">
+                                    Address is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>State:</label>
+                            <input placeholder="State" type="text" class="form-control" formControlName="state">
+                            <div *ngIf="submitted &&
+                                f.state.errors?.required ||
+                                f.state.touched" class="alert alert-danger">
+                                <div *ngIf="f.state.errors?.required">
+                                    State is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label> City:</label>
+                            <input type="text" class="form-control" formControlName="city" placeholder="City">
+                            <div *ngIf="submitted &&
+                                f.city.errors?.required ||
+                                f.city.touched" class="alert alert-danger">
+                                <div *ngIf="f.city.errors?.required">
+                                    City is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Zip-Code:</label>
+                            <input placeholder="Zip-Code" type="text" (keydown)="bloackAlphabet($event)"
+                                class="form-control" formControlName="zipcode">
+                            <div *ngIf="submitted &&
+                                f.zipcode.errors?.required ||
+                                f.zipcode.touched" class="alert alert-danger">
+                                <div *ngIf="f.zipcode.errors?.required">
+                                    Zip-Code is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- company details -->
+            <div class="add-listings-box">
+                <h3>Company Details</h3>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>Registration
+                                Number:</label>
+                            <input type="text" formControlName="registrationnumber" class="form-control"
+                                (keydown)="bloackAlphabet($event)" placeholder="Registration Number">
+                            <div *ngIf="submitted &&
+                                f.registrationnumber.errors?.required ||
+                                f.registrationnumber.touched" class="alert alert-danger">
+                                <div *ngIf="f.registrationnumber.errors?.required">
+                                    Registration Number is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Capital
+                                Investment:</label>
+                            <input type="text" placeholder="Capital Investment" class="form-control"
+                                (keydown)="bloackAlphabet($event)" formControlName="capitalinvestment">
+                            <div *ngIf="submitted &&
+                                f.capitalinvestment.errors?.required ||
+                                f.capitalinvestment.touched" class="alert alert-danger">
+                                <div *ngIf="f.capitalinvestment.errors?.required">
+                                    Capital Investment is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Website:</label>
+                            <input type="text" class="form-control" placeholder="Website" formControlName="website">
+                            <div *ngIf="submitted &&
+                                f.website.errors?.required ||
+                                f.website.touched" class="alert alert-danger">
+                                <div *ngIf="f.website.errors?.required">
+                                    Website is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Email Address:</label>
+                            <input type="email" class="form-control" placeholder="Email Address"
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" formControlName="email">
+                            <div *ngIf="submitted &&
+                                f.email.errors?.required ||
+                                f.email.touched" class="alert alert-danger">
+                                <div *ngIf="f.email.errors?.required">
+                                    Emaill is required
+                                </div>
+                                <div *ngIf="f.email.errors?.pattern">
+                                    Invalid emaill address
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Nature of Business:</label>
+                            <input type="text" placeholder="Nature of Business" formControlName="businessnature"
+                                class="form-control">
+                            <div *ngIf="submitted &&
+                                f.businessnature.errors?.required ||
+                                f.businessnature.touched" class="alert alert-danger">
+                                <div *ngIf="f.businessnature.errors?.required">
+                                    Nature of Business is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>About:</label>
+                            <input type="text" class="form-control" placeholder="About" formControlName="about">
+                            <div *ngIf="submitted &&
+                                f.about.errors?.required ||
+                                f.about.touched" class="alert alert-danger">
+                                <div *ngIf="f.about.errors?.required">
+                                    About is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="file">Upload Logo</label>
+                            <input type="file" formControlName="logo" accept="image/x-png,image/gif,image/jpeg"
+                                name="logofile" id="logofile" (change)="processImage($event, 'logo')"
+                                class="inputfile" />
+                            <div *ngIf="submitted &&
+                                f.logo.errors?.required ||
+                                f.logo.touched" class="alert alert-danger">
+                                <div *ngIf="f.logo.errors?.required">
+                                    Logo is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Memeber Classfication:</label>
+                            <!-- <input type="text" class="form-control"
+                                placeholder="Memeber Classfication"
+                                formControlName="memberclassficationid"> -->
+                            <select formControlName="memberclassficationid" class="selectpicker dropdown" id="type"
+                                data-live-search="true">
+                                <option [ngValue]="null" disabled>Please select
+                                    member
+                                    classfication</option>
+                                <option *ngFor="let item of
+                                    classficationData.data" [ngValue]="item.id">{{item.name}}</option>
+                            </select>
+                            <div *ngIf="submitted &&
+                                f.memberclassficationid.errors?.required ||
+                                f.memberclassficationid.touched" class="alert alert-danger">
+                                <div *ngIf="f.memberclassficationid.errors?.required">
+                                    Memeber Classfication is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Memeber Category:</label>
+                            <!-- <input type="text" class="form-control"
+                                placeholder="Memeber Category"
+                                formControlName="membercategoryid"> -->
+                            <select formControlName="membercategoryid" class="selectpicker dropdown" id="type"
+                                data-live-search="true">
+                                <option [ngValue]="null" disabled>Please select
+                                    member
+                                    category</option>
+                                <option *ngFor="let item of
+                                    categoryData.data" [ngValue]="item.id">{{item.name}}</option>
+                            </select>
+                            <div *ngIf="submitted &&
+                                f.membercategoryid.errors?.required ||
+                                f.membercategoryid.touched" class="alert alert-danger">
+                                <div *ngIf="f.membercategoryid.errors?.required">
+                                    Memeber Category is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Applicant Constitution:</label>
+                            <input type="text" class="form-control" placeholder="Applicant Constitution"
+                                formControlName="applicantconstitution">
+                            <div *ngIf="submitted &&
+                                f.applicantconstitution.errors?.required ||
+                                f.applicantconstitution.touched" class="alert alert-danger">
+                                <div *ngIf="f.applicantconstitution.errors?.required">
+                                    Applicant Constitution is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Establishment Date:</label>
+                            <p-calendar formControlName="establishdate" showClear="true"
+                                placeholder="Please Select Date : YYYY/MM/DD" [showIcon]="true" readonly></p-calendar>
+                            <!-- <input type="date" class="form-control"
+                                placeholder="Establishment Date"
+                                formControlName="establishdate"> -->
+                            <div *ngIf="submitted &&
+                                f.establishdate.errors?.required ||
+                                f.establishdate.touched" class="alert alert-danger">
+                                <div *ngIf="f.establishdate.errors?.required">
+                                    Establishment Date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Turnover:</label>
+                            <select formControlName="turnoverid" class="selectpicker dropdown" id="type"
+                                data-live-search="true">
+                                <option [ngValue]="null" disabled>Please select
+                                    turnover</option>
+                                <option *ngFor="let item of
+                                    turnoverData.data" [ngValue]="item.id">{{item.component}}</option>
+                            </select>
+                            <!-- <input type="text" class="form-control"
+                                placeholder="Turnover Id"
+                                formControlName="turnoverid"> -->
+                            <div *ngIf="submitted &&
+                                f.turnoverid.errors?.required ||
+                                f.turnoverid.touched" class="alert alert-danger">
+                                <div *ngIf="f.turnoverid.errors?.required">
+                                    Turnover Id is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Registered By:</label>
+                            <input type="text" class="form-control" placeholder="Registered By"
+                                formControlName="registerby">
+                            <div *ngIf="submitted &&
+                                f.registerby.errors?.required ||
+                                f.registerby.touched" class="alert alert-danger">
+                                <div *ngIf="f.logo.errors?.required">
+                                    Registered By is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Registered By:</label>
+                            <input type="text" class="form-control"
+                                placeholder="Registered By"
+                                formControlName="registerby">
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <!-- nominee one details -->
+            <div class="add-listings-box">
+                <h3>Primary Nominee Details</h3>
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Name:</label>
+                            <input type="text" class="form-control" placeholder="Name" formControlName="name1">
+                            <div *ngIf="submitted &&
+                                f.name1.errors?.required ||
+                                f.name1.touched" class="alert alert-danger">
+                                <div *ngIf="f.name1.errors?.required">
+                                    Name is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Designation:</label>
+                            <input type="text" class="form-control" placeholder="Designation"
+                                formControlName="designation1">
+                            <div *ngIf="submitted &&
+                                f.designation1.errors?.required ||
+                                f.designation1.touched" class="alert alert-danger">
+                                <div *ngIf="f.designation1.errors?.required">
+                                    Designation is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Date of Birth:</label>
+                            <p-calendar formControlName="dob1" showClear="true"
+                                placeholder="Please Select Date : YYYY/MM/DD" [showIcon]="true" readonly></p-calendar>
+                            <!-- <input type="date" class="form-control"
+                                placeholder="Designation"
+                                formControlName="dob1"> -->
+                            <div *ngIf="submitted &&
+                                f.dob1.errors?.required ||
+                                f.dob1.touched" class="alert alert-danger">
+                                <div *ngIf="f.dob1.errors?.required">
+                                    Date of Birth is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">E-Mail</label>
+                            <input type="email" class="form-control" placeholder="E-Mail"
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" formControlName="email1">
+                            <div *ngIf="submitted &&
+                                f.email1.errors?.required ||
+                                f.email1.touched" class="alert alert-danger">
+                                <div *ngIf="f.email1.errors?.required">
+                                    E-Mail is required
+                                </div>
+                                <div *ngIf="f.email1.errors?.pattern">
+                                    Invalid e-mail address
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Office Phone:</label>
+                            <input type="text" formControlName="officephone1" class="form-control"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$" (keydown)="bloackAlphabet($event)" maxlength="10"
+                                placeholder="Office Phone">
+                            <div *ngIf="submitted &&
+                                f.officephone1.errors?.required ||
+                                f.officephone1.touched" class="alert alert-danger">
+                                <div *ngIf="f.officephone1.errors?.required">
+                                    Office Phone is required
+                                </div>
+                                <div *ngIf="f.officephone1.errors?.pattern">
+                                    Please enter 10 digits office phone number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Mobile Number:</label>
+                            <input type="text" placeholder="Mobile Number" class="form-control"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$" (keydown)="bloackAlphabet($event)" maxlength="10"
+                                formControlName="mobileno1">
+                            <div *ngIf="submitted &&
+                                f.mobileno1.errors?.required ||
+                                f.mobileno1.touched" class="alert alert-danger">
+                                <div *ngIf="f.mobileno1.errors?.required">
+                                    Mobile Number is required
+                                </div>
+                                <div *ngIf="f.mobileno1.errors?.pattern">
+                                    Please enter 10 digits mobile number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" formControlName="address1"
+                                placeholder="e.g. 55 County Laois">
+                            <div *ngIf="submitted &&
+                                f.address1.errors?.required ||
+                                f.address1.touched" class="alert alert-danger">
+                                <div *ngIf="f.address1.errors?.required">
+                                    Address is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" formControlName="city1" placeholder="city" class="form-control">
+                            <div *ngIf="submitted &&
+                                f.city1.errors?.required ||
+                                f.city1.touched" class="alert alert-danger">
+                                <div *ngIf="f.city1.errors?.required">
+                                    City is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>State:</label>
+                            <input placeholder="State" type="text" class="form-control" formControlName="state1">
+                            <div *ngIf="submitted &&
+                                f.state1.errors?.required ||
+                                f.state1.touched" class="alert alert-danger">
+                                <div *ngIf="f.state1.errors?.required">
+                                    State is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Zip-Code:</label>
+                            <input placeholder="Zip-Code" type="text" (keydown)="bloackAlphabet($event)"
+                                class="form-control" formControlName="zipcode1">
+                            <div *ngIf="submitted &&
+                                f.zipcode1.errors?.required ||
+                                f.zipcode1.touched" class="alert alert-danger">
+                                <div *ngIf="f.zipcode1.errors?.required">
+                                    Zip-Code is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" class="form-control" placeholder="Department"
+                                formControlName="department1">
+                            <div *ngIf="submitted &&
+                                f.department1.errors?.required ||
+                                f.department1.touched" class="alert alert-danger">
+                                <div *ngIf="f.department1.errors?.required">
+                                    Department is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Preferred Communication:</label>
+                            <input type="text" class="form-control" placeholder="Preferred Communication"
+                                formControlName="preferredcommunication1">
+                            <div *ngIf="submitted &&
+                                f.preferredcommunication1.errors?.required ||
+                                f.preferredcommunication1.touched" class="alert alert-danger">
+                                <div *ngIf="f.preferredcommunication1.errors?.required">
+                                    Preferred Communication is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="file">Upload Photo:</label>
+                            <input formControlName="nomineeimage1" type="file" accept="image/x-png,image/gif,image/jpeg"
+                                name="photofile" id="nomineephotofile" (change)="processImage($event, 'profile1')"
+                                class="inputfile" />
+                            <div *ngIf="submitted &&
+                                f.nomineeimage1.errors?.required ||
+                                f.nomineeimage1.touched" class="alert alert-danger">
+                                <div *ngIf="f.nomineeimage1.errors?.required">
+                                    Upload Photo is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Biodata:</label>
+                            <textarea type="text" placeholder="Bio Data" formControlName="biodata1"
+                                class="form-control">
+                            </textarea>
+                            <div *ngIf="submitted &&
+                                f.biodata1.errors?.required ||
+                                f.biodata1.touched" class="alert alert-danger">
+                                <div *ngIf="f.biodata1.errors?.required">
+                                    Biodata is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- second nominee details -->
+            <div class="add-listings-box">
+                <h3>Secondary Nominee Details</h3>
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Name:</label>
+                            <input type="text" class="form-control" placeholder="Name" formControlName="name2">
+                            <div *ngIf="submitted &&
+                                f.name2.errors?.required ||
+                                f.name2.touched" class="alert alert-danger">
+                                <div *ngIf="f.name2.errors?.required">
+                                    Name is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Designation:</label>
+                            <input type="text" class="form-control" placeholder="Designation"
+                                formControlName="designation2">
+                            <div *ngIf="submitted &&
+                                f.designation2.errors?.required ||
+                                f.designation2.touched" class="alert alert-danger">
+                                <div *ngIf="f.designation2.errors?.required">
+                                    Designation is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">Date of Birth:</label>
+                            <p-calendar formControlName="dob2" showClear="true"
+                                placeholder="Please Select Date : YYYY/MM/DD" [showIcon]="true" readonly></p-calendar>
+                            <!-- <input type="date" class="form-control"
+                                placeholder="Designation"
+                                formControlName="dob2"> -->
+                            <div *ngIf="submitted &&
+                                f.dob2.errors?.required ||
+                                f.dob2.touched" class="alert alert-danger">
+                                <div *ngIf="f.dob2.errors?.required">
+                                    Date of Birth is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="">E-Mail</label>
+                            <input type="email" class="form-control" placeholder="E-Mail"
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" formControlName="email2">
+                            <div *ngIf="submitted &&
+                                f.email2.errors?.required ||
+                                f.email2.touched" class="alert alert-danger">
+                                <div *ngIf="f.email2.errors?.required">
+                                    E-Mail is required
+                                </div>
+                                <div *ngIf="f.email2.errors?.pattern">
+                                    Invalid e-mail address
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Office Phone:</label>
+                            <input type="text" formControlName="officephone2" class="form-control" maxlength="10"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$" (keydown)="bloackAlphabet($event)"
+                                placeholder="Office Phone">
+                            <div *ngIf="submitted &&
+                                f.officephone2.errors?.required ||
+                                f.officephone2.touched" class="alert alert-danger">
+                                <div *ngIf="f.officephone2.errors?.required">
+                                    Office Phone is required
+                                </div>
+                                <div *ngIf="f.officephone2.errors?.pattern">
+                                    Please enter 10 digits office phone number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Mobile Number:</label>
+                            <input type="text" placeholder="Mobile Number" class="form-control"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$" (keydown)="bloackAlphabet($event)" maxlength="10"
+                                formControlName="mobileno2">
+                            <div *ngIf="submitted &&
+                                f.mobileno2.errors?.required ||
+                                f.mobileno2.touched" class="alert alert-danger">
+                                <div *ngIf="f.mobileno2.errors?.required">
+                                    Mobile Number is required
+                                </div>
+                                <div *ngIf="f.mobileno2.errors?.pattern">
+                                    Please enter 10 digits mobile number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" formControlName="address2"
+                                placeholder="e.g. 55 County Laois">
+                            <div *ngIf="submitted &&
+                                f.address2.errors?.required ||
+                                f.address2.touched" class="alert alert-danger">
+                                <div *ngIf="f.address2.errors?.required">
+                                    Address is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>State:</label>
+                            <input placeholder="State" type="text" class="form-control" formControlName="state2">
+                            <div *ngIf="submitted &&
+                                f.state2.errors?.required ||
+                                f.state2.touched" class="alert alert-danger">
+                                <div *ngIf="f.state2.errors?.required">
+                                    State is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" formControlName="city2" placeholder="city" class="form-control">
+                            <div *ngIf="submitted &&
+                                f.city2.errors?.required ||
+                                f.city2.touched" class="alert alert-danger">
+                                <div *ngIf="f.city2.errors?.required">
+                                    City is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Zip-Code:</label>
+                            <input placeholder="Zip-Code" type="text" (keydown)="bloackAlphabet($event)"
+                                class="form-control" formControlName="zipcode2">
+                            <div *ngIf="submitted &&
+                                f.zipcode2.errors?.required ||
+                                f.zipcode2.touched" class="alert alert-danger">
+                                <div *ngIf="f.zipcode2.errors?.required">
+                                    Zip-Code is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" class="form-control" placeholder="Department"
+                                formControlName="department2">
+                            <div *ngIf="submitted &&
+                                f.department2.errors?.required ||
+                                f.department2.touched" class="alert alert-danger">
+                                <div *ngIf="f.department2.errors?.required">
+                                    Department is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Preferred Communication:</label>
+                            <input type="text" class="form-control" placeholder="Preferred Communication"
+                                formControlName="preferredcommunication2">
+                            <div *ngIf="submitted &&
+                                f.preferredcommunication2.errors?.required ||
+                                f.preferredcommunication2.touched" class="alert alert-danger">
+                                <div *ngIf="f.preferredcommunication2.errors?.required">
+                                    Preferred Communication is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label for="file">Upload Photo:</label>
+                            <input formControlName="nomineeimage2" type="file" accept="image/x-png,image/gif,image/jpeg"
+                                name="photofile" id="photofile" (change)="processImage($event, 'profile2')"
+                                class="inputfile" />
+                            <div *ngIf="submitted &&
+                                f.nomineeimage2.errors?.required ||
+                                f.nomineeimage2.touched" class="alert alert-danger">
+                                <div *ngIf="f.nomineeimage2.errors?.required">
+                                    Upload Photo is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                            <label>Biodata:</label>
+                            <textarea type="text" placeholder="Bio Data" formControlName="biodata2"
+                                class="form-control">
+                            </textarea>
+                            <div *ngIf="submitted &&
+                                f.biodata2.errors?.required ||
+                                f.biodata2.touched" class="alert alert-danger">
+                                <div *ngIf="f.biodata2.errors?.required">
+                                    Biodata is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- register form -->
+            <div class="add-listings-btn mt-5">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+<app-footer-style-two></app-footer-style-two>

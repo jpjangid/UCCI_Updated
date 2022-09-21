@@ -1,0 +1,115 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { CommonClass } from 'src/app/common';
+
+@Component({
+  selector: 'app-document-attestation-list',
+  templateUrl: './document-attestation-list.component.html',
+  styleUrls: ['./document-attestation-list.component.scss'],
+  providers: [MessageService, ConfirmationService],
+
+})
+export class DocumentAttestationListComponent implements OnInit {
+  docAttestationList: any = [];
+  Modal: boolean = false;
+  selectedFile: File[] = [];
+  showApproveForm: boolean = false;
+  showRejectForm: boolean = false;
+  submitted = false;
+  id: any;
+  localStorage : any;
+  constructor(private apiservice: ApiService, private messageService: MessageService, private commonFunction : CommonClass) { }
+
+  ngOnInit(): void {
+    this.localStorage = this.commonFunction.getLocalStorage();
+    this.getAllDocumentList();
+    // this.addLink();
+  }
+  getAllDocumentList() {
+    this.apiservice.getDocumentAttestationList().subscribe((res: any) => {
+      this.docAttestationList = res.data;
+      console.log(this.docAttestationList);
+      // console.log(this.docAttestationList);
+    })
+  }
+  // form control
+  documentAttestUploadForm = new FormGroup({
+    uploaddocument: new FormControl(''),
+    otherdocument: new FormControl(''),
+    remark: new FormControl(''),
+    reason: new FormControl('')
+  });
+  // verify document by id
+  verifyDocumentAttestation() {
+    let formData = new FormData();
+    let data = this.documentAttestUploadForm.value;
+    console.log(this.documentAttestUploadForm.valid, data);
+
+    if (this.documentAttestUploadForm.valid) {
+      if (this.showApproveForm == true) {
+        formData.append('invoice', this.selectedFile[0]);
+        formData.append('other_docs', this.selectedFile[1]);
+        formData.append('remark', data?.remark);
+        formData.append('status', 'approve');
+        setTimeout(() => {
+          this.Modal = false;
+        }, 1000);
+      }
+      else {
+        formData.append('reason', data.reason);
+        formData.append('status', 'reject');
+        setTimeout(() => {
+          this.Modal = false;
+        }, 1000);
+      }
+      this.apiservice.verifyDocumentAttestation(this.id, formData).subscribe((res: any) => {
+        console.log(res);
+        this.messageService.add({
+          severity: 'Success',
+          summary: 'Success',
+          detail: res.message
+        });
+      })
+    }
+    if (this.showApproveForm) {
+      this.submitted = true;
+    }
+    if (this.showRejectForm) {
+      this.submitted = true;
+    }
+  }
+  // send documents in binary form
+  uploadDoc(event: any) {
+    console.log(event);
+    this.selectedFile[0] = event.target.files[0]
+    this.selectedFile[1] = event.target.files[1]
+  }
+  // open dialog
+  approveDialog(id: any) {
+    this.id = id;
+    this.Modal = true;
+    this.showApproveForm = true;
+    this.showRejectForm = false;
+    this.documentAttestUploadForm.controls["uploaddocument"].addValidators([Validators.required])
+    this.documentAttestUploadForm.controls["reason"].removeValidators([Validators.required])
+  }
+  rejectDialog(id: any) {
+    this.id = id;
+    this.Modal = true;
+    this.showRejectForm = true;
+    this.showApproveForm = false;
+    this.documentAttestUploadForm.controls["reason"].addValidators([Validators.required])
+    this.documentAttestUploadForm.controls["uploaddocument"].removeValidators([Validators.required])
+  }
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.documentAttestUploadForm.controls;
+  }
+
+  addLink(value?:any){
+    // console.log(`https://ucci.brandtalks.in/public/doc_invoice/`+ value);    
+    return `https://ucci.brandtalks.in/public/doc_invoice/`+ value;
+  }
+}

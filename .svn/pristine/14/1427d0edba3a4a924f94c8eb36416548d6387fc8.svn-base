@@ -1,0 +1,125 @@
+@import "../../dashboard//dashboard.component.scss";
+
+.member-list {
+    // padding: 150px 0 0 0;
+    margin-bottom: 30px;
+    // background-color: #fafafa;
+    box-shadow: 1px 5px 24px 0 rgb(68 102 242 / 5%);
+    border-radius: 5px;
+    padding: 25px 25px 0 25px;
+    background-color: var(--whiteColor);
+    .header {
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        h4 {
+            padding: 20px;
+        }
+    }
+}
+// sidebar filter categories
+.widget_categories {
+    background-color: var(--whiteColor);
+    padding: 20px;
+    margin-bottom: 30px;
+    ul {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style-type: none;
+        li {
+            position: relative;
+            margin-bottom: 12px;
+            overflow: hidden;
+            color: var(--blackColor);
+            padding-left: 16px;
+            font-weight: 600;
+            font-size: var(--fontSize);
+        }
+        li::before {
+            background: var(--mainColor);
+            height: 8px;
+            width: 8px;
+            content: "";
+            left: 0;
+            top: 7px;
+            position: absolute;
+        }
+    }
+    .widget-title {
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 7px;
+        border-bottom: 1px solid #eeeeee;
+        font-size: 20px;
+    }
+    .widget-title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 1px;
+        bottom: -1px;
+        background-color: var(--mainColor);
+    }
+}
+.small-text {
+    display: inline-block !important;
+    width: 180px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+::ng-deep {
+    // .left-button {
+    //     padding: 20px;
+    //     display: flex;
+    //     justify-content: right;
+    //     text-align: right;
+    // }
+    .p-accordion .p-accordion-header .p-accordion-header-link {
+        background: none;
+        border: none;
+        color: var(--blackColor);
+    }
+    .p-accordion .p-accordion-content {
+        background: none;
+        border: none;
+    }
+    .p-accordion .p-accordion-content li:hover {
+        color: #0ec6c6;
+    }
+    .p-accordion .p-accordion-content li {
+        cursor: pointer;
+        list-style: none;
+        position: relative;
+        margin-bottom: 12px;
+        overflow: hidden;
+        color: var(--blackColor);
+        padding-left: 16px;
+        font-weight: 600;
+        font-size: var(--fontSize);
+    }
+    .p-accordion .p-accordion-content li::before {
+        background: var(--mainColor);
+        height: 8px;
+        width: 8px;
+        content: "";
+        left: 0;
+        top: 7px;
+        position: absolute;
+    }
+    .p-sidebar-right {
+        width: 25rem !important;
+    }
+    .p-datatable .p-datatable-thead > tr > th {
+        position: -webkit-sticky;
+        position: sticky;
+        // top: 5rem;
+        padding: 0.5rem;
+    }
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.5rem;
+    }
+}

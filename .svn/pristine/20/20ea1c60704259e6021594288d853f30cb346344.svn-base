@@ -1,0 +1,19 @@
+.add-listings-box h3 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+:host ::ng-deep {
+  .ngx-dropdown-container {
+    .ngx-dropdown-button {
+      background-color: #f5f5f5 !important;
+      border: unset !important;
+      height: 30px;
+      padding: 1px 10px !important;
+    }
+    .ngx-dropdown-list-container {
+      height: 200px;
+      z-index: 1 !important;
+    }
+  }
+}

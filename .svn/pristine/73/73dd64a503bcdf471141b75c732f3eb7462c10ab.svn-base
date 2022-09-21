@@ -1,0 +1,36 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { CommonClass } from 'src/app/common';
+import { ApiService } from 'src/app/services/api.service';
+
+@Component({
+  selector: 'app-dashboard-sidemenu',
+  templateUrl: './dashboard-sidemenu.component.html',
+  styleUrls: ['./dashboard-sidemenu.component.scss'],
+  providers:[MessageService]
+})
+export class DashboardSidemenuComponent implements OnInit {
+
+  localStorage:any;
+  constructor(private apiservice : ApiService, private messageService: MessageService, private router: Router, private commonFunction : CommonClass) { }
+
+  ngOnInit(): void {
+   this.localStorage = this.commonFunction.getLocalStorage();
+   console.log(this.localStorage)
+  }
+
+  logout() {
+    this.apiservice.logoutUser().subscribe((res: any) => {
+      console.log(res,'resresres')
+      localStorage.removeItem('access_token')
+      this.messageService.add({
+        severity: 'success',
+        summary: 'success',
+        detail: res.message
+      });
+      this.router.navigateByUrl('');
+    })
+  }
+
+}

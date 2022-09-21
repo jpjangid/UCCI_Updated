@@ -1,0 +1,697 @@
+<p-toast></p-toast>
+<app-dashboard-sidemenu></app-dashboard-sidemenu>
+<div class="main-content d-flex flex-column">
+    <app-navbar-style-one></app-navbar-style-one>
+    <!--------------------------------------------------- All call logs Table -------------------------------------------->
+    <div class="Master-view-box" #target>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="theader d-flex">
+                    <h3>Member Call Logs</h3>
+                    <!-- <button pButton label="Add Logs"
+                        class="p-button-outlined my-3"
+                        (click)="addNewlogDialog()"></button> -->
+                    <button pButton label="Add Logs"
+                        class="p-button-outlined my-3"
+                        (click)="visibleSidebar2= true"></button>
+                    <!-- <ng-template pTemplate="caption"> -->
+                </div>
+                <p-table #dt1 [value]="callLogsList"
+                    sortField="event_member_filter_id"
+                    dataKey="event_member_filter_id"
+                    rowGroupMode="subheader"
+                    sortMode="single"
+                    groupRowsBy="event_member_filter_id"
+                    dataKey="event_member_filter_id"
+                    [rows]="10"
+                    [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]"
+                    responsiveLayout="scroll" [loading]="loading"
+                    [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of
+                    {totalRecords} entries"
+                    [globalFilterFields]="['status']">
+                    <ng-template pTemplate="header" style="min-height:
+                        500px;">
+                        <tr>
+                            <th>S. No.</th>
+                            <th>Action</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Contact</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="groupheader" let-callLogsList
+                        let-rowIndex="rowIndex" let-expanded="expanded">
+                        <tr>
+                            <td colspan="5">
+                                <button type="button" pButton pRipple
+                                    class="p-button-text p-button-rounded
+                                    p-button-plain p-mr-2"
+                                    [icon]="expanded ? 'pi pi-chevron-down' :
+                                    'pi pi-chevron-right'"
+                                    [pRowToggler]="callLogsList"></button>
+                                <span class="p-text-bold p-ml-2">{{callLogsList.filter_name}}</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="rowexpansion" let-callLogsList
+                        let-i="rowIndex">
+                        <tr>
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                <!-- <button pButton pRipple pTooltip="Edit"
+                                    tooltipPosition="bottom"
+                                    icon="bx bx-pencil"
+                                    class="p-button-rounded p-button-text
+                                    p-button-secondary mr-2"
+                                    (click)="editDialog(i)">
+                                </button> -->
+                                <button pButton pRipple pTooltip="Edit"
+                                    tooltipPosition="bottom"
+                                    icon="bx bx-pencil"
+                                    class="p-button-rounded p-button-text
+                                    p-button-secondary mr-2"
+                                    (click)="editDialog(i)">
+                                </button>
+                            </td>
+                            <td>
+                                {{callLogsList.status}}
+                            </td>
+                            <td>
+                                {{callLogsList.created_at | date:'M/d/yy'}}
+                            </td>
+                            <td>
+                                {{callLogsList.phone_no}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5">No Call Logs found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------------------- Edit call logs dialog -------------------------------->
+    <p-sidebar [(visible)]="visibleSidebar3" position="right"
+        [baseZIndex]="10000">
+        <div class="call-log-section">
+            <h3 class="widget-title">Edit Call Log</h3>
+            <div class="form-group">
+                <div class="status mb-3">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-12 ">
+                            <label style="align-self: center;" for="">Date:</label>
+                            <p-calendar [(ngModel)]="value" [maxDate]="dateTime"
+                                placeholder="Please Select Date : MM/DD/YYYY"
+                                [showIcon]="true" readonly></p-calendar>
+                        </div>
+                        <div class="col-12 status">
+                            <label for="">Status:<span style="color:
+                                    red;">*</span></label>
+                            <select [(ngModel)]="callLogData.status"
+                                class="selectpicker dropdown"
+                                #editstatus="ngModel"
+                                id="type" data-live-search="true">
+                                <option *ngFor="let status of
+                                    statusValue" [ngValue]="status.name">{{status.name}}</option>
+                            </select>
+                            <div *ngIf="editstatus.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="editstatus.errors?.['required']">
+                                    Status
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status mt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="checkbox" id="followup" name="followup"
+                                style="margin-left: 10px;"
+                                (change)="editcheckekBoxTrue()"
+                                value="Follow Up"
+                                [(ngModel)]="callLogData.follow_up_required">
+                            <label for="wp-comment-cookies-consent"
+                                class="Followlabel">Follow Up Required</label>
+                        </div>
+                        <div class="col-12 ">
+                            <div *ngIf="iseditChecked">
+                                <input type="text"
+                                    (keydown)="bloackAlphabet($event)"
+                                    [(ngModel)]="callLogData.follow_up_days"
+                                    placeholder="Follow up days"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="wp-comment-cookies-consent"
+                            class="Followlabel">Contact:<span style="color:
+                                red;">*</span></label>
+                        <div>
+                            <input type="text" placeholder="Contact"
+                                [(ngModel)]="callLogData.phone_no"
+                                [maxLength]="10"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$"
+                                (keydown)="bloackAlphabet($event)"
+                                name="contact" #contact="ngModel"
+                                class="form-control" required>
+                            <div *ngIf="contact.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="contact.errors?.['required']">
+                                    Contact number
+                                    is
+                                    required
+                                </div>
+                                <div
+                                    *ngIf="contact.errors?.pattern">
+                                    Please enter 10 digits contact number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="">Filter<span style="color:
+                                red;">*</span></label>
+                        <select [(ngModel)]="callLogData.event_member_filter_id"
+                            #status="ngModel" required id="type" ngModel>
+                            <ng-container *ngFor="let filter of FilterName">
+                                <option [value]="filter.id">{{filter.filter_name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="status mb-3">
+                            <label for="">Call Summary:<span style="color:
+                                    red;">*</span></label>
+                            <textarea type="text" placeholder="Call Summary"
+                                class="form-control" name="summary"
+                                [(ngModel)]="callLogData.call_logs"
+                                #editsummary="ngModel" ngModel
+                                required>
+                            </textarea>
+                            <div *ngIf="editsummary.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="editsummary.errors?.['required']">
+                                    Call Summary
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="status mb-3">
+                            <div class="form-group">
+                                <label for="">Remarks:<span style="color:
+                                        red;">*</span></label>
+                                <textarea type="text" placeholder="Remarks"
+                                    name="remarks" #editremarks="ngModel"
+                                    ngModel
+                                    required [(ngModel)]="callLogData.remarks"
+                                    class="form-control">
+                                </textarea>
+                                <div *ngIf="editremarks.touched" class="alert
+                                    alert-danger">
+                                    <div
+                                        *ngIf="editremarks.errors?.['required']">
+                                        Remarks
+                                        is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton label="Save" (click)="updateMemberCallLog()"
+                class="p-button-outlined my-3"></button>
+        </div>
+    </p-sidebar>
+   
+    <!------------------------------------------------------- Add new call log --------------------------------------------------->
+    <p-sidebar [(visible)]="visibleSidebar2" position="right"
+        [baseZIndex]="10000">
+        <div class="call-log-section">
+            <h3 class="widget-title">Add New Call Log</h3>
+            <div class="form-group">
+                <div class="status mb-3">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-12 ">
+                            <label style="align-self: center;" for="">Date:<span
+                                    style="color:
+                                    red;">*</span></label>
+                            <p-calendar [maxDate]="dateTime"
+                                [(ngModel)]="addNewLogData.created_at"
+                                placeholder="Please Select Date : MM/DD/YYYY"
+                                [showIcon]="true" readonly></p-calendar>
+                        </div>
+                        <div class="col-12 status">
+                            <label for="">Status:<span style="color:
+                                    red;">*</span></label>
+                            <br>
+                            <select [(ngModel)]="addNewLogData.status"
+                                #status="ngModel" required id="type">
+                                <option selected [value]="null" disabled>Select
+                                    Status</option>
+                                <option *ngFor="let status of statusValue"
+                                    [value]="status.name">{{status.name}}</option>
+                            </select>
+                            <div *ngIf="status.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="status.errors?.['required']">
+                                    Status
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label for="wp-comment-cookies-consent"
+                            class="Followlabel">Contact:<span style="color:
+                                red;">*</span></label>
+                        <div>
+                            <input type="text" placeholder="Contact"
+                                [(ngModel)]="addNewLogData.phone_no"
+                                [maxLength]="10"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$"
+                                (keydown)="bloackAlphabet($event)"
+                                name="contact" #contact="ngModel"
+                                class="form-control" required>
+                            <div *ngIf="contact.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="contact.errors?.['required']">
+                                    Contact number
+                                    is
+                                    required
+                                </div>
+                                <div
+                                    *ngIf="contact.errors?.pattern">
+                                    Please enter 10 digits contact number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="">Filter<span style="color:
+                                red;">*</span></label>
+                        <select required [(ngModel)]="addNewLogData.filter_id"
+                            id="type" ngModel>
+                            <option selected [value]="" disabled>Select Filter</option>
+                            <option *ngFor="let filter of FilterName"
+                                [value]="filter.id">{{filter.filter_name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="status mt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="checkbox" id="followup" name="followup"
+                                style="margin-left: 10px;"
+                                (change)="addcheckekBoxTrue()"
+                                [(ngModel)]="addNewLogData.follow_up_required"
+                                value="Follow Up">
+
+                            <label for="wp-comment-cookies-consent"
+                                class="Followlabel">Follow Up Required</label>
+                        </div>
+                        <div class="col-12">
+                            <div *ngIf="isaddChecked">
+                                <input type="text" placeholder="Follow up days"
+                                    (keydown)="bloackAlphabet($event)"
+                                    [(ngModel)]="addNewLogData.follow_up_days"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="status mb-3">
+                            <label for="">Call Summary:<span style="color:
+                                    red;">*</span></label>
+                            <textarea type="text" class="mb-3"
+                                [(ngModel)]="addNewLogData.call_logs"
+                                placeholder="Call Summary"
+                                class="form-control" #summary="ngModel"
+                                required>
+                            </textarea>
+                            <div *ngIf="summary.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="summary.errors?.['required']">
+                                    Call Summary
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="status mb-3">
+                            <label for="">Remarks:</label>
+                            <textarea type="text" class="mb-3"
+                                placeholder="Remarks"
+                                [(ngModel)]="addNewLogData.remarks"
+                                class="form-control" #remarks="ngModel"
+                                required>
+                            </textarea>
+                            <div *ngIf="remarks.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="remarks.errors?.['required']">
+                                    Remarks
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton label="Save" (click)="saveMemberCallLogData()"
+                class="p-button-outlined my-3"></button>
+        </div>
+    </p-sidebar>
+</div>
+
+
+
+<!-----------------------------------------------commented previous add and edit call log dialogs------------------------------------------>
+
+<!-- <p-dialog p-dialog header="Call Logs" [modal]="true" [style]="{width:
+    '50vw'}"
+    [draggable]="false" [resizable]="false" [(visible)]="editModal">
+    <div class="call-log-section">
+        <div class="form-group">
+            <div class="status mb-3">
+                <div class="row" style="align-items: center;">
+                    <div class="col-lg-6 col-12 ">
+                        <label style="align-self: center;" for="">Date:</label>
+                        <p-calendar [(ngModel)]="value" [maxDate]="dateTime"
+                            placeholder="Please Select Date : MM/DD/YYYY"
+                            [showIcon]="true" readonly></p-calendar>
+                    </div>
+                    <div class="col-lg-6 col-12 status">
+                        <label for="">Status:<span style="color:
+                                red;">*</span></label>
+                        <select [(ngModel)]="callLogData.status"
+                            class="selectpicker dropdown"
+                            #editstatus="ngModel"
+                            id="type" data-live-search="true">
+                            <option *ngFor="let status of
+                                statusValue" [ngValue]="status.name">{{status.name}}</option>
+                        </select>
+                        <div *ngIf="editstatus.touched" class="alert
+                            alert-danger">
+                            <div *ngIf="editstatus.errors?.['required']">
+                                Status
+                                is
+                                required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="status mt-3">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <input type="checkbox" id="followup" name="followup"
+                            style="margin-left: 10px;"
+                            (change)="editcheckekBoxTrue()"
+                            value="Follow Up"
+                            [(ngModel)]="callLogData.follow_up_required">
+                        <label for="wp-comment-cookies-consent"
+                            class="Followlabel">Follow Up Required</label>
+                    </div>
+                    <div class="col-lg-6 col-12 ">
+                        <div *ngIf="iseditChecked">
+                            <input type="text"
+                                (keydown)="bloackAlphabet($event)"
+                                [(ngModel)]="callLogData.follow_up_days"
+                                placeholder="Follow up days"
+                                class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <label for="wp-comment-cookies-consent"
+                        class="Followlabel">Contact:<span style="color:
+                            red;">*</span></label>
+                    <div>
+                        <input type="text" placeholder="Contact"
+                            [(ngModel)]="callLogData.phone_no"
+                            [maxLength]="10"
+                            pattern="^((\\+91-?)|0)?[0-9]{10}$"
+                            (keydown)="bloackAlphabet($event)"
+                            name="contact" #contact="ngModel"
+                            class="form-control" required>
+                        <div *ngIf="contact.touched" class="alert
+                            alert-danger">
+                            <div *ngIf="contact.errors?.['required']">
+                                Contact number
+                                is
+                                required
+                            </div>
+                            <div
+                                *ngIf="contact.errors?.pattern">
+                                Please enter 10 digits contact number
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <label for="">Filter<span style="color:
+                            red;">*</span></label>
+                    <select [(ngModel)]="callLogData.event_member_filter_id"
+                        #status="ngModel" required id="type" ngModel>
+                        <option selected [value]="" disabled></option>
+                        <ng-container *ngFor="let filter of FilterName">
+                            <option [value]="filter.id">{{filter.filter_name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="status mb-3">
+                        <label for="">Call Summary:<span style="color:
+                                red;">*</span></label>
+                        <textarea type="text" placeholder="Call Summary"
+                            class="form-control" name="summary"
+                            [(ngModel)]="callLogData.call_logs"
+                            #editsummary="ngModel" ngModel
+                            required>
+                        </textarea>
+                        <div *ngIf="editsummary.touched" class="alert
+                            alert-danger">
+                            <div
+                                *ngIf="editsummary.errors?.['required']">
+                                Call Summary
+                                is
+                                required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-12">
+                    <div class="status mb-3">
+                        <div class="form-group">
+                            <label for="">Remarks:<span style="color:
+                                    red;">*</span></label>
+                            <textarea type="text" placeholder="Remarks"
+                                name="remarks" #editremarks="ngModel"
+                                ngModel
+                                required [(ngModel)]="callLogData.remarks"
+                                class="form-control">
+                            </textarea>
+                            <div *ngIf="editremarks.touched" class="alert
+                                alert-danger">
+                                <div
+                                    *ngIf="editremarks.errors?.['required']">
+                                    Remarks
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button pButton label="Edit Logs" (click)="updateMemberCallLog()"
+            class="p-button-outlined my-3"></button>
+    </div>
+</p-dialog> -->
+
+
+
+
+
+<!-- <p-dialog p-dialog header="Call Logs" [modal]="true" [style]="{width:
+        '50vw'}"
+        [draggable]="false" [resizable]="false" [(visible)]="addModal">
+        <div class="call-log-section">
+            <div class="form-group">
+                <div class="status mb-3">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-lg-6 col-12 ">
+                            <label style="align-self: center;" for="">Date:<span
+                                    style="color:
+                                    red;">*</span></label>
+                            <p-calendar [maxDate]="dateTime"
+                                [(ngModel)]="addNewLogData.created_at"
+                                placeholder="Please Select Date : MM/DD/YYYY"
+                                [showIcon]="true" readonly></p-calendar>
+                        </div>
+                        <div class="col-lg-6 col-12 status">
+                            <label for="">Status:<span style="color:
+                                    red;">*</span></label>
+                            <br>
+                            <select [(ngModel)]="addNewLogData.status"
+                                #status="ngModel" required id="type">
+                                <option selected [value]="" disabled>Select
+                                    Status</option>
+                                <option *ngFor="let status of statusValue"
+                                    [value]="status.name">{{status.name}}</option>
+                            </select>
+                            <div *ngIf="status.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="status.errors?.['required']">
+                                    Status
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <label for="wp-comment-cookies-consent"
+                            class="Followlabel">Contact:<span style="color:
+                                red;">*</span></label>
+                        <div>
+                            <input type="text" placeholder="Contact"
+                                [(ngModel)]="addNewLogData.phone_no"
+                                [maxLength]="10"
+                                pattern="^((\\+91-?)|0)?[0-9]{10}$"
+                                (keydown)="bloackAlphabet($event)"
+                                name="contact" #contact="ngModel"
+                                class="form-control" required>
+                            <div *ngIf="contact.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="contact.errors?.['required']">
+                                    Contact number
+                                    is
+                                    required
+                                </div>
+                                <div
+                                    *ngIf="contact.errors?.pattern">
+                                    Please enter 10 digits contact number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <label for="">Filter<span style="color:
+                                red;">*</span></label>
+                        <select required [(ngModel)]="addNewLogData.filter_id"
+                            id="type" ngModel>
+                            <option selected [value]="" disabled>Select Filter</option>
+                            <option *ngFor="let filter of FilterName"
+                                [value]="filter.id">{{filter.filter_name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="status mt-3">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <input type="checkbox" id="followup" name="followup"
+                                style="margin-left: 10px;"
+                                (change)="addcheckekBoxTrue()"
+                                [(ngModel)]="addNewLogData.follow_up_required"
+                                value="Follow Up">
+
+                            <label for="wp-comment-cookies-consent"
+                                class="Followlabel">Follow Up Required</label>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div *ngIf="isaddChecked">
+                                <input type="text" placeholder="Follow up days"
+                                    (keydown)="bloackAlphabet($event)"
+                                    [(ngModel)]="addNewLogData.follow_up_days"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <div class="status mb-3">
+                            <label for="">Call Summary:<span style="color:
+                                    red;">*</span></label>
+                            <textarea type="text" class="mb-3"
+                                [(ngModel)]="addNewLogData.call_logs"
+                                placeholder="Call Summary"
+                                class="form-control" #summary="ngModel"
+                                required>
+                            </textarea>
+                            <div *ngIf="summary.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="summary.errors?.['required']">
+                                    Call Summary
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="status mb-3">
+                            <label for="">Remarks:</label>
+                            <textarea type="text" class="mb-3"
+                                placeholder="Remarks"
+                                [(ngModel)]="addNewLogData.remarks"
+                                class="form-control" #remarks="ngModel"
+                                required>
+                            </textarea>
+                            <div *ngIf="remarks.touched" class="alert
+                                alert-danger">
+                                <div *ngIf="remarks.errors?.['required']">
+                                    Remarks
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button pButton label="Save Logs" (click)="saveMemberCallLogData()"
+                class="p-button-outlined my-3"></button>
+        </div>
+    </p-dialog> -->

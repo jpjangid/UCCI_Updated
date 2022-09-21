@@ -1,0 +1,19 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonClass } from 'src/app/common';
+
+@Component({
+  selector: 'app-raise-issues-list',
+  templateUrl: './raise-issues-list.component.html',
+  styleUrls: ['./raise-issues-list.component.scss']
+})
+export class RaiseIssuesListComponent implements OnInit {
+  getIssueData: any = [{}];
+  loading: boolean = false;
+  localStorage:any;
+  constructor(private commonFunction : CommonClass) { }
+
+  ngOnInit() {
+    this.localStorage = this.commonFunction.getLocalStorage();
+  }
+
+}
